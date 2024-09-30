@@ -1,3 +1,4 @@
+import ClassModel from '../models/ClassModel.js';
 import TeacherModel from '../models/teacherModel.js';
 import bcrypt from 'bcrypt';
 
@@ -97,10 +98,10 @@ import bcrypt from 'bcrypt';
 
 export const addTeacher = async (req, res) => {
     try {
-        const { name, email, password, subject, SchoolCode } = req.body;
-
+        const { name, email, password, subject,classId} = req.body;
+        const schoolCode = req.headers.code;
         // Validate request data
-        if (!name || !email || !password || !subject || !SchoolCode) {
+        if (!name || !email || !password || !subject || !schoolCode) {
             return res.status(400).json({
                 status: 'fail',
                 message: 'All fields are required',
@@ -124,11 +125,16 @@ export const addTeacher = async (req, res) => {
             name,
             email,
             password: hashedPassword,
+            class:classId,
             subject,
-            SchoolCode,
+            schoolCode,
         });
+        
+        const classData = await ClassModel.findById(classId);
+        console.log(newTeacher._id);
+        classData.classTeacher = newTeacher._id;
 
-        // Save the teacher to the database
+        await classData.save();
         await newTeacher.save();
 
         return res.status(201).json({

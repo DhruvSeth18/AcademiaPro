@@ -10,7 +10,7 @@ teacherRoutes.route('/teachers')
 
 teacherRoutes.route('/teachers/:id')
 .get(ConnectionToSpecificDatabase,getTeacherById)
-.put(ConnectionToSpecificDatabase,updateTeacher)
+.post(ConnectionToSpecificDatabase,updateTeacher)
 .delete(ConnectionToSpecificDatabase,deleteTeacher);
 
 export default teacherRoutes;

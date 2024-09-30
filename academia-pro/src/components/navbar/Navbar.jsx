@@ -60,18 +60,38 @@ const Navbar = () => {
         <>
             <Box sx={{ display: 'flex' }}>
                 <AppBar position="fixed" sx={{ width: '100%' }} >
-                    <EditToolbar position='fixed' sx={{ height: { xs: '65px' }, backgroundColor: "#0F172A" }}>
+                    <EditToolbar position='fixed' sx={{ height: { xs: '65px' }, backgroundColor: "#000000" }}>
                         <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ display: { sm: 'none' }, position: 'absolute', left: '5vh', scale: '1.4' }} >
                             <MenuIcon />
                         </IconButton>
-                        <div className='flex gap-2 hidden sm:block'>
-                            <img className='w-[45px] h-[40px] absolute rounded-full ring-gray-300 dark:ring-gray-500 left-[30px] top-[14px]' src={Logo} />
+                        <div className='flex gap-2 sm:block hidden'>
+                            <img className='w-[49px] h-[45px] absolute rounded-full ring-gray-300 dark:ring-gray-500 left-[30px] top-[10px]' src={Logo} />
                         </div>
                         <div className='w-[55%] hidden sm:flex justify-around'>
-                            <NavLink to="/" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : "text-gray-500"}> Home</NavLink>
-                            <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : "text-gray-500"}>Management</NavLink>
-                            <NavLink to="/student" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : "text-gray-500"}>Students</NavLink>
-                            <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : "text-gray-500"}>School</NavLink>
+                            <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500 font-bold"}> Home</NavLink>
+                            {
+                                localStorage.getItem("role")==="Teacher"?<>
+                                <NavLink to="/performance" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Performance</NavLink>
+                                <NavLink to="/attendence" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Attendence</NavLink>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Resources</NavLink>
+                                </>:<></>
+                            }
+                            {
+                                localStorage.getItem("role")==="Head"?<>
+                                    <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500 font-bold"}>Management</NavLink>
+                                    <NavLink to="/class" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Class</NavLink>
+                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Teachers</NavLink>
+                                </>:<></>
+                            }
+                            {
+                                localStorage.getItem("role")==="Student"?<>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Resources</NavLink>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-gray-500"}>Profile</NavLink>
+                                </>:<></>
+                            }
+
+
+
                         </div>
                         <LoginButton />
                     </EditToolbar>

@@ -1,15 +1,17 @@
 import express from 'express';
-import { markAttendance, updateAttendance, getAttendanceRecords, deleteAttendanceRecord } from '../controllers/attendenceController.js';
+
+import { checkAttendanceToday, markAttendance, getMonthlyAttendance, getYearlyAttendance } from '../controllers/attendenceController.js';
 import { ConnectionToSpecificDatabase } from '../controllers/middleware.js';
 const attendenceRoutes = express.Router();
 
-// Route to mark attendance
-attendenceRoutes.route('/attendence')
-.post(ConnectionToSpecificDatabase,markAttendance)
-.put(ConnectionToSpecificDatabase,updateAttendance)
-.get(ConnectionToSpecificDatabase,getAttendanceRecords);
+// Check today's attendance for a student
+attendenceRoutes.route('/attendance')
+.get(ConnectionToSpecificDatabase,checkAttendanceToday)
+.post(ConnectionToSpecificDatabase,markAttendance);
 
-// Route to delete an attendance record
-attendenceRoutes.delete('/attendance/:attendanceId', ConnectionToSpecificDatabase, deleteAttendanceRecord);
+attendenceRoutes.get('/attandance/monthly',getMonthlyAttendance);
+
+attendenceRoutes.get('/attandance/yearly',getYearlyAttendance);
+
 
 export default attendenceRoutes;

@@ -19,13 +19,17 @@ const studentSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'class'
     },
-    SchoolCode:{
+    schoolCode:{
         type:Number,
         required:true,
     },
     gender:{
         type:String,
         enum:['male','female']
+    },
+    role:{
+        type:String,
+        default:"Student"
     },
     performance:{
         exams:[
@@ -42,18 +46,19 @@ const studentSchema = new mongoose.Schema({
                     type:Number,
                     required:true,
                 },
+                examName:{
+                    type:String,
+                    required:true
+                },
                 date:{
                     type:Date,
                     required:true,
+                    default:() => new Date(new Date().setHours(0, 0, 0, 0))
                 }
             }
         ],
         overAllGrade:{
             type:String,
-        },
-        attendence:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'attendence'
         }
     }
 })

@@ -4,7 +4,7 @@ export const ConnectionToSpecificDatabase= async (req,res,next)=>{
     try{
         if(req.headers.code){
             await ConnectionToDatabase(process.env.DB_username,process.env.DB_password,req.headers.code); 
-            console.log("Database connected to " + req.headers.code);
+            console.log("Database connected to " + process.env.DB_username +" "+  process.env.DB_password + " "+ req.headers.code);
         } else{
             return res.status(400).json({
                 status:"fail",
@@ -20,6 +20,7 @@ export const ConnectionToSpecificDatabase= async (req,res,next)=>{
         })
     }
 }
+
 export const middlewareAuth = async (req,res,next)=>{
     try{
         let token;

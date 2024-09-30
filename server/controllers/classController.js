@@ -97,36 +97,64 @@ import TeacherModel from "../models/teacherModel.js";
  *                   example: Error while creating class
  */
 
-
 export const createClass = async (req, res) => {
     try {
-        const { className } = req.body;
-        const SchoolCode = req.headers.code;
+        const { className, section } = req.body; // Extract className and single section from the body
+        const schoolCode = req.headers.code; // SchoolCode from the headers
 
-        if (!className) {
+        // Basic validation
+        if (!className || !schoolCode || !section) {
             return res.status(400).json({
                 status: "fail",
-                message: "All fields are required",
+                message: "className, schoolCode, and section are required",
             });
         }
-
+        const findClass = await ClassModel.findOne({$or:[
+            {sectionName: section},
+            {className:className}
+        ]})
+        if(findClass){
+            return res.status(400).json({
+                status:"fail",
+                message:"Class ALready Created"
+            })
+        }
+        // Creating a new class with a single section
         const newClass = new ClassModel({
             className,
-            schoolCode:SchoolCode,
+            schoolCode,
+            sectionName: section, 
+            students: [] // Initialize with an empty array for students
         });
-
+        // Save the new class in the database
         await newClass.save();
-
         return res.status(201).json({
             status: "success",
             message: "Class created successfully",
             class: newClass,
         });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         return res.status(500).json({
             status: "fail",
             message: "Error while creating class",
+        });
+    }
+};
+
+
+export const getClasses = async (req, res) => {
+    try {
+        const Classes = await ClassModel.find();
+        return res.status(200).json({
+            status: 'success',
+            data: Classes,
+        });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Error while fetching teachers',
         });
     }
 };
@@ -204,38 +232,37 @@ export const createClass = async (req, res) => {
  */
 
 
-export const addStudentToClass = async (req, res) => {
-    try {
-        const { classId, studentId } = req.body;
+// export const addStudentToClass = async (req, res) => {
+//     try {
+//         const { classId, studentId } = req.body;
 
-        const classData = await ClassModel.findById(classId);
-        const studentData = await StudentModel.findById(studentId);
+//         const classData = await ClassModel.findById(classId);
+//         const studentData = await StudentModel.findById(studentId);
 
-        if (!classData || !studentData) {
-            return res.status(404).json({
-                status: "fail",
-                message: "Class or Student not found",
-            });
-        }
+//         if (!classData || !studentData) {
+//             return res.status(404).json({
+//                 status: "fail",
+//                 message: "Class or Student not found",
+//             });
+//         }
+//         classData.students.push(studentData._id);
+//         await classData.save();
 
-        classData.students.push(studentData._id);
-        await classData.save();
+//         studentData.class = classData._id;
+//         await studentData.save();
 
-        studentData.class = classData._id;
-        await studentData.save();
-
-        return res.status(200).json({
-            status: "success",
-            message: "Student added to class",
-        });
-    } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            status: "fail",
-            message: "Error while adding student to class",
-        });
-    }
-};
+//         return res.status(200).json({
+//             status: "success",
+//             message: "Student added to class",
+//         });
+//     } catch (error) {
+//         console.log(error.message);
+//         return res.status(500).json({
+//             status: "fail",
+//             message: "Error while adding student to class",
+//         });
+//     }
+// };
 
 // Add a teacher to a class
 
@@ -502,8 +529,7 @@ export const getClassDetails = async (req, res) => {
         const classId = req.params.classId;
 
         const classData = await ClassModel.findById(classId)
-            .populate('students')
-            .populate('teachers');
+            .populate('students');
 
         if (!classData) {
             return res.status(404).json({
@@ -516,6 +542,7 @@ export const getClassDetails = async (req, res) => {
             status: "success",
             class: classData,
         });
+        
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({

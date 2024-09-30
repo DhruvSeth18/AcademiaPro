@@ -1,52 +1,85 @@
-import RemoveIcon from '@mui/icons-material/Remove';
-import { useState } from 'react';
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { TextField } from '@mui/material';
+import Paper from '@mui/material/Paper';
 
-const EditManagement = () => {
-    const [password, setPassword] = useState('');
+const generatePassword = (length = 12) => {
+    console.log('Generating password...'); // Check if function is being called
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    let generatedPassword = '';
 
-    const generatePassword = (length = 12) => {
-        console.log('Generating password...'); // Check if function is being called
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-        let generatedPassword = '';
-        
-        for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * chars.length);
-            generatedPassword += chars[randomIndex];
-        }
-        
-        console.log('Generated password:', generatedPassword); // Check the generated password
-        setPassword(generatedPassword);
-    };
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * chars.length);
+        generatedPassword += chars[randomIndex];
+    }
 
+    console.log('Generated password:', generatedPassword); // Check the generated password
+    // setPassword(generatedPassword);
+};
+
+
+function createData(sNo,email, position, password) {
+    return { sNo ,email, position, password };
+}
+
+const rows = [
+    createData(1,'dhruv@gmail.com','Head','@Behappy'),
+    createData(2,'deepankar@gmail.com','beta',"cheen tapak"),
+    createData(3,'eclair@gmail.com','some','post@12'),
+];
+
+const BasicTable = ()=> {
     return (
-        <>
-            <div className="flex border text-[20px] mb-[20px] flex-col sm:flex-row">
-                <div className="flex basis-6/12 justify-center sm:justify-normal">
-                    <div className="flex p-2 pl-[20px] text-black">dhruv@gmail.com</div>
-                </div>
-                <div className="flex sm:basis-6/12 border sm:border-none">
-                    <div className="flex justify-center sm:justify-normal text-black basis-6/12 p-2 pl-[10px]">@Behappy12</div>
-                    <div className="flex border-l-[1px] sm:border-none justify-center sm:justify-end basis-6/12 pb-2 pt-[11px] pr-[15px]"><RemoveIcon className='cursor-pointer'/></div>
-                </div>
-            </div>
-            {
-                true?            <div className="flex border text-[20px] mb-[20px] flex-col sm:flex-row">
-                <div className="flex basis-6/12 justify-center sm:justify-normal]">
-                    <div className="flex p-1 pl-[10px] pr-[20px] w-full">
-                        <input type="email" name='email' id="input-group-1" placeholder='Enter emailAddress' className=" border text-black w-[100%] border-gray-300 text-sm rounded-md focus:outline-none block p-1 ps-2" required />
-                    </div>
-                </div>
-                <div className="flex sm:basis-6/12 border sm:border-none">
-                    {/* <div className="flex justify-center sm:justify-normal basis-6/12 p-2 pl-[10px]">@Behappy12</div> */}
-                    <div className="flex justify-center sm:justify-normal basis-6/12 p-1 pt-[8px] pl-4 gap-5">
-                        <p className=''>{password}</p>
-                        <button onClick={()=>generatePassword(6)} className='bg-white rounded-lg text-black font-bold text-[14px] pl-3 pr-3'>Generate</button>
-                    </div>
-                    <div className="flex border-l-[1px] sm:border-none justify-center sm:justify-end basis-6/12 pb-2 pt-[11px] pr-[15px]"><RemoveIcon className='cursor-pointer'/></div>
-                </div>
-            </div>:<div></div>
-            }
-        </>
+        <TableContainer componentmponent={Paper}>
+            <Table sx={{ minWidth: 650}} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell align='center' sx={{fontWeight:"bold",letterSpacing:"1.5px",fontSize:'16px'}}>SNo</TableCell>
+                        <TableCell align='center' sx={{fontWeight:"bold",letterSpacing:"1.5px",fontSize:'16px'}}>Authority Email</TableCell>
+                        <TableCell align='center' sx={{fontWeight:"bold",letterSpacing:"1.5px",fontSize:'16px'}}>Position</TableCell>  
+                        <TableCell align='center' sx={{fontWeight:"bold",letterSpacing:"1.5px",fontSize:'16px'}}>Password</TableCell>  
+                        <TableCell align="center" sx={{fontWeight:"bold",letterSpacing:"1.5px",fontSize:'16 px'}}>Edit</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                            key={row.email}
+                            sx={{'&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell align='center'>
+                                {row.sNo}
+                            </TableCell>
+                            <TableCell align='center'  component="th" scope="row">{row.email}</TableCell>
+                            <TableCell align='center'>{row.position}</TableCell>
+                            <TableCell align='center'>{row.password}</TableCell>
+                            <TableCell align="center">{row.protein}</TableCell>
+                        </TableRow>
+                    ))}
+                    <TableRow>
+                        <TableCell align='center'></TableCell>
+                        <TableCell align='center'  component="th" scope="row">
+                            <TextField variant='standard' className='text-black outline-none p-[3px]' type="text" />
+                        </TableCell>
+                        <TableCell align='center'>
+                            <TextField className='text-black outline-none p-[3px] items-center w-[80px]' type="text" />
+                        </TableCell>
+                        <TableCell align='center'>
+                            <TextField className='text-black outline-none p-[3px] w-[100px]' type="text" />
+                        </TableCell>
+                        
+                        <TableCell align="center"></TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }
-export default EditManagement;
+
+
+export default BasicTable;

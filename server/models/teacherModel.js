@@ -18,7 +18,7 @@ const teacherSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    SchoolCode:{
+    schoolCode:{
         type:Number,
         required:true,
     },
@@ -27,12 +27,12 @@ const teacherSchema = new mongoose.Schema({
         required:true,
         default:"Teacher"
     },
-    classes:[{
+    class:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'class'
-    }]
-
+    }
 })
+
 const TeacherModel = mongoose.model('teacher',teacherSchema);
 
 export default TeacherModel;

@@ -2,7 +2,7 @@ import SchoolHead from "../models/SheadModel.js"
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ManagementModel from "../models/managementModel.js";
-
+import TeacherModel from "../models/teacherModel.js";
 
 // Create Account for AcademiaPro
 
@@ -82,8 +82,8 @@ import ManagementModel from "../models/managementModel.js";
 
 export const SchoolHeadCreateAccount = async (req,res)=> {
     try{
-        const {username,email,country,state,schoolCode,password} = req.body;
-        if(!username || !email || !country || !state || !schoolCode || !password){
+        const {username,email,country,state,password} = req.body;
+        if(!username || !email || !country || !state || !req.headers.code || !password){
             return res.status(400).json({
                 status:"fail",
                 message:"ALl Fields are Required"
@@ -107,7 +107,7 @@ export const SchoolHeadCreateAccount = async (req,res)=> {
             email:email,
             country:country,
             state:state,
-            schoolCode:schoolCode,
+            schoolCode:req.headers.code,
             password:HashedPass
         })
         await newSchoolHead.save();
@@ -297,30 +297,36 @@ export const loginSchoolHead = async (req,res)=>{
                 role:findManagement.role
             })
         } else if(role==='Teacher'){
-            const findManagement = await ManagementModel.findOne({ email:email }).select('+password');
-
-            if (!findManagement) {
+            const findTeacher = await TeacherModel.findOne({ email:email }).select('+password');
+            console.log(findTeacher);
+            if (!findTeacher) {
                 return res.status(401).json({
                     status: 'fail',
                     message: 'User Not Exist'
                 })
             }
-            if(password!==findManagement.password){
+            const ComparePass = await bcrypt.compare(password, findTeacher.password);
+    
+            if (!ComparePass) {
                 return res.status(400).json({
                     status: 'fail',
                     message: 'Either Username or Password is Invalid'
                 })
             }
+            const userWithoutPassword = findTeacher.toObject();
+            delete userWithoutPassword.password;
             const jsonToken = await jwt.sign(userWithoutPassword, process.env.Shead_key, { expiresIn: '25d' });
             return res.status(200).json({
                 status: 'success',
                 message: 'Login Success',
-                id: findManagement._id,
+                id: findTeacher._id,
                 token: `Bearer ${jsonToken}`,
-                username: findManagement.username,
-                schoolCode:findManagement.schoolCode,
-                email:findManagement.email,
-                role:findManagement.role
+                username: findTeacher.name,
+                schoolCode:findTeacher.schoolCode,
+                email:findTeacher.email,
+                role:findTeacher.role,
+                class:findTeacher.class,
+                subject:findTeacher.subject
             })
         }
     }catch(error){
