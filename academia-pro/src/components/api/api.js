@@ -183,3 +183,57 @@ export const UpdateStudentExam = async (studentId,data)=>{
         }
     }
 }
+export const getClass = async ()=>{
+    try{
+        const response = await axios.get(`${url}/class`,{
+            timeout:6000,
+            headers: {
+                'Content-Type': 'application/json',
+                code:localStorage.getItem("code"),
+            },
+        })
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+export const getTeachers = async ()=>{
+    try{
+        const response = await axios.get(`${url}/teachers`,{
+            timeout:6000,
+            headers: {
+                'Content-Type': 'application/json',
+                code:localStorage.getItem("code"),
+            },
+        })
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}

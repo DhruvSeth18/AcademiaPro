@@ -1,9 +1,10 @@
 import ConnectionToDatabase from "../Database/connection.js";
 
-export const ConnectionToSpecificDatabase= async (req,res,next)=>{
+export const ConnectionToSpecificDatabase = async (req,res,next)=>{
     try{
         if(req.headers.code){
-            await ConnectionToDatabase(process.env.DB_username,process.env.DB_password,req.headers.code); 
+            const db = await ConnectionToDatabase(process.env.DB_username,process.env.DB_password,req.headers.code); 
+            req.db = db;
             console.log("Database connected to " + process.env.DB_username +" "+  process.env.DB_password + " "+ req.headers.code);
         } else{
             return res.status(400).json({

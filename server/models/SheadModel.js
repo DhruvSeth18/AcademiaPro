@@ -41,5 +41,5 @@ const SchoolHeadSchema = new mongoose.Schema({
         default:"Head"
     }
 });
-const SchoolHead = mongoose.model("schoolhead",SchoolHeadSchema);
+const SchoolHead =(db)=> db.model("schoolhead",SchoolHeadSchema);
 export default SchoolHead;

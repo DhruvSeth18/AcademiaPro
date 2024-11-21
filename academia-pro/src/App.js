@@ -1,18 +1,20 @@
 import Home from "./Home";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-
+import {UserProvider} from './components/context/userContext';
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
   },
 });
 const App = ()=>{
   return (<>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Home/>
+        <UserProvider>
+          <Home />
+        </UserProvider>
     </ThemeProvider>
   </>)
 }

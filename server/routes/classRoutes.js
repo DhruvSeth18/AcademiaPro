@@ -1,6 +1,6 @@
 import express from 'express';
 import { createClass, addTeacherToClass, getClassDetails, updateClass, deleteClass,getClasses} from '../controllers/classController.js';
-import { ConnectionToSpecificDatabase } from '../controllers/middleware.js';
+import { ConnectionToSpecificDatabase } from '../middleware/middleware.js';
 const classRoutes = express.Router();
 
 // Route to create a new class

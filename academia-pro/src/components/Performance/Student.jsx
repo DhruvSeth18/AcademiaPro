@@ -3,6 +3,8 @@ import TableCell from '@mui/material/TableCell';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { UpdateStudentExam } from '../api/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const initialExamState = {
     subject: '',
@@ -13,28 +15,39 @@ const initialExamState = {
 
 const Student = ({ row, sNo }) => {
     const [exam, setExam] = useState(initialExamState);
+    const [update,setUpdate] = useState(false);
 
     const handleSubjectChange = (e) => {
         setExam(prevExam => ({...prevExam,[e.target.name]: e.target.value}));
         console.log(exam);
     };
+    const toastSuccess = ()=>{
+        toast.success("Exam Updated Successfully",{
+            position:'top-center',
+            className:"toast",
+            autoClose: 2000
+        });
+    }
 
     const updateExam = async ()=>{
         const response = await UpdateStudentExam(row._id,exam);
         if(response.status && response.status=="success"){
             console.log("Update Exam SuccessFulle");
+            toastSuccess();
+            setUpdate(true);
         }
     }
 
     return (
         <>
+            <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
             <TableRow key={sNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell className='text-red-800' align='center'>{sNo}</TableCell>
                 <TableCell align='center' component="th" scope="row">{row.rollNumber}</TableCell>
-                <TableCell align='center'><TextField className='w-[110px]' variant="outlined" label="Subject" name="subject" value={exam.subject} onChange={handleSubjectChange}/></TableCell>
-                <TableCell align='center'><TextField className='w-[110px]' variant="outlined" label="Exam" name="examName" value={exam.examName} onChange={handleSubjectChange}/></TableCell>
-                <TableCell align='center'> <TextField className='w-[80px]' type="number" variant="outlined" label="Marks" name="marks" value={exam.marks} onChange={handleSubjectChange} /> </TableCell>
-                <TableCell align='center'><TextField className='w-[120px]' type="number" variant="outlined" label="Max Marks" name="maxMarks" value={exam.maxMarks} onChange={handleSubjectChange}/></TableCell>
+                <TableCell align='center'><TextField disabled={update} className='w-[110px]' variant="outlined" label="Subject" name="subject" value={exam.subject} onChange={handleSubjectChange}/></TableCell>
+                <TableCell align='center'><TextField disabled={update} className='w-[110px]' variant="outlined" label="Exam" name="examName" value={exam.examName} onChange={handleSubjectChange}/></TableCell>
+                <TableCell align='center'> <TextField disabled={update} className='w-[80px]' type="number" variant="outlined" label="Marks" name="marks" value={exam.marks} onChange={handleSubjectChange} /> </TableCell>
+                <TableCell align='center'><TextField disabled={update} className='w-[120px]' type="number" variant="outlined" label="Max Marks" name="maxMarks" value={exam.maxMarks} onChange={handleSubjectChange}/></TableCell>
                 <TableCell align='center'>
                     <button
                         onClick={updateExam}

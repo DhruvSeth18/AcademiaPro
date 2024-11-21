@@ -8,7 +8,6 @@ const attendanceSchema = new mongoose.Schema({
     date: { type: Date, 
         required: true, 
         unique: true 
-
     },
     presentStudents: [{ 
         type: mongoose.Schema.Types.ObjectId, 
@@ -20,5 +19,5 @@ const attendanceSchema = new mongoose.Schema({
     }],
 });
 
-const AttendanceModel = mongoose.model('attendance', attendanceSchema);
+const AttendanceModel =(db)=> db.model('attendance', attendanceSchema);
 export default AttendanceModel;

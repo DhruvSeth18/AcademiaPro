@@ -9,10 +9,6 @@ const classSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'teacher'
     },
-    schoolCode: { 
-        type: Number, 
-        required: true 
-    },
     sectionName: {
         type: String,
         enum: ['A', 'B', 'C', 'D', 'E'],
@@ -25,5 +21,5 @@ const classSchema = new mongoose.Schema({
 });
 
 
-const ClassModel = mongoose.model('class', classSchema);
+const ClassModel =(db)=> db.model('class', classSchema);
 export default ClassModel;

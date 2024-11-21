@@ -25,5 +25,5 @@ const managementSchema = new mongoose.Schema({
         default:"Management"
     },
 });
-const ManagementModel = new mongoose.model('management',managementSchema);
+const ManagementModel = (db)=> db.model('management',managementSchema);
 export default ManagementModel;

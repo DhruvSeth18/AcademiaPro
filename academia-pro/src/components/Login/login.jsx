@@ -94,7 +94,7 @@ const Login = () => {
             submitSchoolCode?<div className="w-[100%] h-[100vh] flex justify-center items-center ">
             <div className="min-w-[380px] w-[25%] h-[480px]  rounded-xl ">
                 <div className="w-[100%] h-[100px] flex justify-center items-center mt-[15px]">
-                    <div className=" text-white text-[50px] font-semibold">Login</div>
+                    <div className="text-[50px] text-gray-600 font-semibold">Login</div>
                 </div>
                 <div className="mr-[28px] ml-[28px]">
                     <label for="first_name" className="block font-medium text-md text-white">Email</label>
@@ -124,15 +124,15 @@ const Login = () => {
                             <MenuItem value="Teacher">Teacher</MenuItem>
                         </Select>
                     </FormControl>
-                    <div className='w-[100%] h-[49px] border-[1px] rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95'>
+                    <div className='w-[100%] h-[49px] text-blue-600 font-bold rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95'>
                         <p className='text-[14.5px]'>forgot Password ?</p>
                     </div>
                 </div>
                 <div className='w-[100%] pl-[38px] pr-[38px] flex gap-3 justify-center items-center mt-[35px]'>
-                    <div className='w-[100%] h-[45px] bg-white rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
+                    <div className='w-[100%] h-[45px] border-[2px] rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
                         <p className='text-[#0F172A] font-bold text-[17px]'>Login</p>
                     </div>
-                    <div className='w-[100%] h-[45px] bg-white rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
+                    <div className='w-[100%] h-[45px] border-[2px] bg-white rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
                         <p className='text-[#0F172A] font-bold text-[17px]'>Create Account</p>
                     </div>
                 </div>

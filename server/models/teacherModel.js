@@ -33,6 +33,6 @@ const teacherSchema = new mongoose.Schema({
     }
 })
 
-const TeacherModel = mongoose.model('teacher',teacherSchema);
+const TeacherModel =(db)=> db.model('teacher',teacherSchema);
 
 export default TeacherModel;

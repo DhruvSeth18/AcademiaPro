@@ -8,12 +8,12 @@ const Class = () => {
 
     return (
         <>
-            <div className="w-[100%] h-[100vh] bg-black pt-[100px]">
+            <div className="w-[100%] h-[100vh] pt-[100px]">
                 <div className="ml-[15px] mr-[15px] sm:ml-[150px] sm:mr-[150px]">
                     <p className="text-white text-[50px] mb-[20px] font-bold">Classes</p>
-                    <div className="flex flex-col sm:flex-row flex-wrap justify-between gap-6">
-                        {classes.map((className, index) => (
-                            <div key={index} onClick={() => navigate(`/class/${className.toLowerCase()}`)} className="w-[100%] sm:w-[156px] hover:scale-110 hover:border-[3px] hover:bg-transparent hover:text-white border-blue-500 text-black h-[120px] rounded-lg bg-white flex justify-center items-center cursor-pointer">
+                    <div className="flex flex-col sm:flex-row flex-wrap gap-6">
+                        {classes.map((className, index) => ( 
+                            <div key={index} onClick={() => navigate(`/class/${className.toLowerCase()}`)} className="w-[100%] sm:w-[156px] hover:scale-110 border-[3px] border-black hover:border-[3px] hover:border-blue-500 text-black h-[120px] rounded-lg flex justify-center items-center cursor-pointer">
                                 <p className="text-[25px] font-bold">{className}</p>
                             </div>
                         ))}

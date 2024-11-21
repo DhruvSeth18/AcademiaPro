@@ -1,6 +1,6 @@
 import express from 'express';
 import { addStudent, getStudents, getStudentById, addStudentExam, deleteStudent } from '../controllers/studentController.js';
-import { ConnectionToSpecificDatabase } from '../controllers/middleware.js';
+import { ConnectionToSpecificDatabase } from '../middleware/middleware.js';
 
 const studentRoutes = express.Router();
 
