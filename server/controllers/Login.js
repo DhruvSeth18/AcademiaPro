@@ -14,7 +14,7 @@ export const SchoolHeadCreateAccount = async (req,res)=> {
         const {username,email,country,state,password} = req.body;
         if(!username || !email || !country || !state || !req.headers.code || !password){
             return res.status(400).json({
-                status:"fail",
+                status:false,
                 message:"ALl Fields are Required"
             })
         }
@@ -25,7 +25,7 @@ export const SchoolHeadCreateAccount = async (req,res)=> {
 
         if(existUser){
             return res.status(400).json({
-                status:"fail",
+                status:false,
                 message:"User already Existed"
             })
         }
@@ -40,13 +40,13 @@ export const SchoolHeadCreateAccount = async (req,res)=> {
         })
         await newSchoolHead.save();
         return res.status(201).json({
-            status:"success",
+            status:true,
             message:"User Created"
         })
     } catch(error){
         console.log(error.message);
         return res.status(500).json({
-            status:"fail",
+            status:false,
             message:"Error while Sign up the message"
         })
     }
@@ -61,7 +61,7 @@ export const loginSchoolHead = async (req,res)=>{
         const {email,password,role} = req.body;
         if(!email || !password || !role){
             return res.status(400).json({
-                status:'fail',
+                status:false,
                 message:"Both Email, Password and roll are Required"
             })
         }
@@ -70,7 +70,7 @@ export const loginSchoolHead = async (req,res)=>{
             const head = await SchoolHead.findOne({ email:email }).select('+password');
             if (!head) {
                 return res.status(401).json({
-                    status: 'fail',
+                    status: false,
                     message: 'User Not Exist'
                 })
             }
@@ -78,7 +78,7 @@ export const loginSchoolHead = async (req,res)=>{
             const ComparePass = await bcrypt.compare(password, head.password);
             if (!ComparePass) {
                 return res.status(400).json({
-                    status: 'fail',
+                    status: false,
                     message: 'Either Username or Password is Invalid'
                 })
             }
@@ -96,7 +96,7 @@ export const loginSchoolHead = async (req,res)=>{
             })
             .status(200)
             .json({
-                status: 'success',
+                status: true,
                 message: 'Login Success',
                 token: `${token}`,
                 data:userWithoutPassword
@@ -106,13 +106,13 @@ export const loginSchoolHead = async (req,res)=>{
             const management = await Management.findOne({ email:email }).select('+password');
             if (!management) {
                 return res.status(401).json({
-                    status: 'fail',
+                    status: false,
                     message: 'User Not Exist'
                 })
             }
             if(password!==management.password){
                 return res.status(400).json({
-                    status: 'fail',
+                    status: false,
                     message: 'Either Username or Password is Invalid'
                 })
             }
@@ -132,7 +132,7 @@ export const loginSchoolHead = async (req,res)=>{
             })
             .status(200)
             .json({
-                status: 'success',
+                status: true,
                 message: 'Login Success',
                 token: `${token}`,
                 data:userWithoutPassword
@@ -142,14 +142,14 @@ export const loginSchoolHead = async (req,res)=>{
             const teacherDetail = await Teacher.findOne({ email:email }).select('+password');
             if (!teacherDetail) {
                 return res.status(401).json({
-                    status: 'fail',
+                    status: false,
                     message: 'User Not Exist'
                 })
             }
             console.log(password,teacherDetail.password);
             if (!password===teacherDetail.password) {
                 return res.status(400).json({
-                    status: 'fail',
+                    status: false,
                     message: 'Either Username or Password is Invalid'
                 })
             }
@@ -169,7 +169,7 @@ export const loginSchoolHead = async (req,res)=>{
             })
             .status(200)
             .json({     
-                status: 'success',
+                status: true,
                 message: 'Login Success',
                 token: `${token}`,
                 data:userWithoutPassword
@@ -180,7 +180,7 @@ export const loginSchoolHead = async (req,res)=>{
     }catch(error){
         console.log(error);
         return res.status(500).json({
-            status:'fail',
+            status:false,
             message:"Error while log in the user"
         })
     }

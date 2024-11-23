@@ -12,6 +12,7 @@ const ConnectionToDatabase = async (username,password,database)=>{
         return connect;
     } catch(err){
         console.log("Connection Error " + err.message);
+        throw new Error("Database connection failed");
     }
 }
 

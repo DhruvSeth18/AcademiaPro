@@ -10,7 +10,7 @@ export const addTeacher = async (req, res) => {
         // Validate request data
         if (!name || !email || !password || !subject || !schoolCode) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'All fields are required',
             });
         }
@@ -21,7 +21,7 @@ export const addTeacher = async (req, res) => {
         const existingTeacher = await Teacher.findOne({ email });
         if (existingTeacher) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'Teacher already exists with this email',
             });
         }
@@ -43,14 +43,14 @@ export const addTeacher = async (req, res) => {
         await newTeacher.save();
 
         return res.status(201).json({
-            status: 'success',
+            status: true,
             message: 'Teacher created successfully',
             data: newTeacher,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while creating teacher',
         });
     }
@@ -59,15 +59,17 @@ export const addTeacher = async (req, res) => {
 
 export const getTeachers = async (req, res) => {
     try {
-        const teachers = await TeacherModel.find().populate('class');
+        const db = req.db;
+        const Teacher = TeacherModel(db);
+        const teachers = await Teacher.find().populate('class');
         return res.status(200).json({
-            status: 'success',
+            status: true,
             data: teachers,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while fetching teachers',
         });
     }
@@ -78,23 +80,25 @@ export const getTeachers = async (req, res) => {
 export const getTeacherById = async (req, res) => {
     try {
         const teacherId = req.params.id;
-        const teacher = await TeacherModel.findById(teacherId).populate('classes');
+        const db = req.db;
+        const Teacher = await TeacherModel(db);
+        const teacher = await Teacher.findById(teacherId).populate('classes');
 
         if (!teacher) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Teacher not found',
             });
         }
 
         return res.status(200).json({
-            status: 'success',
+            status: true,
             data: teacher,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while fetching teacher',
         });
     }
@@ -105,25 +109,26 @@ export const updateTeacher = async (req, res) => {
     try {
         const teacherId = req.params.id;
         const updates = req.body;
-
-        const updatedTeacher = await TeacherModel.findByIdAndUpdate(teacherId, updates, { new: true, runValidators: true });
+        const db = req.db;
+        const Teacher = await TeacherModel(db);
+        const updatedTeacher = await Teacher.findByIdAndUpdate(teacherId, updates, { new: true, runValidators: true });
 
         if (!updatedTeacher) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Teacher not found',
             });
         }
 
         return res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Teacher updated successfully',
             data: updatedTeacher,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while updating teacher',
         });
     }
@@ -133,24 +138,25 @@ export const updateTeacher = async (req, res) => {
 export const deleteTeacher = async (req, res) => {
     try {
         const teacherId = req.params.id;
-
-        const deletedTeacher = await TeacherModel.findByIdAndDelete(teacherId);
+        const db = req.db;
+        const Teacher = await TeacherModel(db);
+        const deletedTeacher = await Teacher.findByIdAndDelete(teacherId);
 
         if (!deletedTeacher) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Teacher not found',
             });
         }
-
+        
         return res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Teacher deleted successfully',
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while deleting teacher',
         });
     }

@@ -7,14 +7,16 @@ export const addManagement = async (req,res)=>{
 
         if(!email || !password || !name || !SchoolId){
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'All fields are required (email, password, name, position)',
             });
         }
-        const existingManagement = await ManagementModel.findOne({ email });
+        const db = req.db;
+        const Management = await ManagementModel(db);
+        const existingManagement = await Management.findOne({ email });
         if (existingManagement) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'Management person with this email already exists',
             });
         }
@@ -27,13 +29,13 @@ export const addManagement = async (req,res)=>{
         });
         await newManagement.save(); 
         return res.status(201).json({
-            status: 'success',
+            status: true,
             message: 'Management person added successfully',
         });
     } catch(error){
         console.log(error.message);
         res.status(500).json({
-            status:'fail',
+            status:false,
             message:"Error while Adding Management Person",
         })
     }
@@ -45,25 +47,27 @@ export const removeManagement = async (req, res) => {
         const managementId = req.params.managementId;
         if (!managementId) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'Management ID is required',
             });
         }
-        const management = await ManagementModel.findByIdAndDelete(managementId);
+        const db = req.db;
+        const Management = await ManagementModel(db);
+        const management = await Management.findByIdAndDelete(managementId);
         if (!management) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Management person not found',
             });
         }
         return res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Management person removed successfully',
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while removing management person',
         });
     }
@@ -77,19 +81,20 @@ export const updateManagement = async (req, res) => {
 
         if (!managementId) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'Management ID is required',
             });
         }
 
         if (!Object.keys(updates).length) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'At least one field is required to update',
             });
         }
-
-        const updatedManagement = await ManagementModel.findByIdAndUpdate(
+        const db = req.db;
+        const Management = await ManagementModel(db);
+        const updatedManagement = await Management.findByIdAndUpdate(
             managementId,
             updates,
             { new: true, runValidators: true }
@@ -97,20 +102,20 @@ export const updateManagement = async (req, res) => {
 
         if (!updatedManagement) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Management person not found',
             });
         }
 
         return res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Management person updated successfully',
             data: updatedManagement,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while updating management person',
         });
     }
@@ -119,21 +124,23 @@ export const updateManagement = async (req, res) => {
 
 export const getManager = async (req, res) => {
     try {
-        const managers = await ManagementModel.find();
+        const db = req.db;
+        const Management = await ManagementModel(db);
+        const managers = await Management.find();
         if (managers.length === 0) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'No management persons found',
             });
         }
         return res.status(200).json({
-            status: 'success',
+            status: true,
             data: managers,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while getting management persons',
         });
     }

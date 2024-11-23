@@ -9,7 +9,7 @@ export const createClass = async (req, res) => {
         const schoolCode = req.headers.code;
         if (!className || !schoolCode || !section) {
             return res.status(400).json({
-                status: "fail",
+                status: false,
                 message: "className, schoolCode, and section are required",
             });
         }
@@ -22,7 +22,7 @@ export const createClass = async (req, res) => {
 
         if(findClass){
             return res.status(400).json({
-                status:"fail",
+                status:false,
                 message:"Class ALready Created"
             })
         }
@@ -36,7 +36,7 @@ export const createClass = async (req, res) => {
 
         await newClass.save();
         return res.status(201).json({
-            status: "success",
+            status: true,
             message: "Class created successfully",
             class: newClass,
         });
@@ -44,7 +44,7 @@ export const createClass = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            status: "fail",
+            status: false,
             message: "Error while creating class",
         });
     }
@@ -110,7 +110,7 @@ export const addTeacherToClass = async (req, res) => {
 
         if (!classData || !teacherData) {
             return res.status(404).json({
-                status: "fail",
+                status: false,
                 message: "Class or Teacher not found",
             });
         }
@@ -122,13 +122,13 @@ export const addTeacherToClass = async (req, res) => {
         await teacherData.save();
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Teacher added to class",
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: "fail",
+            status: false,
             message: "Error while adding teacher to class",
         });
     }
@@ -138,25 +138,27 @@ export const addTeacherToClass = async (req, res) => {
 export const getClassDetails = async (req, res) => {
     try {
         const classId = req.params.classId;
-        const classData = await ClassModel.findById(classId)
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const classData = await Class.findById(classId)
             .populate('students');
 
         if (!classData) {
             return res.status(404).json({
-                status: "fail",
+                status: false,
                 message: "Class not found",
             });
         }
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             class: classData,
         });
         
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: "fail",
+            status: false,
             message: "Error while fetching class details",
         });
     }
@@ -166,8 +168,9 @@ export const getClassDetails = async (req, res) => {
 export const updateClass = async (req, res) => {
     try {
         const { classId, name, section } = req.body;
-
-        const updatedClass = await ClassModel.findByIdAndUpdate(
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const updatedClass = await Class.findByIdAndUpdate(
             classId,
             { name, section },
             { new: true }
@@ -175,20 +178,20 @@ export const updateClass = async (req, res) => {
 
         if (!updatedClass) {
             return res.status(404).json({
-                status: "fail",
+                status: false,
                 message: "Class not found",
             });
         }
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Class updated successfully",
             class: updatedClass,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: "fail",
+            status: false,
             message: "Error while updating class",
         });
     }
@@ -197,24 +200,25 @@ export const updateClass = async (req, res) => {
 export const deleteClass = async (req, res) => {
     try {
         const classId = req.params.classId;
-
-        const deletedClass = await ClassModel.findByIdAndDelete(classId);
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const deletedClass = await Class.findByIdAndDelete(classId);
 
         if (!deletedClass) {
             return res.status(404).json({
-                status: "fail",
+                status: false,
                 message: "Class not found",
             });
         }
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Class deleted successfully",
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: "fail",
+            status: false,
             message: "Error while deleting class",
         });
     }

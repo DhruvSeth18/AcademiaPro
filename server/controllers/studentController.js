@@ -8,14 +8,16 @@ export const addStudent = async (req, res) => {
         const schoolCode = req.headers.code;
         if (!name || !rollNumber || !classId || !schoolCode) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'All Fields are Required',
             });
         }
-        const existingStudent = await StudentModel.findOne({ rollNumber });
+        const db = req.db;
+        const Student = await StudentModel(db);
+        const existingStudent = await Student.findOne({ rollNumber });
         if (existingStudent) {
             return res.status(400).json({
-                status: 'fail',
+                status: false,
                 message: 'Student already exists with this roll number',
             });
         }
@@ -29,12 +31,13 @@ export const addStudent = async (req, res) => {
             performance,
         });
         // Save the student to the database
-        const classData = await ClassModel.findById(classId);
+        const Class = await ClassModel(db);
+        const classData = await Class.findById(classId);
         const stuId = newStudent._id;
         console.log(classData,stuId);
         if (!classData || !stuId) {
             return res.status(404).json({
-                status: "fail",
+                status: false,
                 message: "Class or Student not found",
             });
         }
@@ -44,14 +47,14 @@ export const addStudent = async (req, res) => {
         await classData.save();
         await newStudent.save();
         return res.status(201).json({
-            status: 'success',
+            status: true,
             message: 'Student added successfully',
             data: newStudent,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while adding student',
         });
     }
@@ -61,21 +64,23 @@ export const addStudent = async (req, res) => {
 export const getStudents = async (req, res) => {
     try {
         const {clas , classSection} = req.query;
-        const students = await ClassModel.findOne({className:clas,sectionName:classSection}).populate('students');
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const students = await Class.findOne({className:clas,sectionName:classSection}).populate('students');
         if(!students){
             return res.status(400).json({
-                status:"fail",
+                status:false,
                 message:"Failed to retrieve everything"
             })
         }
         return res.status(200).json({
-            status: 'success',
+            status: true,
             data: students,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while fetching students',
         });
     }
@@ -84,23 +89,25 @@ export const getStudents = async (req, res) => {
 export const getStudentById = async (req, res) => {
     try {
         const studentId = req.params.id;
-        const student = await StudentModel.findById(studentId).populate('class');
+        const db = req.db;
+        const Student = await StudentModel(db);
+        const student = await Student.findById(studentId).populate('class');
 
         if (!student) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Student not found',
             });
         }
 
         return res.status(200).json({
-            status: 'success',
+            status: true,
             data: student,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while fetching student',
         });
     }
@@ -112,12 +119,13 @@ export const addStudentExam = async (req, res) => {
     try {
         const studentId = req.params.id;
         const newExam = req.body;
-
-        const student = await StudentModel.findById(studentId);
+        const db = req.db;
+        const Student = await StudentModel(db);
+        const student = await Student.findById(studentId);
 
         if (!student) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Student not found',
             });
         }
@@ -128,14 +136,14 @@ export const addStudentExam = async (req, res) => {
         await student.save();
 
         return res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Exam added successfully',
             data: student,
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while adding exam',
         });
     }
@@ -144,23 +152,24 @@ export const addStudentExam = async (req, res) => {
 export const deleteStudent = async (req, res) => {
     try {
         const studentId = req.params.id;
-
-        const deletedStudent = await StudentModel.findByIdAndDelete(studentId);
+        const db = req.db;
+        const Student = await StudentModel(db);
+        const deletedStudent = await Student.findByIdAndDelete(studentId);
 
         if (!deletedStudent) {
             return res.status(404).json({
-                status: 'fail',
+                status: false,
                 message: 'Student not found',
             });
         }
         return res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Student deleted successfully',
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
-            status: 'fail',
+            status: false,
             message: 'Error while deleting student',
         });
     }
