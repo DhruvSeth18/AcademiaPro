@@ -64,28 +64,17 @@ const Class = () => {
     };
 
     const handleChange = (key, value) => {
-        setNewClassDetails((prev) => ({
-            ...prev,
-            [key]: value,
-        }));
+        setNewClassDetails((prev) => ({ ...prev, [key]: value,}));
     };
 
     return (
         <>
             <Dialog className="border-2 rounded-lg" onClose={handleClose} open={dialog}>
                 <div className="w-[350px] h-[350px] border-2 rounded-lg flex flex-col justify-center items-center relative p-4">
-                    <CloseIcon
-                        onClick={() => setDialog(false)}
-                        sx={{ fontSize: "25px", color: "blue" }}
-                        className="absolute top-2 right-2 cursor-pointer"
-                    />
+                    <CloseIcon onClick={() => setDialog(false)} sx={{ fontSize: "25px", color: "blue" }} className="absolute top-2 right-2 cursor-pointer" />
                     <p className="text-3xl font-bold relative bottom-2 mb-4">Add Class</p>
                     <div className="flex flex-col gap-3 w-full">
-                        <select
-                            className="border p-2 rounded-md w-full"
-                            value={newClassDetails.className}
-                            onChange={(e) => handleChange("className", e.target.value)}
-                        >
+                        <select className="border p-2 rounded-md w-full" value={newClassDetails.className} onChange={(e) => handleChange("className", e.target.value)} >
                             <option value="" disabled>Select a class</option>
                             {availableClasses
                                 .filter((cls) => !classes.includes(cls)) // Exclude already existing classes
@@ -95,24 +84,12 @@ const Class = () => {
                                     </option>
                                 ))}
                         </select>
-                        <input
-                            type="number"
-                            className="border p-2 rounded-md w-full"
-                            value={newClassDetails.numSections}
-                            onChange={(e) => handleChange("numSections", e.target.value)}
-                            min="1"
-                            max="5"
-                            placeholder="Enter number of sections"
-                        />
-                        <button
-                            onClick={handleSubmit}
-                            className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-blue-600"
-                        >
-                            Submit
-                        </button>
+                        <input type="number" className="border p-2 rounded-md w-full" value={newClassDetails.numSections} onChange={(e) => handleChange("numSections", e.target.value)} min="1" max="5" placeholder="Enter number of sections" />
+                        <button onClick={handleSubmit} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-blue-600" > Submit </button>
                     </div>
                 </div>
             </Dialog>
+
             <div className="w-[100%] h-[100vh] pt-[100px]">
                 <div className="ml-[15px] mr-[15px] sm:ml-[150px] sm:mr-[150px]">
                     <div className="flex justify-between">
@@ -122,7 +99,7 @@ const Class = () => {
                         {classes.map((className, index) => (
                             <div
                                 key={index}
-                                onClick={() => navigate(`/class/${className.toLowerCase()}`)}
+                                onClick={() => navigate(`/class/${className}`)}
                                 className="w-[100%] sm:w-[156px] hover:scale-110 border-[3px] border-black hover:border-[3px] hover:border-blue-500 text-black h-[120px] rounded-lg flex justify-center items-center cursor-pointer"
                             >
                                 <p className="text-[25px] font-bold">{className}</p>

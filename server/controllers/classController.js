@@ -5,50 +5,71 @@ import TeacherModel from "../models/teacherModel.js";
 
 export const createClass = async (req, res) => {
     try {
-        const { className, section } = req.body;
+        const { className, numSections } = req.body;
         const schoolCode = req.headers.code;
-        if (!className || !schoolCode || !section) {
+
+        if (!className || !schoolCode || !numSections) {
             return res.status(400).json({
                 status: false,
-                message: "className, schoolCode, and section are required",
+                message: "className, schoolCode, and numSections are required",
             });
         }
+
         const db = req.db;
         const Class = await ClassModel(db);
-        const findClass = await Class.findOne({$and:[
-            {sectionName: section},
-            {className:className}
-        ]})
 
-        if(findClass){
+        // Validate the number of sections
+        if (numSections < 1 || numSections > 5) {
             return res.status(400).json({
-                status:false,
-                message:"Class ALready Created"
-            })
+                status: false,
+                message: "numSections must be between 1 and 5",
+            });
         }
-        // Creating a new class with a single section
-        const newClass = new Class({
+
+        // Sections to create, e.g., ["A", "B", "C", "D", "E"] for numSections = 5
+        const sections = ["A", "B", "C", "D", "E"].slice(0, numSections);
+
+        // Check for any duplicate class-section combinations
+        const existingClasses = await Class.find({
             className,
+            sectionName: { $in: sections },
             schoolCode,
-            sectionName: section, 
-            students: []
         });
 
-        await newClass.save();
+        if (existingClasses.length > 0) {
+            const existingSections = existingClasses.map((cls) => cls.sectionName).join(", ");
+            return res.status(400).json({
+                status: false,
+                message: `Classes with sections ${existingSections} already exist`,
+            });
+        }
+
+        // Create the classes
+        const newClasses = sections.map((section) => ({
+            className,
+            schoolCode,
+            sectionName: section,
+            students: [],
+        }));
+
+        const createdClasses = await Class.insertMany(newClasses);
+
         return res.status(201).json({
             status: true,
-            message: "Class created successfully",
-            class: newClass,
+            message: "Classes created successfully",
+            classes: createdClasses,
         });
 
     } catch (error) {
         console.error(error);
         return res.status(500).json({
             status: false,
-            message: "Error while creating class",
+            message: "Error while creating classes",
         });
     }
 };
+
+
 
 
 export const getAllClasses = async (req, res) => {
@@ -67,6 +88,8 @@ export const getAllClasses = async (req, res) => {
         });
     }
 };
+
+
 
 export const getSectionsByClass = async (req, res) => {
     const { className } = req.params;

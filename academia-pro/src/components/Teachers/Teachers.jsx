@@ -4,23 +4,27 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getTeachers,getClass } from '../api/api';
+import { getTeachers, getClass } from '../api/api';
 import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 import Teacher from './Teacher';
+import { Button } from '@mui/material';
+
 const Teachers = () => {
-    const [allTeachers,setAllTeachers] = useState([]);
-    const [uniqueClass,setUniqueClass] = useState([]);
-    useEffect(()=>{
-        const getAllTeachers = async ()=>{
+    const [allTeachers, setAllTeachers] = useState([]);
+    const [uniqueClass, setUniqueClass] = useState([]);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    useEffect(() => {
+        const getAllTeachers = async () => {
             const response = await getTeachers();
-            if(response.status && response.status==="success"){
+            if (response.status && response.status === "success") {
                 setAllTeachers(response.data);
             }
         }
-        const getAllClass = async ()=>{
+        const getAllClass = async () => {
             const response = await getClass();
-            if(response.status && response.status==='success'){
+            if (response.status && response.status === 'success') {
                 const classSections = response.data.reduce((acc, item) => {
                     if (!acc[item.className]) {
                         acc[item.className] = new Set();
@@ -37,11 +41,14 @@ const Teachers = () => {
         }
         getAllClass();
         getAllTeachers();
-    },[])
+    }, [])
     return (
         <>
-            <div className="mt-[140px] w-[100%] flex justify-center">
+            <div className="mt-[80px] w-[100%] flex justify-center">
                 <div className="w-[100%] sm:w-[85%] md:w-[78%] p-5 overflow-auto custom-scroll">
+                    <div className='h-[50px] absolute bottom-3 right-3 mb-[20px] flex justify-end items-center' >
+                        <Button sx={{ padding: "10px 20px", marginRight: "20px" }} className='cursor-pointer' variant='contained' > Add Teacher</Button>
+                    </div>
                     <div className="w-[100%] color-black">
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -57,13 +64,13 @@ const Teachers = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {
-                                    allTeachers.map((teacher,index)=>{
-                                        return (
-                                            <Teacher uniqueClass={uniqueClass} teacher={teacher} sNo={index+1}/>
-                                        )
-                                    })
-                                }
+                                    {
+                                        allTeachers.map((teacher, index) => {
+                                            return (
+                                                <Teacher uniqueClass={uniqueClass} teacher={teacher} sNo={index + 1} />
+                                            )
+                                        })
+                                    }
                                 </TableBody>
                             </Table>
                         </TableContainer>

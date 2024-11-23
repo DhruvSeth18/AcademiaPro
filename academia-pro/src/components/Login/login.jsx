@@ -26,7 +26,7 @@ const Login = () => {
 
     const Login = async ()=>{
         const response = await LoginUser({...login,role});
-        if(response.status && response.status==='success'){
+        if(response.status && response.status===true){
             toastSuccess();
             setTimeout(()=>{
                 console.log("Navigation to intro");

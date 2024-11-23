@@ -5,10 +5,10 @@ import bcrypt from 'bcrypt';
 
 export const addTeacher = async (req, res) => {
     try {
-        const { name, email, password, subject,classId} = req.body;
+        const { username, email, password, subject,classId} = req.body;
         const schoolCode = req.headers.code;
         // Validate request data
-        if (!name || !email || !password || !subject || !schoolCode) {
+        if (!username || !email || !password || !subject || !schoolCode) {
             return res.status(400).json({
                 status: false,
                 message: 'All fields are required',
@@ -27,7 +27,7 @@ export const addTeacher = async (req, res) => {
         }
         // Create a new teacher
         const newTeacher = new Teacher({
-            name,
+            username,
             email,
             password,
             class:classId,
