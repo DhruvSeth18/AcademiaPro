@@ -16,19 +16,17 @@ export const addTeacher = async (req, res) => {
         }
 
         // Check if the teacher already exists
-        const existingTeacher = await TeacherModel.findOne({ email });
+        const db = req.db;
+        const Teacher = await TeacherModel(db);
+        const existingTeacher = await Teacher.findOne({ email });
         if (existingTeacher) {
             return res.status(400).json({
                 status: 'fail',
                 message: 'Teacher already exists with this email',
             });
         }
-
-        // Hash the password
-        // const hashedPassword = await bcrypt.hash(password, 10);
-
         // Create a new teacher
-        const newTeacher = new TeacherModel({
+        const newTeacher = new Teacher({
             name,
             email,
             password,
@@ -36,8 +34,8 @@ export const addTeacher = async (req, res) => {
             subject,
             schoolCode,
         });
-        
-        const classData = await ClassModel.findById(classId);
+        const Class = await ClassModel(db);
+        const classData = await Class.findById(classId);
         console.log(newTeacher._id);
         classData.classTeacher = newTeacher._id;
 

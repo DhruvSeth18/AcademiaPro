@@ -153,7 +153,6 @@ export const deleteStudent = async (req, res) => {
                 message: 'Student not found',
             });
         }
-
         return res.status(200).json({
             status: 'success',
             message: 'Student deleted successfully',

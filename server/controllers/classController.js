@@ -5,20 +5,21 @@ import TeacherModel from "../models/teacherModel.js";
 
 export const createClass = async (req, res) => {
     try {
-        const { className, section } = req.body; // Extract className and single section from the body
-        const schoolCode = req.headers.code; // SchoolCode from the headers
-
-        // Basic validation
+        const { className, section } = req.body;
+        const schoolCode = req.headers.code;
         if (!className || !schoolCode || !section) {
             return res.status(400).json({
                 status: "fail",
                 message: "className, schoolCode, and section are required",
             });
         }
-        const findClass = await ClassModel.findOne({$or:[
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const findClass = await Class.findOne({$and:[
             {sectionName: section},
             {className:className}
         ]})
+
         if(findClass){
             return res.status(400).json({
                 status:"fail",
@@ -26,21 +27,22 @@ export const createClass = async (req, res) => {
             })
         }
         // Creating a new class with a single section
-        const newClass = new ClassModel({
+        const newClass = new Class({
             className,
             schoolCode,
             sectionName: section, 
-            students: [] // Initialize with an empty array for students
+            students: []
         });
-        // Save the new class in the database
+
         await newClass.save();
         return res.status(201).json({
             status: "success",
             message: "Class created successfully",
             class: newClass,
         });
+
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
         return res.status(500).json({
             status: "fail",
             message: "Error while creating class",
@@ -49,29 +51,62 @@ export const createClass = async (req, res) => {
 };
 
 
-export const getClasses = async (req, res) => {
+export const getAllClasses = async (req, res) => {
     try {
-        const Classes = await ClassModel.find();
-        return res.status(200).json({
-            status: 'success',
-            data: Classes,
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const classes = await Class.find().distinct('className');
+        return res.status(200).json({ 
+            status: true, 
+            data: classes 
         });
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            status: 'fail',
-            message: 'Error while fetching teachers',
+        return res.status(500).json({ 
+            status: false, 
+            message: 'Failed to fetch classes' 
+        });
+    }
+};
+
+export const getSectionsByClass = async (req, res) => {
+    const { className } = req.params;
+    try {
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const sections = await Class.find({ className }).distinct('sectionName');
+        if (sections.length === 0) {
+            return res.status(404).json({ 
+                status: false, 
+                message: 'No sections found for the specified class' 
+            });
+        }
+        res.status(200).json({ 
+            status: true, 
+            data: sections 
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 
+            status: false, 
+            message: 'Failed to fetch sections', error 
         });
     }
 };
 
 
+
+
+
+
+
 export const addTeacherToClass = async (req, res) => {
     try {
         const { classId, teacherId } = req.body;
-
-        const classData = await ClassModel.findById(classId);
-        const teacherData = await TeacherModel.findById(teacherId);
+        const db = req.db;
+        const Class = await ClassModel(db);
+        const Teacher = await TeacherModel(db);
+        const classData = await Class.findById(classId);
+        const teacherData = await Teacher.findById(teacherId);
 
         if (!classData || !teacherData) {
             return res.status(404).json({
@@ -103,7 +138,6 @@ export const addTeacherToClass = async (req, res) => {
 export const getClassDetails = async (req, res) => {
     try {
         const classId = req.params.classId;
-
         const classData = await ClassModel.findById(classId)
             .populate('students');
 

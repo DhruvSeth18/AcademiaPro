@@ -8,33 +8,36 @@ import Performance from "./components/Performance/Performance";
 import Section from "./components/Class/Section";
 import ClassData from "./components/Class/ClassData";
 import Teachers from "./components/Teachers/Teachers";
+import { UserContext } from "./components/context/userContext";
+import { useContext } from "react";
 
-const PrivateTeacherRoute = () => {
-  return localStorage.getItem("userId") && localStorage.getItem("role") === "Teacher" ?
-    <>
-      <Outlet />
-    </> :
-    <Navigate replace to="/" />
-}
-const PrivateHeadRoute = () => {
-  return localStorage.getItem("userId") && localStorage.getItem("role") === "Head" ?
-    <>
-      <Outlet />
-    </> :
-    <Navigate replace to="/" />
-}
-
-
-const PrivateRoute = () => {
-  return localStorage.getItem("userId") ?
-    <Navigate replace to="/" />
-    :
-    <>
-      <Outlet />
-    </>
-}
 
 const Home = () => {
+  const {isUser} = useContext(UserContext);
+  const PrivateTeacherRoute = () => {
+    return localStorage.getItem("role") === "Teacher" ?
+      <>
+        <Outlet />
+      </> :
+      <Navigate replace to="/" />
+  }
+  const PrivateHeadRoute = () => {
+    return isUser && localStorage.getItem("role") === "Head" ?
+      <>
+        <Outlet />
+      </> :
+      <Navigate replace to="/" />
+  }
+
+
+  const PrivateRoute = () => {
+    return isUser ?
+      <Navigate replace to="/" />
+      :
+      <>
+        <Outlet />
+      </>
+  }
   return (
     <>
       <BrowserRouter>
@@ -45,7 +48,7 @@ const Home = () => {
             <Route path='/teachers' element={<Teachers />} />
             <Route path='/class' element={<Student />} />
             <Route path='/class/:classSection' element={<Section />} />
-            <Route path='/class/:clas/:classSection' element={<ClassData />} />
+            <Route path='/class/:class/:classSection' element={<ClassData />} />
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path='/login' element={<Login />} />

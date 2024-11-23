@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { checkAttendanceToday, markAttendance, getMonthlyAttendance, getYearlyAttendance } from '../controllers/attendenceController.js';
-import { ConnectionToSpecificDatabase } from '../middleware/middleware.js';
+import ConnectionToSpecificDatabase from '../middleware/middleware.js';
 const attendenceRoutes = express.Router();
 
 // Check today's attendance for a student

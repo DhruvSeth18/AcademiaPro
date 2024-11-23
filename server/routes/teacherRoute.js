@@ -1,6 +1,6 @@
 import express from 'express';
 import { addTeacher, getTeachers, getTeacherById, updateTeacher, deleteTeacher } from '../controllers/teacherController.js';
-import { ConnectionToSpecificDatabase } from '../middleware/middleware.js';
+import ConnectionToSpecificDatabase from '../middleware/middleware.js';
 const teacherRoutes = express.Router();
 
 teacherRoutes.route('/teachers')

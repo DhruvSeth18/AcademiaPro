@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { LoginStudentHead } from '../api/api';
+import { LoginUser } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -25,19 +25,16 @@ const Login = () => {
     const navigate = useNavigate();
 
     const Login = async ()=>{
-        const response = await LoginStudentHead({...login,role});
+        const response = await LoginUser({...login,role});
         if(response.status && response.status==='success'){
             toastSuccess();
             setTimeout(()=>{
                 console.log("Navigation to intro");
                 console.log(response.role);
                 localStorage.setItem('token',response.token);
-                localStorage.setItem('userId',response.userId);
-                localStorage.setItem('userEmail',response.email);
-                localStorage.setItem('username',response.username);
-                localStorage.setItem('class',response.class);
-                localStorage.setItem('role',response.role);
-                localStorage.setItem('subject',response.subject);
+                localStorage.setItem('role',response.data.role);
+                localStorage.setItem('data',JSON.stringify(response.data));
+                console.log(localStorage.getItem('data'));
                 navigate('/');
                 window.location.reload();
             },2000)

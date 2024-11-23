@@ -8,6 +8,7 @@ const darkTheme = createTheme({
     mode: 'light',
   },
 });
+
 const App = ()=>{
   return (<>
     <ThemeProvider theme={darkTheme}>

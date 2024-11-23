@@ -1,10 +1,13 @@
 import axios from 'axios';
 const url = 'http://localhost:8000/api';
 
-export const LoginStudentHead = async (data)=>{
+axios.defaults.withCredentials = true;
+
+export const LoginUser = async (data)=>{
     try{
         const response = await axios.post(`${url}/login`,data,{
             timeout:6000,
+            withCredentials: true,
             headers: {     // Headers
                 'Content-Type': 'application/json',
                 code:localStorage.getItem("code")
@@ -14,14 +17,8 @@ export const LoginStudentHead = async (data)=>{
         if(response.status===200){
             return{
                 status:response.data.status,
-                username:response.data.username,
-                email:response.data.email,
-                userId:response.data.id,
                 token:response.data.token,
-                code:response.data.schoolCode,
-                class:response.data.class,
-                subject:response.data.subject,
-                role:response.data.role
+                data:response.data.data
             }
         }
     } catch(error){
@@ -36,6 +33,122 @@ export const LoginStudentHead = async (data)=>{
         }
     }
 }
+
+
+
+
+// Verifying User 
+export const verifyUser = async ()=>{
+    try{
+        const response = await axios.get(`${url}/verify`,{
+            timeout:6000,
+            withCredentials: true,
+            headers: {
+                role:localStorage.getItem("role")
+            },
+        })
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+
+// logout cookie command
+export const logoutCookie = async ()=>{
+    try{
+        const response = await axios.get(`${url}/logout`,{
+            timeout:6000
+        })
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+
+
+
+
+
+// get List of All Classes
+
+
+
+// logout cookie command
+export const getAllClasses = async ()=>{
+    try{
+        const response = await axios.get(`${url}/class`,{
+            timeout:6000
+        })
+        console.log(response);
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+
+export const getSection = async (section)=>{
+    try{
+        const response = await axios.get(`${url}/class/${section}/sections`,{
+            timeout:6000
+        })
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+
 
 export const ClassStudent = async ()=>{
     try{

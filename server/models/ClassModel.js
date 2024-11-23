@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const classSchema = new mongoose.Schema({
     className: { 
         type: String, 
-        required: true 
+        required: true,
+        enum: ["Nursery", "UKG", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th"],
     },
     classTeacher: { 
         type: mongoose.Schema.Types.ObjectId, 

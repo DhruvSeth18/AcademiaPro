@@ -1,12 +1,12 @@
-import React from 'react';
+import { useContext,useState } from 'react';
 import { AppBar, Toolbar, styled, Box, Drawer } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
+import { UserContext } from '../context/userContext';
 import LoginButton from './loginSection';
 import Logo from '../images/logo.png';
 const drawerWidth = 240;
-
 
 const EditToolbar = styled(Toolbar)`
     width: 100%;
@@ -33,8 +33,9 @@ const ScrollTrack = styled(Box)`
 `
 
 const Navbar = () => {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [isClosing, setIsClosing] = React.useState(false); 
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const {isUser} = useContext(UserContext);
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -70,7 +71,7 @@ const Navbar = () => {
                         <div className='w-[55%] hidden sm:flex justify-around'>
                             <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Home</NavLink>
                             {
-                                !localStorage.getItem("userId")?<>
+                                !isUser?<>
                                     <NavLink to="/a" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> About Us</NavLink>
                                     <NavLink to="/b" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Contact </NavLink>
                                     <NavLink to="/c" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Working </NavLink>

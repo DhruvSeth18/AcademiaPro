@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
-    name:{
+    username:{
         type:String,
         required:true,
     },
@@ -9,11 +9,6 @@ const studentSchema = new mongoose.Schema({
         type:Number,
         required:true,
         unique:true,
-    },
-    email:{
-        type:String,
-        unique:true,
-        sparse:true
     },
     class:{
         type:mongoose.Schema.Types.ObjectId,
