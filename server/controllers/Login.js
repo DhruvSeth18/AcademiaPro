@@ -21,7 +21,7 @@ export const SchoolHeadCreateAccount = async (req,res)=> {
         const db = req.db;
         const SchoolHead = SchoolHeadModel(db);
 
-        const existUser = await SchoolHead.findOne({email:email});
+        const existUser = await SchoolHead.find({email:email}); 
 
         if(existUser){
             return res.status(400).json({
