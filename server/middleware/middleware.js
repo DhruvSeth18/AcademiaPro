@@ -14,9 +14,9 @@ const ConnectionToSpecificDatabase = async (req,res,next)=>{
         }
         next();
     } catch(error){
-        console.log(error.message);
-        res.status(500).json({
-            status:"fail",
+        console.log(error);
+        return res.status(500).json({
+            status:"fail", 
             message:"Error while connecting to specific Database"
         })
     }
