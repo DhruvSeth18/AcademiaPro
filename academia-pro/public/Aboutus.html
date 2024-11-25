@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover AcademiaPro - A platform designed to empower education through technology, innovation, and inclusivity.">
+  <title>About Us - AcademiaPro</title>
+  <link rel="stylesheet" href="styles2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to AcademiaPro</h1>
+    <p>Empowering education through technology and innovation. Learn about our mission and values.</p>
+  </section>
+
+  <!-- Who We Are Section -->
+  <section class="section container" style="background-color: #f0f0f0;">
+    <h2>Who We Are</h2>
+    <p>
+        AcademiaPro is your trusted partner in education, bridging the gap between traditional learning and modern technology.
+        We aim to make education more accessible, efficient, and impactful through innovative tools and features.
+        Our platform empowers students and educators alike to unlock their full potential, fostering an environment of continuous learning.
+        By integrating advanced technologies, we strive to enhance the educational experience and prepare future leaders for success.
+        With user-friendly interfaces and personalized learning paths, we are revolutionizing how knowledge is shared and acquired globally.
+      </p>
+      <p>
+        AcademiaPro offers a seamless learning experience, where users can access a wealth of resources at their fingertips.
+        Our tools cater to diverse learning styles, ensuring that every learner can thrive in a way that suits them best.
+        By fostering collaboration between educators, students, and institutions, we aim to build a vibrant global learning community.
+        Together, we are shaping the future of education, one innovative solution at a time.
+      </p>
+      
+      
+  </section>
+
+  <!-- Our Mission and Vision Section -->
+  <section class="section container" >
+    <h2>Our Mission & Vision</h2>
+    <div class="grid">
+      <div class="grid-item">
+        <img src="ourmission.jpeg" alt="Our Mission">
+        <h3>Our Mission</h3>
+        <p>To empower students, educators, and institutions by providing cutting-edge tools for enhanced learning and growth.</p>
+      </div>
+      <div class="grid-item">
+        <img src="ourvision.jpeg" alt="Our Vision">
+        <h3>Our Vision</h3>
+        <p>To build a global community where knowledge is shared seamlessly, and education is accessible to all.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values Section -->
+  <section class="section container" style="background-color: #f0f0f0;">
+    <h2>Our Core Values</h2>
+    <div class="grid">
+      <div class="grid-item">
+        <h3>Innovation</h3>
+        <p>Pioneering solutions to revolutionize education through technology.</p>
+      </div>
+      <div class="grid-item">
+        <h3>Collaboration</h3>
+        <p>Fostering a community where students and educators thrive together.</p>
+      </div>
+      <div class="grid-item">
+        <h3>Integrity</h3>
+        <p>Upholding the highest standards of trust and transparency in our work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section container" style="background-color: #f0f0f0;">
+    <h2>What People Say About Us</h2>
+    <div class="testimonial">
+      <p>"AcademiaPro has truly changed how I approach my studies. The resources are phenomenal!"</p>
+      <h4>- Dhruv Kapoor</h4>
+    </div>
+    <div class="testimonial">
+      <p>"An amazing platform for both students and educators. Highly recommend it!"</p>
+      <h4>- Preenu Mittan</h4>
+    </div>
+    <div class="testimonial">
+      <p>"Streamlined and efficient, AcademiaPro has everything I need as a student."</p>
+      <h4>- Deepankar Garg</h4>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2024 AcademiaPro. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </footer>
+</body>
+</html>
+<script>
+    // Select all grid items (full divs)
+    const gridItems = document.querySelectorAll('.grid-item');
+  
+    // Create an IntersectionObserver instance
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        // If the grid item is in view, add the 'show' class to trigger the animation
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');  // Add animation class
+        } else {
+          entry.target.classList.remove('show');  // Optionally remove if not in view
+        }
+      });
+    }, {
+      threshold: 0.5,  // Trigger when 50% of the element is in view
+      rootMargin: "0px 0px 100px 0px"  // Adjust bottom margin to trigger a bit before it fully enters
+    });
+  
+    // Observe each grid item
+    gridItems.forEach(item => {
+      observer.observe(item);
+    });
+  </script>  
+  
+  
+  

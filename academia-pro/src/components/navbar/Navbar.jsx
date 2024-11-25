@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import LoginButton from './loginSection';
 import Logo from '../images/logo.png';
+
 const drawerWidth = 240;
 
 const EditToolbar = styled(Toolbar)`
@@ -62,7 +63,7 @@ const Navbar = () => {
     return (
         <>
             <Box sx={{ display: 'flex' }}>
-                <AppBar position="fixed" sx={{ width: '100%' }} >
+                <AppBar position="fixed" sx={{ width: '100%',margin:"0",padding:"0"}} >
                     <EditToolbar position='fixed' sx={{ height: { xs: '65px' }, backgroundColor: "#000B58" }}>
                         <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ display: { sm: 'none' }, position: 'absolute', left: '5vh', scale: '1.4' }} >
                             <MenuIcon />
@@ -74,9 +75,9 @@ const Navbar = () => {
                             <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> Home</NavLink>
                             {
                                 !isUser?<>
-                                    <NavLink to="/a" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> About Us</NavLink>
-                                    <NavLink to="/b" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> Contact </NavLink>
-                                    <NavLink to="/c" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> Working </NavLink>
+                                    <NavLink to="/about-us" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> About Us</NavLink>
+                                    <NavLink to="/contact" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Contact </NavLink>
+                                    <NavLink to="/c" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Working </NavLink>
                                 </>:<></>
                             }
                             {
