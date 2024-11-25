@@ -56,18 +56,20 @@ export const addTeacher = async (req, res) => {
     }
 };
 
-
 export const getTeachers = async (req, res) => {
     try {
         const db = req.db;
         const Teacher = TeacherModel(db);
+        const Class = ClassModel(db);
+        await db.model('class', Class.schema);
         const teachers = await Teacher.find().populate('class');
+
         return res.status(200).json({
             status: true,
             data: teachers,
         });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         return res.status(500).json({
             status: false,
             message: 'Error while fetching teachers',

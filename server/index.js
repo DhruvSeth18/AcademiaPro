@@ -40,9 +40,9 @@ app.use(cookieParser());
 app.use('/api', SchoolHeadRoutes);
 app.use('/api', classRoutes);
 app.use('/api', teacherRoutes);
-// app.use('/api', studentRoutes);
-// app.use('/api', attendenceRoutes);
-// app.use('/api', managementRoutes);
+app.use('/api', studentRoutes);
+app.use('/api', attendenceRoutes);
+app.use('/api', managementRoutes);
 
 const port = process.env.PORT || 8000;
 

@@ -26,20 +26,20 @@ const Login = () => {
 
     const Login = async ()=>{
         const response = await LoginUser({...login,role});
-        if(response.status && response.status===true){
+        console.log(response);
+        if(response.status===true){
             toastSuccess();
             setTimeout(()=>{
                 console.log("Navigation to intro");
                 console.log(response.role);
-                localStorage.setItem('token',response.token);
                 localStorage.setItem('role',response.data.role);
-                localStorage.setItem('data',JSON.stringify(response.data));
                 console.log(localStorage.getItem('data'));
                 navigate('/');
                 window.location.reload();
             },2000)
             console.log("Login Successfull");
-        } else if(response.status && response.status==='fail'){
+        } else if(response.status===false){
+            console.log(response.status);
             toastFail(response.message);
         }
     }

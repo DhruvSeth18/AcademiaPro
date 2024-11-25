@@ -6,18 +6,22 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Student from './Student'; // Assuming you have a Student component that takes `row` as a prop
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext} from 'react';
 import { ClassStudent } from '../api/api'; // Assuming this is your API call
+import { UserContext } from '../context/userContext';
 
 const Attendence = () => {
-    const [students, setStudents] = useState([]); // Change state variable name to plural to reflect multiple students
-    const [loading, setLoading] = useState(true); // Optional: Add loading state
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const {user,isUser} = useContext(UserContext);
 
     useEffect(() => {
         const fetchStudent = async () => {
             try {
-                const response = await ClassStudent(); // Fetch student data from API
-                setStudents(response.class.students); // Update the student state with fetched data
+                if(isUser===true){
+                    const response = await ClassStudent(user.class); // Fetch student data from API
+                    setStudents(response.class.students); // Update the student state with fetched data
+                }
             } catch (error) {
                 console.error("Error fetching students:", error);
             } finally {
@@ -38,8 +42,8 @@ const Attendence = () => {
                                     <TableRow>
                                         <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>SNo</TableCell>
                                         <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>Student Name</TableCell>
-                                        <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>Student Email</TableCell>
-                                        <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>Roll</TableCell>
+                                        <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>Student Roll</TableCell>
+                                        <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>Password</TableCell>
                                         <TableCell align="center" sx={{ fontWeight: "bold", letterSpacing: "1.5px", fontSize: '18px' }}>Attendance</TableCell>
                                     </TableRow>
                                 </TableHead>

@@ -1,4 +1,4 @@
-import { useContext,useState } from 'react';
+import { useContext,useEffect,useState } from 'react';
 import { AppBar, Toolbar, styled, Box, Drawer } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -41,17 +41,19 @@ const Navbar = () => {
         setIsClosing(true);
         setMobileOpen(false);
     };
+    useEffect(()=>{
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        };
+        console.log("ROle is here : ",getCookie('role'));
+    },[])
 
     const handleDrawerTransitionEnd = () => {
         setIsClosing(false);
     };
-    const NaviButton = styled(NavLink)`
-        padding-top:20px;
-        padding-bottom:20px;
-        color:white;
-        text-decoration:none;
-        text-align:center;
-    `
     const handleDrawerToggle = () => {
         if (!isClosing) {
             setMobileOpen(!mobileOpen);
@@ -69,32 +71,32 @@ const Navbar = () => {
                             <img className='w-[49px] h-[45px] absolute rounded-full ring-gray-300 dark:ring-whte left-[30px] top-[10px]' src={Logo} />
                         </div>
                         <div className='w-[55%] hidden sm:flex justify-around'>
-                            <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Home</NavLink>
+                            <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> Home</NavLink>
                             {
                                 !isUser?<>
-                                    <NavLink to="/a" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> About Us</NavLink>
-                                    <NavLink to="/b" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Contact </NavLink>
-                                    <NavLink to="/c" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}> Working </NavLink>
+                                    <NavLink to="/a" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> About Us</NavLink>
+                                    <NavLink to="/b" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> Contact </NavLink>
+                                    <NavLink to="/c" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}> Working </NavLink>
                                 </>:<></>
                             }
                             {
                                 localStorage.getItem("role")==="Teacher"?<>
-                                <NavLink to="/performance" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Performance</NavLink>
-                                <NavLink to="/attendence" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Attendence</NavLink>
-                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Students</NavLink>
+                                <NavLink to="/performance" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Performance</NavLink>
+                                <NavLink to="/attendence" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Attendence</NavLink>
+                                <NavLink to="/students" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Students</NavLink>
                                 </>:<></>
                             }
                             {
                                 localStorage.getItem("role")==="Head"?<>
-                                    <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte font-bold"}>Management</NavLink>
-                                    <NavLink to="/class" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Class</NavLink>
-                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Teachers</NavLink>
+                                    <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Management</NavLink>
+                                    <NavLink to="/class" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Class</NavLink>
+                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Teachers</NavLink>
                                 </>:<></>
                             }
                             {
                                 localStorage.getItem("role")==="Student"?<>
-                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Resources</NavLink>
-                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-whte"}>Profile</NavLink>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Resources</NavLink>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-whte"}>Profile</NavLink>
                                 </>:<></>
                             }
                         </div>

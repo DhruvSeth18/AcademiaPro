@@ -135,6 +135,7 @@ export const loginSchoolHead = async (req,res)=>{
                 status: true,
                 message: 'Login Success',
                 token: `${token}`,
+                role:role,
                 data:userWithoutPassword
             })
         } else if(role==='Teacher'){
@@ -171,6 +172,7 @@ export const loginSchoolHead = async (req,res)=>{
             .json({     
                 status: true,
                 message: 'Login Success',
+                role:role,
                 token: `${token}`,
                 data:userWithoutPassword
             })
@@ -185,11 +187,6 @@ export const loginSchoolHead = async (req,res)=>{
         })
     }
 }
-
-
-
-
-
 
 
 

@@ -23,6 +23,7 @@ export const LoginUser = async (data)=>{
         }
     } catch(error){
         if (error.response?.status >= 400) {
+            console.log(error.response);
             return {
                 status: error.response.data.status,
                 message: error.response.data.message
@@ -43,9 +44,6 @@ export const verifyUser = async ()=>{
         const response = await axios.get(`${url}/verify`,{
             timeout:6000,
             withCredentials: true,
-            headers: {
-                role:localStorage.getItem("role")
-            },
         })
         if(response.status===200){
             return{
@@ -150,9 +148,58 @@ export const getSection = async (section)=>{
 }
 
 
-export const ClassStudent = async ()=>{
+export const getManagement = async ()=>{
     try{
-        const response = await axios.get(`${url}/class/${localStorage.getItem('class')}`,{
+        const response = await axios.get(`${url}/management`,{
+            timeout:6000
+        })
+        if(response.status===200){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+
+export const createManagement = async (data)=>{
+    try{
+        const response = await axios.post(`${url}/management`,data,{
+            timeout:6000
+        })
+        if(response.status===201){
+            return{
+                status:response.data.status,
+                data:response.data.data
+            }
+        }
+    } catch(error){
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message
+            }
+        }
+        return {
+            message: "Internet is slow Try Again"
+        }
+    }
+}
+
+
+export const ClassStudent = async (classId)=>{
+    try{
+        const response = await axios.get(`${url}/class/${classId}`,{
             timeout:6000,
             headers: {
                 'Content-Type': 'application/json',
@@ -178,63 +225,74 @@ export const ClassStudent = async ()=>{
     }
 }
 
-export const MarkAttendence = async (studentId)=>{
-    try{
-        const response = await axios.post(`${url}/attendance`,{studentId:studentId,classId:localStorage.getItem('class')},{
-            timeout:6000,
+export const MarkAttendance = async (studentId, classId) => {
+    try {
+        const response = await axios.post(`${url}/attendance`, {}, {
+            params: {
+                studentId: studentId,
+                classId: classId
+            },
+            timeout: 6000,
             headers: {
                 'Content-Type': 'application/json',
-                code:localStorage.getItem("code")
+                code: localStorage.getItem("code")
             },
-        })
-        if(response.status===200){
-            return{
-                status:response.data.status,
-                marked:response.data.marked
-            }
-        }
+        });
 
-    } catch(error){
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                marked: response.data.marked
+            };
+        }
+    } catch (error) {
         if (error.response?.status >= 400) {
             return {
                 status: error.response.data.status,
                 message: error.response.data.message
-            }
+            };
         }
         return {
-            message: "Internet is slow Try Again"
-        }
+            message: "Internet is slow, Try Again"
+        };
     }
-}
-export const GetStudentAttendence = async (studentId)=>{
-    try{
-        const response = await axios.get(`${url}/attendance?studentId=${studentId}`,{
-            timeout:6000,
+};
+
+
+export const GetStudentAttendence = async (studentId, classId) => {
+    try {
+        const response = await axios.get(`${url}/attendance`, {
+            params: {
+                studentId: studentId,
+                classId: classId
+            },
+            timeout: 6000,
             headers: {
                 'Content-Type': 'application/json',
-                code:localStorage.getItem("code"),
-                classid:localStorage.getItem('class')
+                code: localStorage.getItem("code")
             },
-        })
-        if(response.status===200){
-            return{
-                status:response.data.status,
-                marked:response.data.marked
-            }
-        }
+        });
 
-    } catch(error){
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                marked: response.data.marked
+            };
+        }
+    } catch (error) {
         if (error.response?.status >= 400) {
             return {
                 status: error.response.data.status,
                 message: error.response.data.message
-            }
+            };
         }
         return {
-            message: "Internet is slow Try Again"
-        }
+            message: "Internet is slow, Try Again"
+        };
     }
-}
+};
+
+
 export const GetStudents = async (data)=>{
     try{
         console.log(data);
@@ -296,6 +354,11 @@ export const UpdateStudentExam = async (studentId,data)=>{
         }
     }
 }
+
+
+
+
+
 export const getClass = async ()=>{
     try{
         const response = await axios.get(`${url}/class`,{
@@ -323,6 +386,7 @@ export const getClass = async ()=>{
         }
     }
 }
+
 export const getTeachers = async ()=>{
     try{
         const response = await axios.get(`${url}/teachers`,{

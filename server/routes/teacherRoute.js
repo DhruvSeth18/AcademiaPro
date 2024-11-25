@@ -1,11 +1,12 @@
 import express from 'express';
 import { addTeacher, getTeachers, getTeacherById, updateTeacher, deleteTeacher } from '../controllers/teacherController.js';
 import ConnectionToSpecificDatabase from '../middleware/middleware.js';
-const teacherRoutes = express.Router();
+import headAccesss from '../middleware/headAccess.js';
 
+const teacherRoutes = express.Router();
 teacherRoutes.route('/teachers')
-.post(ConnectionToSpecificDatabase,addTeacher)
-.get(ConnectionToSpecificDatabase,getTeachers);
+.post(headAccesss,addTeacher)
+.get(headAccesss,getTeachers);
 
 teacherRoutes.route('/teachers/:id')
 .get(ConnectionToSpecificDatabase,getTeacherById)

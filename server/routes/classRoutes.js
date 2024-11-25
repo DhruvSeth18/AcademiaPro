@@ -1,5 +1,5 @@
 import express from 'express';
-import { createClass, addTeacherToClass, getClassDetails, updateClass, deleteClass, getAllClasses, getSectionsByClass} from '../controllers/classController.js';
+import { createClass, addTeacherToClass, getClassStudents, updateClass, deleteClass, getAllClasses, getSectionsByClass} from '../controllers/classController.js';
 import ConnectionToSpecificDatabase from '../middleware/middleware.js';
 import headAccesss from '../middleware/headAccess.js';
 const classRoutes = express.Router();
@@ -16,7 +16,7 @@ classRoutes.post('/class/addTeacher',ConnectionToSpecificDatabase, addTeacherToC
 classRoutes.get('/class/:className/sections', headAccesss,getSectionsByClass);
 
 classRoutes.route('/class/:classId')
-.get(ConnectionToSpecificDatabase,getClassDetails)
+.get(ConnectionToSpecificDatabase,getClassStudents)
 .delete(ConnectionToSpecificDatabase,deleteClass);
 
 export default classRoutes;

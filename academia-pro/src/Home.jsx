@@ -8,6 +8,7 @@ import Performance from "./components/Performance/Performance";
 import Section from "./components/Class/Section";
 import ClassData from "./components/Class/ClassData";
 import Teachers from "./components/Teachers/Teachers";
+import StudentData from "./components/Students/StudentData";
 import { UserContext } from "./components/context/userContext";
 import { useContext } from "react";
 
@@ -22,7 +23,7 @@ const Home = () => {
       <Navigate replace to="/" />
   }
   const PrivateHeadRoute = () => {
-    return isUser && localStorage.getItem("role") === "Head" ?
+    return localStorage.getItem("isUser") && localStorage.getItem("role") === "Head" ?
       <>
         <Outlet />
       </> :
@@ -31,7 +32,7 @@ const Home = () => {
 
 
   const PrivateRoute = () => {
-    return isUser ?
+    return localStorage.getItem('isUser')==="true" ?
       <Navigate replace to="/" />
       :
       <>
@@ -47,8 +48,8 @@ const Home = () => {
             <Route path='/addManagement' element={<Management />} />
             <Route path='/teachers' element={<Teachers />} />
             <Route path='/class' element={<Student />} />
-            <Route path='/class/:classSection' element={<Section />} />
-            <Route path='/class/:class/:classSection' element={<ClassData />} />
+            <Route path='/class/:className' element={<Section />} />
+            <Route path='/class/:className/:sectionName' element={<ClassData />} />
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path='/login' element={<Login />} />
@@ -56,6 +57,7 @@ const Home = () => {
           <Route element={<PrivateTeacherRoute />} >
             <Route path='/performance' element={<Performance />} />
             <Route path='/attendence' element={<Attendence />} />
+            <Route path='/students' element={<StudentData />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -37,7 +37,7 @@ const Class = () => {
         const fetchClasses = async () => {
             try {
                 const response = await getAllClasses();
-                if (response.status === true) {
+                if (response.status && response.status === true) {
                     setClasses(response.data); // Update state with fetched data
                 } else {
                     console.error("Failed to fetch classes");
@@ -76,7 +76,7 @@ const Class = () => {
                     <div className="flex flex-col gap-3 w-full">
                         <select className="border p-2 rounded-md w-full" value={newClassDetails.className} onChange={(e) => handleChange("className", e.target.value)} >
                             <option value="" disabled>Select a class</option>
-                            {availableClasses
+                            {classes && availableClasses
                                 .filter((cls) => !classes.includes(cls)) // Exclude already existing classes
                                 .map((cls, index) => (
                                     <option key={index} value={cls}>
@@ -96,7 +96,7 @@ const Class = () => {
                         <p className="text-[50px] mb-[20px] font-bold">Classes</p>
                     </div>
                     <div className="flex flex-col sm:flex-row flex-wrap gap-6">
-                        {classes.map((className, index) => (
+                        {classes && classes.map((className, index) => (
                             <div
                                 key={index}
                                 onClick={() => navigate(`/class/${className}`)}

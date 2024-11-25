@@ -158,11 +158,13 @@ export const addTeacherToClass = async (req, res) => {
 };
 
 
-export const getClassDetails = async (req, res) => {
+export const getClassStudents = async (req, res) => {
     try {
         const classId = req.params.classId;
         const db = req.db;
         const Class = await ClassModel(db);
+        const Student = await StudentModel(db);
+        await db.model('students',Student.schema);
         const classData = await Class.findById(classId)
             .populate('students');
 

@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { Menu, styled, Button } from '@mui/material';
 import { UserContext } from '../context/userContext';
 import {logoutCookie} from '../api/api';
-import Cookies from "js-cookie";
 
 const StyledMenu = styled((props) => (
     <Menu
         {...props}
-    />
+    /> 
 ))(({ theme }) => ({
     '& .MuiPaper-root': {
         borderRadius: 6,

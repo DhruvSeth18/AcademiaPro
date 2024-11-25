@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext} from "react";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
@@ -6,21 +6,23 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
-import { useParams } from "react-router-dom"
-import Student from "./Student";
-import { GetStudents } from "../api/api";
+import Student from './Student';
+import { ClassStudent} from "../api/api";
+import { UserContext } from '../context/userContext';
 
-const ClassData = ()=>{
-    const { className, sectionName } = useParams();
+const StudentData = ()=>{
     const [data,setData] = useState([]);
+    const {user,isUser} = useContext(UserContext);
 
     useEffect(()=>{
         const getStudents= async ()=>{
-            const response = await GetStudents({className,sectionName});
-            console.log(response);
-            if(response.status && response.status===true){
-                setData(response.data.students);
-                console.log(response.data.students);
+            if(isUser){
+                const response = await ClassStudent(user.class);
+                console.log(response);
+                if(response.status===true){
+                    // console.log("Here is the students data :  ",response.class.students);
+                    setData(response.class.students);
+                }
             }
         }
         getStudents();
@@ -42,7 +44,7 @@ const ClassData = ()=>{
                                 </TableHead>
                                 <TableBody>
                                     {
-                                        data.map((student, index) => (
+                                        data && data.map((student, index) => (
                                             <Student key={student._id} row={student} sNo={index + 1} />
                                         ))
                                     }
@@ -53,4 +55,4 @@ const ClassData = ()=>{
         </div>
     </>)
 }
-export default ClassData;   
+export default StudentData;

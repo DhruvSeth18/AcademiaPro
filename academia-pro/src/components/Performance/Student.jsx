@@ -31,7 +31,7 @@ const Student = ({ row, sNo }) => {
 
     const updateExam = async ()=>{
         const response = await UpdateStudentExam(row._id,exam);
-        if(response.status && response.status=="success"){
+        if(response.status && response.status===true){
             console.log("Update Exam SuccessFulle");
             toastSuccess();
             setUpdate(true);
@@ -56,7 +56,7 @@ const Student = ({ row, sNo }) => {
                             padding: '10px',
                             paddingLeft: '15px',
                             paddingRight: "15px",
-                            border: '1px solid white',
+                            border: '2px solid black',
                             borderRadius: '10px',
                             fontWeight: 'bold',
                             letterSpacing: '1px'

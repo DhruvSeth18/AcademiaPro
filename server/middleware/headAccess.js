@@ -5,6 +5,7 @@ const headAccesss = async (req,res,next)=>{
     try{
         const token = req.cookies.token;
         const role = req.cookies.role;
+
         if(!token){
             return res.status(401).json({
                 status:true,
@@ -27,11 +28,12 @@ const headAccesss = async (req,res,next)=>{
             }
             const db = await ConnectionToDatabase(process.env.DB_username,process.env.DB_password,verify.schoolCode);
             console.log(verify.schoolCode);
+            req.schoolCode = verify.schoolCode;
             req.db = db;
             req.data = verify;
             next();
         } else{
-            return res.status.json({
+            return res.status(400).json({
                 status:false,
                 message:"Invalid Role , Access Denied"
             })

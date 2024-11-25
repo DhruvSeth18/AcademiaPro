@@ -4,16 +4,27 @@ import ClassModel from "../models/ClassModel.js";
 
 export const addStudent = async (req, res) => {
     try {
-        const { name, rollNumber, email, classId, performance } = req.body;
-        const schoolCode = req.headers.code;
-        if (!name || !rollNumber || !classId || !schoolCode) {
+        const { username, rollNumber, className,sectionName,password} = req.body;
+        const schoolCode = req.schoolCode;
+        if (!username || !rollNumber || !schoolCode || !className || !sectionName || !password) {
             return res.status(400).json({
                 status: false,
                 message: 'All Fields are Required',
             });
         }
         const db = req.db;
+        const Class = await ClassModel(db);
         const Student = await StudentModel(db);
+        const classData = await Class.findOne({className,sectionName});
+        console.log(className,sectionName);
+
+        if(!classData){
+            return res.status(400).json({
+                status:false,
+                message:"Class name or Section not Exist"
+            })
+        }
+
         const existingStudent = await Student.findOne({ rollNumber });
         if (existingStudent) {
             return res.status(400).json({
@@ -22,25 +33,23 @@ export const addStudent = async (req, res) => {
             });
         }
 
-        const newStudent = new StudentModel({
-            name,
+        const newStudent = new Student({
+            username,
             rollNumber,
-            email,
-            class: classId,
+            class: classData._id,
             schoolCode,
-            performance,
+            password
         });
-        // Save the student to the database
-        const Class = await ClassModel(db);
-        const classData = await Class.findById(classId);
+
         const stuId = newStudent._id;
-        console.log(classData,stuId);
-        if (!classData || !stuId) {
+
+        if (!stuId) {
             return res.status(404).json({
                 status: false,
-                message: "Class or Student not found",
+                message: "Student not found",
             });
         }
+
         console.log("Student Id is ",classData);
         classData.students.push(stuId);
         console.log(classData);
@@ -63,10 +72,13 @@ export const addStudent = async (req, res) => {
 
 export const getStudents = async (req, res) => {
     try {
-        const {clas , classSection} = req.query;
+        const {className , sectionName} = req.query;
         const db = req.db;
+        
         const Class = await ClassModel(db);
-        const students = await Class.findOne({className:clas,sectionName:classSection}).populate('students');
+        const Student = await StudentModel(db);
+        await db.model('student', Student.schema);
+        const students = await Class.findOne({className,sectionName}).populate('students');
         if(!students){
             return res.status(400).json({
                 status:false,
@@ -118,7 +130,13 @@ export const getStudentById = async (req, res) => {
 export const addStudentExam = async (req, res) => {
     try {
         const studentId = req.params.id;
-        const newExam = req.body;
+        const {subject,examName,marks,maxMarks} = req.body;
+        if(!subject || !examName || !marks || !maxMarks){
+            return res.status(400).json({
+                status:false,
+                message:"Exam Details are insufficient"
+            })
+        }
         const db = req.db;
         const Student = await StudentModel(db);
         const student = await Student.findById(studentId);
@@ -129,10 +147,9 @@ export const addStudentExam = async (req, res) => {
                 message: 'Student not found',
             });
         }
-
+        const newExam = {subject,examName,marks,maxMarks};
         student.performance.exams.push(newExam);
 
-        // Save the updated student document
         await student.save();
 
         return res.status(200).json({

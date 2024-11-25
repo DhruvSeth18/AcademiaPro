@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const managementSchema = new mongoose.Schema({
-    name:{
+    username:{
         type:String,
         required:true
     },
@@ -11,8 +11,7 @@ const managementSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true,
-        select:false
+        required:true
     },
     schoolCode:{
         type:Number,

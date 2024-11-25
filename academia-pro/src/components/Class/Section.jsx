@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getSection } from "../api/api"; // Ensure correct path
 
 const Section = () => {
-    const { classSection } = useParams(); // Extract class name from URL params
+    const { className } = useParams(); // Extract class name from URL params
     const navigate = useNavigate();
     const [classSections, setClassSections] = useState([]); // Dynamic sections
 
     useEffect(() => {
         const fetchSections = async () => {
             try {
-                const response = await getSection(classSection); // Call API to get sections
+                const response = await getSection(className); // Call API to get sections
                 if (response.status) {
                     setClassSections(response.data); // Update state with sections
                 } else {
@@ -22,7 +22,7 @@ const Section = () => {
         };
 
         fetchSections();
-    }, [classSection]);
+    }, [className]);
 
     return (
         <>
@@ -32,7 +32,7 @@ const Section = () => {
                         classSections.map((item, index) => (
                             <div
                                 key={index}
-                                onClick={() => navigate(`/class/${classSection}/${item}`)}
+                                onClick={() => navigate(`/class/${className}/${item}`)}
                                 className="flex justify-center h-[90px] items-center rounded-xl bg-white border-2 w-[100%] text-[30px] cursor-pointer text-black font-extrabold"
                             >
                                 {item}

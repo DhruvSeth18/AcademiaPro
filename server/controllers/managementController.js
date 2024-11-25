@@ -2,10 +2,10 @@ import ManagementModel from "../models/managementModel.js";
 
 export const addManagement = async (req,res)=>{
     try{
-        const {name , email, password, role} = req.body;
-        const SchoolId = req.headers.code;
+        const {username , email, password, role} = req.body;
+        const schoolCode = req.schoolCode;
 
-        if(!email || !password || !name || !SchoolId){
+        if(!email || !password || !username || !schoolCode){
             return res.status(400).json({
                 status: false,
                 message: 'All fields are required (email, password, name, position)',
@@ -20,12 +20,12 @@ export const addManagement = async (req,res)=>{
                 message: 'Management person with this email already exists',
             });
         }
-        const newManagement = new ManagementModel({
-            name:name,
-            schoolCode:SchoolId,
-            email:email,
-            password: password,
-            position:role,
+        const newManagement = new Management({
+            username,
+            schoolCode,
+            email,
+            password,
+            role,
         });
         await newManagement.save(); 
         return res.status(201).json({
@@ -33,7 +33,7 @@ export const addManagement = async (req,res)=>{
             message: 'Management person added successfully',
         });
     } catch(error){
-        console.log(error.message);
+        console.log(error);
         res.status(500).json({
             status:false,
             message:"Error while Adding Management Person",
