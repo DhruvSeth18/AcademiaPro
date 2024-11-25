@@ -9,6 +9,7 @@ import attendancetracking from './attendance.jpeg'
 import attendance from './AttendanceTracking.jpg'
 import examnotification from './examnotification.jpeg'
 import "@fortawesome/fontawesome-free/css/all.min.css";
+
 const Homepage = () => {
   useEffect(() => {
     // Select all service cards
