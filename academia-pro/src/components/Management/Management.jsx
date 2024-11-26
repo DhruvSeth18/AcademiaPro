@@ -39,7 +39,7 @@ const Management = () => {
     }
 
     const toastSuccess = (message)=>{
-        toast.success("User Login Successfull",{
+        toast.success("New Management added",{
             position:'top-center',
             className:"toast"
         });
@@ -112,9 +112,23 @@ const Management = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {management && management.map((management, index) => (
-                                        <ManagementPerson key={index} Management={Management} management={management} sNo={index + 1} />
-                                    ))}
+                                {management.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={8} align="center">
+                                        <strong style={{ fontSize: "25px" }}>No Management Person Available</strong>
+                                        </TableCell>
+                                    </TableRow>
+                                    ) : (
+                                    management.map((person, index) => (
+                                        <ManagementPerson 
+                                        key={index} 
+                                        Management={Management} 
+                                        management={person} 
+                                        sNo={index + 1} 
+                                        />
+                                    ))
+                                    )}
+
                                 </TableBody>
                             </Table>
                         </TableContainer>
