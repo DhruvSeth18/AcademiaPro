@@ -39,6 +39,7 @@ const Teachers = () => {
                             Add Teacher
                         </Button>
                     </div>
+                    
                     <div className="w-[100%] color-black">
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -54,9 +55,23 @@ const Teachers = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {allTeachers && allTeachers.map((teacher, index) => (
-                                        <Teacher key={teacher.id} uniqueClass={uniqueClass} teacher={teacher} sNo={index + 1} getAllTeachers={getAllTeachers} />
-                                    ))}
+                                {allTeachers.length === 0 ? (
+                                        <TableRow>
+                                        <TableCell colSpan={8} align='center'>
+                                           <strong style={{fontSize:"25px"}}> No Teachers Available</strong>
+                                        </TableCell>
+                                        </TableRow>
+                                    ) : (
+                                        allTeachers.map((teacher, index) => (
+                                        <Teacher
+                                            key={teacher.id}
+                                            uniqueClass={uniqueClass}
+                                            teacher={teacher}
+                                            sNo={index + 1}
+                                            getAllTeachers={getAllTeachers}
+                                        />
+                                        ))
+                                    )}
                                 </TableBody>
                             </Table>
                         </TableContainer>

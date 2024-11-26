@@ -10,7 +10,7 @@ import studentRoutes from './routes/studentRoute.js';
 import classRoutes from './routes/classRoutes.js';
 import attendenceRoutes from './routes/attendenceRoutes.js';
 import managementRoutes from './routes/managementRoute.js';
-
+ 
 import cors from 'cors';
 
 dotenv.config();
