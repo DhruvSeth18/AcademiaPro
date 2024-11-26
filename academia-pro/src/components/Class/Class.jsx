@@ -116,7 +116,12 @@ const Class = () => {
                         <p className="text-[50px] mb-[20px] font-bold">Classes</p>
                     </div>
                     <div className="flex flex-col sm:flex-row flex-wrap gap-6">
-                        {classes && classes.map((className, index) => (
+                       {classes.length===0?(
+                        <p>No classes available</p>
+
+                       )
+                    :   (
+                        classes.map((className, index) => (
                             <div
                                 key={index}
                                 onClick={() => navigate(`/class/${className}`)}
@@ -124,7 +129,8 @@ const Class = () => {
                             >
                                 <p className="text-[25px] font-bold">{className}</p>
                             </div>
-                        ))}
+                        ))
+                    )}
                         <div
                             onClick={handleAddClassClick} // Open dialog on div click
                             className="w-[100%] sm:w-[156px] hover:scale-110 border-[3px] border-black hover:border-[3px] hover:border-blue-500 text-black h-[120px] rounded-lg flex justify-center items-center cursor-pointer"

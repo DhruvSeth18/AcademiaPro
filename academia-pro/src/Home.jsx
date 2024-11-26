@@ -15,7 +15,7 @@ import HomePage from './components/navbar/Homepage';
 import AboutUs from './components/navbar/Aboutus'
 import Contact from './components/navbar/ContactPage';
 import { ToastContainer, toast } from 'react-toastify';
-
+import StudentProfile  from "./components/Profile/studentProfile";
 
 const Home = () => {
   const { isUser } = useContext(UserContext);
@@ -55,6 +55,7 @@ const Home = () => {
         <Route path="/" element={<HomePage/>} />
         <Route path="/about" element={<AboutUs/>} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/profile" element={<StudentProfile/>}/>
       </Routes>
       <Routes>
         <Route element={<PrivateHeadRoute />}>
