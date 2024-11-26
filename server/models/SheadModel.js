@@ -9,6 +9,9 @@ const SchoolHeadSchema = new mongoose.Schema({
         maxlength:[18,'Username must be of at max 6 character'],
         match: [ /^[a-zA-Z0-9_-]+$/, 'Username is invalid' ]
     },
+    image:{
+        type:String,
+    },
     email:{
         type:String,
         unique:true,

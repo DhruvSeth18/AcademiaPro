@@ -7,8 +7,6 @@ import StudentModel from "../models/studentModel.js";
 import { promisify } from 'util';
 
 
-// School Head Account is Created
-
 export const SchoolHeadCreateAccount = async (req,res)=> {
     try{
         const {username,email,country,state,password} = req.body;
@@ -61,7 +59,7 @@ export const loginSchoolHead = async (req,res)=>{
         if(!email || !password || !role){
             return res.status(400).json({
                 status:false,
-                message:"Both Email, Password and roll are Required"
+                message:"Both Email, Password are Required"
             })
         }
         if(role=="Head"){

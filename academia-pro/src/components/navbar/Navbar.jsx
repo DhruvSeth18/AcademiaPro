@@ -33,6 +33,7 @@ const ScrollTrack = styled(Box)`
     background: linear-gradient(90deg, rgba(174,58,180,1) 0%, rgba(253,64,29,1) 61%, rgba(252,176,69,1) 100%);
 `
 
+
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -72,32 +73,32 @@ const Navbar = () => {
                             <img className='w-[49px] h-[45px] absolute rounded-full ring-gray-300 dark:ring-white left-[30px] top-[10px]' src={Logo} />
                         </div>
                         <div className='w-[55%] hidden sm:flex justify-around'>
-                            <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}> Home</NavLink>
+                            <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}> Home</NavLink>
                             {
                                 !isUser?<>
-                                    <NavLink to="/about" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-white font-bold"}> About Us</NavLink>
-                                    <NavLink to="/contact" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-white font-bold"}> Contact </NavLink>
-                                    <NavLink to="/working" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-white font-bold"}> Working </NavLink>
+                                    <NavLink to="/about" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-white hover:text-yellow-200 "}> About Us</NavLink>
+                                    <NavLink to="/contact" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-white hover:text-yellow-200 "}> Contact </NavLink>
+                                    <NavLink to="/working" className={({ isActive }) => isActive ? "text-orange-400 font-bold" : "text-white hover:text-yellow-200 "}> Working </NavLink>
                                 </>:<></>
                             }
                             {
                                 localStorage.getItem("role")==="Teacher"?<>
-                                <NavLink to="/performance" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Performance</NavLink>
+                                <NavLink to="/performance" className={({ isActive }) => isActive ? "text-orange-400" : "text-white "}>Performance</NavLink>
                                 <NavLink to="/attendence" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Attendence</NavLink>
                                 <NavLink to="/students" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Students</NavLink>
                                 </>:<></>
                             }
                             {
                                 localStorage.getItem("role")==="Head"?<>
-                                    <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Management</NavLink>
-                                    <NavLink to="/class" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Class</NavLink>
-                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Teachers</NavLink>
+                                    <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Management</NavLink>
+                                    <NavLink to="/class" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Class</NavLink>
+                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Teachers</NavLink>
                                 </>:<></>
                             }
                             {
                                 localStorage.getItem("role")==="Student"?<>
-                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Resources</NavLink>
-                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Profile</NavLink>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Resources</NavLink>
+                                <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Profile</NavLink>
                                 </>:<></>
                             }
                         </div>

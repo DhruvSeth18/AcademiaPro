@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
+    image:{
+        type:String,
+    },
     username:{
         type:String,
         required:true,
