@@ -10,35 +10,11 @@ import { useEffect, useState } from 'react';
 import { Button, Dialog, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import ManagementPerson from './ManagementPerson';
 import CloseIcon from '@mui/icons-material/Close';
-import { createManagement } from '../api/api';
+import { createManagement} from '../api/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 
 const roles = ["Principal", "Vice Principal", "Management"]; // Roles list
-
-const managementList = [
-    {
-        username: "John Doe",
-        email: "john.doe@school.com",
-        role: "Principal",
-        schoolCode: 101,
-        password: "******",
-    },
-    {
-        username: "Jane Smith",
-        email: "jane.smith@school.com",
-        role: "Vice Principal",
-        schoolCode: 101,
-        password: "******",
-    },
-    {
-        username: "Alice Johnson",
-        email: "alice.johnson@school.com",
-        role: "Management",
-        schoolCode: 102,
-        password: "******",
-    },
-];
 
 
 const Management = () => {
@@ -137,7 +113,7 @@ const Management = () => {
                                 </TableHead>
                                 <TableBody>
                                     {management && management.map((management, index) => (
-                                        <ManagementPerson key={index} management={management} sNo={index + 1} />
+                                        <ManagementPerson key={index} Management={Management} management={management} sNo={index + 1} />
                                     ))}
                                 </TableBody>
                             </Table>

@@ -25,20 +25,12 @@ const Teachers = () => {
         getAllTeachers();
     }, []);
 
-    // const handleUpdateTeacher = (updatedTeacher) => {
-    //     setAllTeachers((prevTeachers) =>
-    //         prevTeachers.map((teacher) =>
-    //             teacher.id === updatedTeacher.id ? updatedTeacher : teacher
-    //         )
-    //     );
-    // };
-
     const handleClose = () => setOpenDialog(false);
 
     return (
         <>
             <div className="mt-[80px] w-[100%] flex justify-center">
-                <Dialog open={openDialog}>
+                <Dialog onClose={handleClose} open={openDialog}>
                     <div className=""></div>
                 </Dialog>
                 <div className="w-[100%] sm:w-[85%] md:w-[78%] p-5 overflow-auto custom-scroll">

@@ -6,8 +6,8 @@ import TeacherModel from "../models/teacherModel.js";
 export const createClass = async (req, res) => {
     try {
         const { className, numSections } = req.body;
-        const schoolCode = req.headers.code;
-
+        const schoolCode = req.schoolCode;
+        console.log("data is here ", className);
         if (!className || !schoolCode || !numSections) {
             return res.status(400).json({
                 status: false,

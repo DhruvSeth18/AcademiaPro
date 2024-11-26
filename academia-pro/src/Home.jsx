@@ -11,6 +11,11 @@ import Teachers from "./components/Teachers/Teachers";
 import StudentData from "./components/Students/StudentData";
 import { UserContext } from "./components/context/userContext";
 import { useContext } from "react";
+import HomePage from './components/navbar/Homepage';
+import AboutUs from './components/navbar/Aboutus'
+import Contact from './components/navbar/ContactPage';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const Home = () => {
   const { isUser } = useContext(UserContext);
@@ -46,6 +51,11 @@ const Home = () => {
   return (
     <BrowserRouter>
       <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/about" element={<AboutUs/>} />
+        <Route path="/contact" element={<Contact/>} />
+      </Routes>
       <Routes>
         <Route element={<PrivateHeadRoute />}>
           <Route path="/addManagement" element={<Management />} />

@@ -1,14 +1,13 @@
 import ClassModel from '../models/ClassModel.js';
 import TeacherModel from '../models/teacherModel.js';
-import bcrypt from 'bcrypt';
-
 
 export const addTeacher = async (req, res) => {
     try {
-        const { username, email, password, subject,classId} = req.body;
+        const { username, email, password, subject, className, sectionName } = req.body;
         const schoolCode = req.headers.code;
+
         // Validate request data
-        if (!username || !email || !password || !subject || !schoolCode) {
+        if (!username || !email || !password || !subject || !className || !sectionName || !schoolCode) {
             return res.status(400).json({
                 status: false,
                 message: 'All fields are required',
@@ -25,18 +24,27 @@ export const addTeacher = async (req, res) => {
                 message: 'Teacher already exists with this email',
             });
         }
+
+        // Find the class by className and sectionName
+        const Class = await ClassModel(db);
+        const classData = await Class.findOne({ className, sectionName, schoolCode });
+
+        if (!classData) {
+            return res.status(404).json({
+                status: false,
+                message: 'Class not found for the given className and sectionName',
+            });
+        }
+
         // Create a new teacher
         const newTeacher = new Teacher({
             username,
             email,
             password,
-            class:classId,
             subject,
             schoolCode,
         });
-        const Class = await ClassModel(db);
-        const classData = await Class.findById(classId);
-        console.log(newTeacher._id);
+
         classData.classTeacher = newTeacher._id;
 
         await classData.save();
@@ -55,6 +63,7 @@ export const addTeacher = async (req, res) => {
         });
     }
 };
+
 
 export const getTeachers = async (req, res) => {
     try {
@@ -106,32 +115,61 @@ export const getTeacherById = async (req, res) => {
     }
 };
 
-
 export const updateTeacher = async (req, res) => {
     try {
         const teacherId = req.params.id;
         const updates = req.body;
         const db = req.db;
+        const Class = await ClassModel(db);
         const Teacher = await TeacherModel(db);
-        const updatedTeacher = await Teacher.findByIdAndUpdate(teacherId, updates, { new: true, runValidators: true });
 
+        // Validate required fields for class details
+        const { className, sectionName } = updates;
+        if (!className || !sectionName) {
+            return res.status(400).json({
+                status: false,
+                message: "className and sectionName are required",
+            });
+        }
+
+        // Check if the provided class and section exist in the database
+        const checkClass = await Class.findOne({ className, sectionName });
+        if (!checkClass) {
+            return res.status(400).json({
+                status: false,
+                message: "Class details are invalid",
+            });
+        }
+
+        // Assign the valid class ID to the teacher's update object
+        updates.class = checkClass._id;
+        // checkClass.classTeacher
+
+        const updatedTeacher = await Teacher.findByIdAndUpdate(
+            teacherId,
+            updates,
+            { new: true, runValidators: true }
+        );
+
+        // Handle the case where the teacher is not found
         if (!updatedTeacher) {
             return res.status(404).json({
                 status: false,
-                message: 'Teacher not found',
+                message: "Teacher not found",
             });
         }
 
         return res.status(200).json({
             status: true,
-            message: 'Teacher updated successfully',
+            message: "Teacher updated successfully",
             data: updatedTeacher,
         });
     } catch (error) {
-        console.log(error.message);
+        console.error("Error while updating teacher:", error.message);
         return res.status(500).json({
             status: false,
-            message: 'Error while updating teacher',
+            message: "Internal server error while updating teacher",
+            error: error.message,
         });
     }
 };

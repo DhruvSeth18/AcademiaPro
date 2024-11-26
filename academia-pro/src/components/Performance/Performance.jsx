@@ -9,13 +9,13 @@ import { useEffect, useState, useContext} from 'react';
 import { ClassStudent } from '../api/api'; // Assuming this is your API call
 import Student from './Student';
 import { UserContext } from '../context/userContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Performance = () => {
     const [students, setStudents] = useState([]); // Change state variable name to plural to reflect multiple students
     const [loading, setLoading] = useState(true); // Optional: Add loading state
     const {user,isUser} = useContext(UserContext);
-
 
     useEffect(() => {
         const fetchStudent = async () => {
@@ -35,6 +35,7 @@ const Performance = () => {
 
     return (
         <>
+        <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
             <div className="mt-[140px] w-[100%] flex justify-center">
                 <div className="w-[100%] sm:w-[85%] md:w-[70%] p-5 overflow-auto custom-scroll">
                     <div className="w-[100%] color-black">

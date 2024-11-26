@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllClasses } from "../api/api"; // Ensure correct path
-import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { Dialog, TextField } from "@mui/material";
+import { Dialog } from "@mui/material";
+import { createClass } from "../api/api";
+import { ToastContainer,toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; 
+
 
 const Class = () => {
     const navigate = useNavigate();
@@ -30,22 +33,22 @@ const Class = () => {
         "10th",
         "11th",
         "12th",
-    ]; // List of all available classes
+    ];
 
-    useEffect(() => {
-        // Fetch class data
-        const fetchClasses = async () => {
-            try {
-                const response = await getAllClasses();
-                if (response.status && response.status === true) {
-                    setClasses(response.data); // Update state with fetched data
-                } else {
-                    console.error("Failed to fetch classes");
-                }
-            } catch (error) {
-                console.error("Error fetching classes:", error);
+    const fetchClasses = async () => {
+        try {
+            const response = await getAllClasses();
+            if (response.status && response.status === true) {
+                setClasses(response.data); // Update state with fetched data
+            } else {
+                console.error("Failed to fetch classes");
             }
-        };
+        } catch (error) {
+            console.error("Error fetching classes:", error);
+        }
+    };
+    
+    useEffect(() => {
         fetchClasses();
     }, []);
 
@@ -56,10 +59,27 @@ const Class = () => {
     const handleAddClassClick = () => {
         setDialog(true); // Open the dialog when clicked
     };
-
-    const handleSubmit = () => {
+    const toastSuccess = (message)=>{
+        toast.success(message,{
+            position:'top-center',
+            className:"toast"
+        });
+    }
+    const toastFail = (message)=>{
+        toast.error(message,{
+            position:'top-center',
+            className:"toast"
+        });
+    }
+    const handleSubmit = async () => {
+        const response = await createClass(newClassDetails);
+        if(response.status===true){
+            toastSuccess("Class is Created");
+            fetchClasses();
+        } else{
+            toastFail(response.message || "Failed to Create Class");
+        }
         console.log("New Class Details:", newClassDetails);
-        // Add logic to send this data to the backend
         setDialog(false);
     };
 
@@ -69,6 +89,7 @@ const Class = () => {
 
     return (
         <>
+            <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
             <Dialog className="border-2 rounded-lg" onClose={handleClose} open={dialog}>
                 <div className="w-[350px] h-[350px] border-2 rounded-lg flex flex-col justify-center items-center relative p-4">
                     <CloseIcon onClick={() => setDialog(false)} sx={{ fontSize: "25px", color: "blue" }} className="absolute top-2 right-2 cursor-pointer" />
@@ -89,7 +110,6 @@ const Class = () => {
                     </div>
                 </div>
             </Dialog>
-
             <div className="w-[100%] h-[100vh] pt-[100px]">
                 <div className="ml-[15px] mr-[15px] sm:ml-[150px] sm:mr-[150px]">
                     <div className="flex justify-between">

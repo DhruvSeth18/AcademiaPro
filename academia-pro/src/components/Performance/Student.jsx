@@ -3,8 +3,7 @@ import TableCell from '@mui/material/TableCell';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { UpdateStudentExam } from '../api/api';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import { toast } from 'react-toastify';
 
 const initialExamState = {
     subject: '',
@@ -40,7 +39,6 @@ const Student = ({ row, sNo }) => {
 
     return (
         <>
-            <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
             <TableRow key={sNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell className='text-red-800' align='center'>{sNo}</TableCell>
                 <TableCell align='center' component="th" scope="row">{row.rollNumber}</TableCell>

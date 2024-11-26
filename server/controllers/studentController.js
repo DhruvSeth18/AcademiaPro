@@ -172,7 +172,7 @@ export const deleteStudent = async (req, res) => {
         const db = req.db;
         const Student = await StudentModel(db);
         const deletedStudent = await Student.findByIdAndDelete(studentId);
-
+        
         if (!deletedStudent) {
             return res.status(404).json({
                 status: false,

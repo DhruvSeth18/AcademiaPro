@@ -20,9 +20,8 @@ export const SchoolHeadCreateAccount = async (req,res)=> {
         }
         const db = req.db;
         const SchoolHead = SchoolHeadModel(db);
-
-        const existUser = await SchoolHead.find({email:email}); 
-
+        console.log(req.body);
+        const existUser = await SchoolHead.findOne({email});
         if(existUser){
             return res.status(400).json({
                 status:false,
@@ -176,7 +175,7 @@ export const loginSchoolHead = async (req,res)=>{
                 token: `${token}`,
                 data:userWithoutPassword
             })
-        } else if(role==="Student"){
+        } else if(role==="Student"){    
             
         }
     }catch(error){

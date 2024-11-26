@@ -86,12 +86,6 @@ export const updateManagement = async (req, res) => {
             });
         }
 
-        if (!Object.keys(updates).length) {
-            return res.status(400).json({
-                status: false,
-                message: 'At least one field is required to update',
-            });
-        }
         const db = req.db;
         const Management = await ManagementModel(db);
         const updatedManagement = await Management.findByIdAndUpdate(

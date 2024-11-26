@@ -5,9 +5,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Student from './Student'; // Assuming you have a Student component that takes `row` as a prop
+import Student from './Student';
 import { useEffect, useState,useContext} from 'react';
-import { ClassStudent } from '../api/api'; // Assuming this is your API call
+import { ClassStudent } from '../api/api';
 import { UserContext } from '../context/userContext';
 
 const Attendence = () => {

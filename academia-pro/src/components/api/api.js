@@ -94,7 +94,30 @@ export const logoutCookie = async ()=>{
 
 
 // get List of All Classes
+export const createClass = async (data) => {
+    try {
+        const response = await axios.post(`${url}/class`, data, {
+            timeout: 6000, // Timeout set to 6 seconds
+        });
 
+        if (response.status === 201) {
+            return {
+                status: response.data.status,
+                classes: response.data.classes,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: "Internet is slow. Please try again.",
+        };
+    }
+};
 
 
 // logout cookie command
@@ -195,6 +218,68 @@ export const createManagement = async (data)=>{
         }
     }
 }
+
+
+export const updateManagement = async (managementId, updates) => {
+    try {
+        const response = await axios.put(
+            `${url}/management/${managementId}`, 
+            updates, 
+            {
+                timeout: 6000,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+                data: response.data.data,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data?.status || false,
+                message: error.response.data?.message || "Error updating management",
+            };
+        }
+        return {
+            status: false,
+            message: "Internet is slow. Try again.",
+        };
+    }
+};
+
+export const removeManagement = async (managementId) => {
+    try {
+        const response = await axios.delete(`${url}/management/${managementId}`, {
+            timeout: 6000,
+        });
+
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: "Internet is slow. Please try again.",
+        };
+    }
+};
+
+
 
 
 export const ClassStudent = async (classId)=>{
@@ -387,6 +472,8 @@ export const getClass = async ()=>{
     }
 }
 
+
+
 export const getTeachers = async ()=>{
     try{
         const response = await axios.get(`${url}/teachers`,{
@@ -414,3 +501,38 @@ export const getTeachers = async ()=>{
         }
     }
 }
+
+
+export const updateTeacher = async (teacherId, updates) => {
+    try {
+        const response = await axios.put(
+            `${url}/teachers/${teacherId}`, 
+            updates, 
+            {
+                timeout: 6000,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+                data: response.data.data,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data?.status || false,
+                message: error.response.data?.message || "Error updating teacher",
+            };
+        }
+        return {
+            message: "Internet is slow. Try again.",
+        };
+    }
+};
