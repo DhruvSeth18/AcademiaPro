@@ -48,10 +48,10 @@ const Homepage = () => {
       
         <Navbar/>
       {/* Hero Section */}
-      <section id="home" className="hero-section" style={{marginTop:"65.32px",height:"708px"}}>
+      <section id="home" className="hero-section" style={{marginTop:"20px",height:"100vh"}}>
         <div className="overlay"></div>
         <div className="hero-content">
-          <h1 className="welcome" style={{color:"white"}}>
+          <h1 className="welcome" style={{color:"white",fontSize:'50px'}}>
             Welcome to <span className="academ">AcademiaPro</span>
           </h1>
           <p style={{color:"white"}}>
