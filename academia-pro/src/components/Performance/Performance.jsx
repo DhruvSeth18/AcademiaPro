@@ -36,7 +36,7 @@ const Performance = () => {
     return (
         <>
         <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
-            <div className="mt-[140px] w-[100%] flex justify-center">
+            <div className="pt-[100px] h-[100vh] overflow-y-auto w-[100%] flex justify-center">
                 <div className="w-[100%] sm:w-[85%] md:w-[70%] p-5 overflow-auto custom-scroll">
                     <div className="w-[100%] color-black">
                         <TableContainer component={Paper}>

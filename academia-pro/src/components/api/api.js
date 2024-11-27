@@ -497,6 +497,35 @@ export const getClass = async ()=>{
 }
 
 
+// For Teacher Routes 
+
+
+export const addTeacher = async (teacherData) => {
+    try {
+        const response = await axios.post(`${url}/teachers`, teacherData, {
+            timeout: 6000,
+        });
+
+        if (response.status === 201) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+                data: response.data.data, // Contains the newly created teacher data
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: "Internet is slow. Please try again.",
+        };
+    }
+};
+
 
 export const getTeachers = async ()=>{
     try{
@@ -530,7 +559,7 @@ export const getTeachers = async ()=>{
 export const updateTeacher = async (teacherId, updates) => {
     try {
         const response = await axios.put(
-            `${url}/teachers/${teacherId}`, 
+            `${url}/teacher/${teacherId}`, 
             updates, 
             {
                 timeout: 6000,
@@ -557,6 +586,32 @@ export const updateTeacher = async (teacherId, updates) => {
         }
         return {
             message: "Internet is slow. Try again.",
+        };
+    }
+};
+
+
+export const removeTeacher = async (teacherId) => {
+    try {
+        const response = await axios.delete(`${url}/teacher/${teacherId}`, {
+            timeout: 6000,
+        });
+
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: "Internet is slow. Please try again.",
         };
     }
 };

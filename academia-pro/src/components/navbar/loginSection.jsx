@@ -41,7 +41,7 @@ const LoginButton = () => {
     }
 
     const UserPage = ()=>{
-        navigate(`/profile/${user.username}`);
+        navigate(`/profile/${user._id}`);
         // handleClose();
     }
     const BlogPage = ()=>{

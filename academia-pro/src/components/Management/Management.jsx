@@ -32,9 +32,11 @@ const Management = () => {
     const CreateManagement = async ()=>{
         const response = await createManagement(newManagement);
         if(response.status===true){
-            toastSuccess(response.message);
+            toastSuccess(response.message || "Management is Created");
             setOpenDialog(false);
             Management();
+        } else{
+            toastFail(response.message || "Failed to Add Management");
         }
     }
 
@@ -42,14 +44,15 @@ const Management = () => {
         toast.success("New Management added",{
             position:'top-center',
             className:"toast",
-            autoClose:500
+            autoClose:1500
         });
     }
 
     const toastFail = (message)=>{
         toast.error(message,{
             position:'top-center',
-            className:"toast"
+            className:"toast",
+            autoClose:1500
         });
     }
 
@@ -72,7 +75,7 @@ const Management = () => {
     return (
         <>
             <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
-            <div className="mt-[80px] w-[100%] flex justify-center">
+            <div className="pt-[120px] overflow-y-auto w-[100%] h-[100vh] flex justify-center">
                 <Dialog onClose={handleClose} open={openDialog}>
                     <div className='w-[320px] h-[500px] p-5 relative'>
                         <CloseIcon sx={{ fontSize: '28px' }} className='absolute top-2 right-2 cursor-pointer text-blue-500' onClick={handleClose} />

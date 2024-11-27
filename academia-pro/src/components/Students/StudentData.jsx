@@ -29,7 +29,7 @@ const StudentData = ()=>{
     },[]);
 
     return (<>
-        <div className="w-full h-[100vh] flex pt-[130px] justify-center">
+        <div className="w-full h-[100vh] overflow-y-auto flex pt-[120px] justify-center">
             <div className=" w-[85%] sm:w-[80%] md:w-[50%] h-[200px] ">
             <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">

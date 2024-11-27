@@ -32,7 +32,7 @@ const Student = ({row,sNo}) => {
             <TableCell align='center'>{row.password}</TableCell>
             <TableCell align='center'>
                 <div>
-                    <button onClick={markAttendence} className={mark?'bg-black text-white':''} style={{ padding: '10px', border: '2px solid black', borderRadius: '10px', fontWeight: 'bold', letterSpacing: '1px' }}>Present</button>
+                    <button onClick={markAttendence} className={mark?'bg-white text-black':''} style={{ padding: '10px', border: '2px solid white', borderRadius: '10px', fontWeight: 'bold', letterSpacing: '1px' }}>Present</button>
                 </div>
             </TableCell>
         </TableRow>

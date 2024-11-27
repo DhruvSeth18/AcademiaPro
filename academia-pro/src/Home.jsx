@@ -59,7 +59,7 @@ const Home = () => {
         <Route path="/" element={<HomePage/>} />
         <Route path="/about" element={<AboutUs/>} />
         <Route path="/contact" element={<Contact/>} />
-        <Route path="/profile" element={<StudentProfile/>}/>
+        <Route path="/profile/:username" element={<StudentProfile/>}/>
       </Routes>
       <Routes>
         <Route element={<PrivateHeadRoute />}>

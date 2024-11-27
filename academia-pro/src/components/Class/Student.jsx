@@ -26,7 +26,7 @@ const Student = ({ row, sNo }) => {
 
             {/* Collapsible Table Row */}
             <TableRow>
-                <TableCell colSpan={6} sx={{ padding:'0px',paddingLeft:'40px',paddingRight:'10px'}}>
+                <TableCell colSpan={6} sx={{ padding:'0px',paddingRight:'10px'}}>
                     <Collapse in={open} timeout="auto">
                         <TableContainer component={Paper}>
                             <Table size="small" aria-label="nested table">

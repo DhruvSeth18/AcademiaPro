@@ -33,7 +33,7 @@ const Attendence = () => {
 
     return (
         <>
-            <div className="mt-[140px] w-[100%] flex justify-center">
+            <div className="pt-[100px] h-[100vh] w-[100%] flex justify-center">
                 <div className="w-[100%] sm:w-[85%] md:w-[60%] p-5 overflow-auto custom-scroll">
                     <div className="w-[100%] color-black">
                         <TableContainer component={Paper}>

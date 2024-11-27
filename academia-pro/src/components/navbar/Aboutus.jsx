@@ -47,21 +47,21 @@ const AboutUs = () => {
 
   return (
     <div>
-      <section className="hero" style={{marginTop:"65.3px",color:"white",height:"350px",padding:"105px"}}>
+      <section className="hero" style={{marginTop:"65.3px",color:"white",height:"45vh",padding:"105px"}}>
         <h1 style={{color:"white"}}><strong>Welcome to AcademiaPro</strong></h1>
         <p style={{color:"white"}}>Empowering education through technology and innovation. Learn about our mission and values.</p>
       </section>
 
-      <section className="section container" style={{ backgroundColor: '#f0f0f0' ,width:"100%",maxWidth:"1690px",padding:"80px",height:"100%"}}>
-        <h2 style={{fontSize:"40px"}}><strong>Who We Are</strong></h2>
-        <p>
+      <section className="section container" style={{ backgroundColor: '#C7C8CC' ,width:"100%",height:"50vh",maxWidth:"1690px",padding:"60px",paddingRight:"80px",paddingLeft:"80px",height:"100%"}}>
+        <h2 style={{fontSize:"40px"}}><strong style={{color:"black"}}>Who We Are</strong></h2>
+        <p style={{color:"black",textAlign:'center',marginBottom:'30px'}}>
         AcademiaPro is your trusted partner in education, bridging the gap between traditional learning and modern technology.
         We aim to make education more accessible, efficient, and impactful through innovative tools and features.
         Our platform empowers students and educators alike to unlock their full potential, fostering an environment of continuous learning.
         By integrating advanced technologies, we strive to enhance the educational experience and prepare future leaders for success.
         With user-friendly interfaces and personalized learning paths, we are revolutionizing how knowledge is shared and acquired globally.
         </p>
-        <p>
+        <p style={{color:"black",textAlign:'center',marginBottom:'30px'}}>
         AcademiaPro offers a seamless learning experience, where users can access a wealth of resources at their fingertips.
         Our tools cater to diverse learning styles, ensuring that every learner can thrive in a way that suits them best.
         By fostering collaboration between educators, students, and institutions, we aim to build a vibrant global learning community.
@@ -85,37 +85,37 @@ const AboutUs = () => {
         </div>
       </section>
 
-      <section className="section container" style={{ backgroundColor: '#f0f0f0',height:"100%",margin:"0px",width:"100%",maxWidth:"1690px",padding:"80px" ,marginTop:"20px"}}>
+      <section className="section container" style={{height:"100%",margin:"0px",width:"100%",maxWidth:"1690px",padding:"80px" ,marginTop:"20px"}}>
         <h2 style={{padding:"40px",fontSize:"40px"}}><strong>Our Core Values</strong></h2>
         <div className="grid">
-          <div className="grid-item">
-            <h3>Innovation</h3>
-            <p>Pioneering solutions to revolutionize education through technology.</p>
+          <div className="grid-item bg-white">
+            <h3 style={{color:"#4F75FF",fontWeight:'bold',letterSpacing:'1px'}} >Innovation</h3>
+            <p className='text-black'>Pioneering solutions to revolutionize education through technology.</p>
           </div>
-          <div className="grid-item">
-            <h3>Collaboration</h3>
-            <p>Fostering a community where students and educators thrive together.</p>
+          <div className="grid-item bg-white">
+            <h3 style={{color:"#4F75FF",fontWeight:'bold',letterSpacing:'1px'}}>Collaboration</h3>
+            <p className='text-black'>Fostering a community where students and educators thrive together.</p>
           </div>
-          <div className="grid-item">
-            <h3>Integrity</h3>
-            <p>Upholding the highest standards of trust and transparency in our work.</p>
+          <div className="grid-item bg-white">
+            <h3 style={{color:"#4F75FF",fontWeight:'bold',letterSpacing:'1px'}}>Integrity</h3>
+            <p className='text-black'>Upholding the highest standards of trust and transparency in our work.</p>
           </div>
         </div>
       </section>
 
-      <section className="section container" style={{ backgroundColor: '#f0f0f0',margin:"0px",width:"100%",maxWidth:"1690px",padding:"60px" ,marginTop:"20px" }}>
+      <section className="section container" style={{margin:"0px",width:"100%",maxWidth:"1690px",padding:"60px" ,marginTop:"20px" }}>
         <h2 style={{fontSize:"40px"}}><strong>What People Say About Us</strong></h2>
-        <div className="testimonial" style={{backgroundColor:"#f0f0f0"}}>
-          <p>"AcademiaPro has truly changed how I approach my studies. The resources are phenomenal!"</p>
-          <h4><strong>- Dhruv Kapoor</strong></h4>
+        <div className="testimonial">
+          <p style={{textAlign:'center'}}>"AcademiaPro has truly changed how I approach my studies. The resources are phenomenal!"</p>
+          <h4 style={{textAlign:'center'}}><strong>- Dhruv Kapoor</strong></h4>
         </div>
-        <div className="testimonial" style={{backgroundColor:"#f0f0f0"}}>
-          <p>"An amazing platform for both students and educators. Highly recommend it!"</p>
-          <h4><strong>- Preenu Mittan</strong></h4>
+        <div className="testimonial">
+          <p style={{textAlign:'center'}}>"An amazing platform for both students and educators. Highly recommend it!"</p>
+          <h4 style={{textAlign:'center'}}><strong>- Dhruv Seth</strong></h4>
         </div>
-        <div className="testimonial" style={{backgroundColor:"#f0f0f0"}}>
-          <p>"Streamlined and efficient, AcademiaPro has everything I need as a student."</p>
-          <h4><strong>- Deepankar Garg</strong></h4>
+        <div className="testimonial">
+          <p style={{textAlign:'center'}}>"Streamlined and efficient, AcademiaPro has everything I need as a student."</p>
+          <h4 style={{textAlign:'center'}}><strong>- Preenu Mittan</strong></h4>
         </div>
       </section>
 

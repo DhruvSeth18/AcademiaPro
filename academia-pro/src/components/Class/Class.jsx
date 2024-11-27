@@ -5,8 +5,8 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { Dialog } from "@mui/material";
 import { createClass } from "../api/api";
-import { ToastContainer,toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Class = () => {
@@ -47,7 +47,7 @@ const Class = () => {
             console.error("Error fetching classes:", error);
         }
     };
-    
+
     useEffect(() => {
         fetchClasses();
     }, []);
@@ -59,24 +59,24 @@ const Class = () => {
     const handleAddClassClick = () => {
         setDialog(true); // Open the dialog when clicked
     };
-    const toastSuccess = (message)=>{
-        toast.success(message,{
-            position:'top-center',
-            className:"toast"
+    const toastSuccess = (message) => {
+        toast.success(message, {
+            position: 'top-center',
+            className: "toast"
         });
     }
-    const toastFail = (message)=>{
-        toast.error(message,{
-            position:'top-center',
-            className:"toast"
+    const toastFail = (message) => {
+        toast.error(message, {
+            position: 'top-center',
+            className: "toast"
         });
     }
     const handleSubmit = async () => {
         const response = await createClass(newClassDetails);
-        if(response.status===true){
+        if (response.status === true) {
             toastSuccess("Class is Created");
             fetchClasses();
-        } else{
+        } else {
             toastFail(response.message || "Failed to Create Class");
         }
         console.log("New Class Details:", newClassDetails);
@@ -84,12 +84,12 @@ const Class = () => {
     };
 
     const handleChange = (key, value) => {
-        setNewClassDetails((prev) => ({ ...prev, [key]: value,}));
+        setNewClassDetails((prev) => ({ ...prev, [key]: value, }));
     };
 
     return (
         <>
-            <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
+            <ToastContainer style={{ scale: '0.95', paddingTop: '60px' }} />
             <Dialog className="border-2 rounded-lg" onClose={handleClose} open={dialog}>
                 <div className="w-[350px] h-[350px] border-2 rounded-lg flex flex-col justify-center items-center relative p-4">
                     <CloseIcon onClick={() => setDialog(false)} sx={{ fontSize: "25px", color: "blue" }} className="absolute top-2 right-2 cursor-pointer" />
@@ -116,21 +116,20 @@ const Class = () => {
                         <p className="text-[50px] mb-[20px] font-bold">Classes</p>
                     </div>
                     <div className="flex flex-col sm:flex-row flex-wrap gap-6">
-                       {classes.length===0?(
-                        <p>No classes available</p>
-
-                       )
-                    :   (
-                        classes.map((className, index) => (
-                            <div
-                                key={index}
-                                onClick={() => navigate(`/class/${className}`)}
-                                className="w-[100%] sm:w-[156px] hover:scale-110 border-[3px] border-black hover:border-[3px] hover:border-blue-500 text-black h-[120px] rounded-lg flex justify-center items-center cursor-pointer"
-                            >
-                                <p className="text-[25px] font-bold">{className}</p>
-                            </div>
-                        ))
-                    )}
+                        {classes.length === 0 ? (
+                            <p>No classes available</p>
+                        )
+                            : (
+                                classes.map((className, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => navigate(`/class/${className}`)}
+                                        className="w-[100%] sm:w-[156px] hover:scale-110 border-[3px] border-black hover:border-[3px] hover:border-blue-500 text-black h-[120px] rounded-lg flex justify-center items-center cursor-pointer"
+                                    >
+                                        <p className="text-[25px] font-bold">{className}</p>
+                                    </div>
+                                ))
+                            )}
                         <div
                             onClick={handleAddClassClick} // Open dialog on div click
                             className="w-[100%] sm:w-[156px] hover:scale-110 border-[3px] border-black hover:border-[3px] hover:border-blue-500 text-black h-[120px] rounded-lg flex justify-center items-center cursor-pointer"

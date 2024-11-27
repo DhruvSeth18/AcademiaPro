@@ -2,7 +2,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { TextField, Select, InputLabel, MenuItem, FormControl } from "@mui/material";
 import { useState, useEffect } from "react";
-import { updateTeacher } from "../api/api";
+import { updateTeacher, removeTeacher} from "../api/api";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,17 +35,30 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
         setUpdatedFields({ ...updatedFields, [name]: value });
         console.log("Updated Fields:", { ...updatedFields, [name]: value });
     };
+
     const toastSuccess = (message) => {
         toast.success(message, {
             position: 'top-center',
-            className: "toast"
+            className: "toast",
+            autoClose:1500
         });
-    }
+    };
+
     const toastFail = (message) => {
         toast.error(message, {
             position: 'top-center',
-            className: "toast"
+            className: "toast",
+            autoClose:1500
         });
+    };
+
+    const deleteTeacher = async ()=>{
+        const response = await removeTeacher(teacher._id);
+        if(response.status===true){
+            toastSuccess("Teacher is Deleted");
+        } else{
+            toastFail(response.message || "Failed to Delete Teacher");
+        }
     }
 
     const handleSubmitUpdates = async () => {
@@ -56,10 +69,7 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                 className: updatedFields.className || teacher.class?.className,
                 sectionName: updatedFields.sectionName || teacher.class?.sectionName,
             };
-
-            // Send the updated teacher data to the server
             const response = await updateTeacher(teacher._id, updatedTeacher);
-
             if (response.status === true) {
                 toastSuccess("Teacher updated successfully!");
                 await getAllTeachers();
@@ -162,7 +172,7 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                                         fontSize: "12px",
                                         paddingLeft: "10px",
                                         paddingRight: "10px",
-                                        border: "2px solid black",
+                                        border: "2px solid white",
                                         borderRadius: "10px",
                                         fontWeight: "bold",
                                         letterSpacing: "1px",
@@ -171,15 +181,13 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                                     Save
                                 </button>
                             ) : (
-                                <button
-                                    onClick={() => setOpenUpdate(true)}
-                                    className="hover:scale-110 active:scale-95"
+                                <button onClick={() => setOpenUpdate(true)} className="hover:scale-110 active:scale-95"
                                     style={{
                                         padding: "8px",
                                         fontSize: "12px",
                                         paddingLeft: "10px",
                                         paddingRight: "10px",
-                                        border: "2px solid black",
+                                        border: "2px solid white",
                                         borderRadius: "10px",
                                         fontWeight: "bold",
                                         letterSpacing: "1px",
@@ -188,7 +196,7 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                                     Update
                                 </button>
                             )}
-                        <DeleteIcon sx={{fontSize:"28px"}} className="cursor-pointer text-red-600 relative top-[3px]" />
+                        <DeleteIcon onClick={deleteTeacher} sx={{fontSize:"28px"}} className="cursor-pointer text-red-600 relative top-[3px]" />
                         </div>
                     </div>
                 </TableCell>

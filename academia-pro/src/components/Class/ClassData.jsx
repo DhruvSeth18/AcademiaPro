@@ -61,7 +61,7 @@ const ClassData = () => {
                 <div className='w-[330px] p-5 relative'>
                     <CloseIcon sx={{ fontSize: '28px' }} className='absolute top-2 right-2 cursor-pointer text-blue-500' onClick={handleClose} />
                     <div className='pt-[20px]'>
-                        <p className='text-center text-2xl font-bold text-blue-700'>Add User</p>
+                        <p className='text-center text-2xl font-bold text-blue-700'>Add Student</p>
                     </div>
                     <div className='mt-5 space-y-4'>
                         <TextField label="Username" fullWidth variant="outlined" value={newUser.username} onChange={(e) => handleInputChange('username', e.target.value)} />

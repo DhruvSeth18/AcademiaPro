@@ -34,7 +34,7 @@ const ContactPage = () => {
       from_name: name,
       from_email: email,
       message: message,
-      to_email: 'dhruvkapoor1290@gmail.com', 
+      to_email: 'dhruv1512.be22@chitkara.edu.in', 
     };
   
     const userId = 'LwC1q78tlt7K31RBL'; 
@@ -52,7 +52,6 @@ const ContactPage = () => {
         }
       );
   
-
     emailjs
       .send('service_68iq72h', 'template_p5w3n4e', templateParams, userId)
       .then(
@@ -118,33 +117,6 @@ const ContactPage = () => {
           </div>
         </form>
         {statusMessage && <p>{statusMessage}</p>}
-      </section>
-
-      {/* Contact Details Section */}
-      <section className="contact-details">
-        <div className="card">
-          <h3>Chitkara University</h3>
-          <p>Rajpura, Punjab</p>
-          <p>India</p>
-        </div>
-        <div className="card">
-          <h3>Contact Info</h3>
-          <p>
-            <i className="fas fa-phone-alt"></i> +123 456 7890
-          </p>
-          <p>
-            <i className="fas fa-envelope"></i> info@academiapro.com
-          </p>
-        </div>
-        <div className="card">
-          <h3>Business Hours</h3>
-          <p>
-            <strong>Monday to Friday:</strong> 9:00 AM - 6:00 PM
-          </p>
-          <p>
-            <strong>Saturday & Sunday:</strong> Closed
-          </p>
-        </div>
       </section>
 
       {/* Map Section */}
