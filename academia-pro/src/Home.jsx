@@ -14,8 +14,9 @@ import { useContext } from "react";
 import HomePage from './components/navbar/Homepage';
 import AboutUs from './components/navbar/Aboutus'
 import Contact from './components/navbar/ContactPage';
-import { ToastContainer, toast } from 'react-toastify';
 import StudentProfile  from "./components/Profile/studentProfile";
+import SignUp from "./components/SignUp/signUp";
+import bgImage from './bgImage.png';
 
 const Home = () => {
   const { isUser } = useContext(UserContext);
@@ -50,6 +51,9 @@ const Home = () => {
 
   return (
     <BrowserRouter>
+    {/* <div style={{backgroundImage: `url(${bgImage})` }} className="bg-cover bg-center min-h-screen"> */}
+    <div>
+
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage/>} />
@@ -76,8 +80,10 @@ const Home = () => {
         {/* Public Routes for Login */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Route>
       </Routes>
+      </div>
     </BrowserRouter>
   );
 };

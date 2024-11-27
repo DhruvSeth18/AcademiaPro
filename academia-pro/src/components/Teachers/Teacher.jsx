@@ -3,9 +3,9 @@ import TableCell from "@mui/material/TableCell";
 import { TextField, Select, InputLabel, MenuItem, FormControl } from "@mui/material";
 import { useState, useEffect } from "react";
 import { updateTeacher } from "../api/api";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const initialExamState = { subject: "", className: "", sectionName: "" };
 const schoolSubjects = ["Mathematics", "English", "Science", "Social Studies", "History", "Geography", "Political Science", "Economics", "Physics", "Chemistry", "Biology", "Computer Science", "Environmental Science", "Physical Education", "Art", "Music", "Drama", "Fine Arts", "Health Education"];
@@ -35,16 +35,16 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
         setUpdatedFields({ ...updatedFields, [name]: value });
         console.log("Updated Fields:", { ...updatedFields, [name]: value });
     };
-    const toastSuccess = (message)=>{
-        toast.success(message,{
-            position:'top-center',
-            className:"toast"
+    const toastSuccess = (message) => {
+        toast.success(message, {
+            position: 'top-center',
+            className: "toast"
         });
     }
-    const toastFail = (message)=>{
-        toast.error(message,{
-            position:'top-center',
-            className:"toast"
+    const toastFail = (message) => {
+        toast.error(message, {
+            position: 'top-center',
+            className: "toast"
         });
     }
 
@@ -78,7 +78,6 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
 
     return (
         <>
-            <ToastContainer style={{ scale: "0.95", paddingTop: "60px" }} />
             <TableRow
                 key={sNo}
                 sx={{
@@ -152,43 +151,48 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                     </>
                 )}
                 <TableCell align="center">
-                    {openUpdate ? (
-                        <button
-                            onClick={handleSubmitUpdates}
-                            className="hover:scale-110 active:scale-95"
-                            style={{
-                                padding: "8px",
-                                fontSize: "12px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                border: "2px solid black",
-                                borderRadius: "10px",
-                                fontWeight: "bold",
-                                letterSpacing: "1px",
-                            }}
-                        >
-                            Save
-                        </button>
-                    ) : (
-                        <button
-                            onClick={() => setOpenUpdate(true)}
-                            className="hover:scale-110 active:scale-95"
-                            style={{
-                                padding: "8px",
-                                fontSize: "12px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                border: "2px solid black",
-                                borderRadius: "10px",
-                                fontWeight: "bold",
-                                letterSpacing: "1px",
-                            }}
-                        >
-                            Update
-                        </button>
-                    )}
+                    <div>
+                        <div className="flex justify-center gap-2">
+                            {openUpdate ? (
+                                <button
+                                    onClick={handleSubmitUpdates}
+                                    className="hover:scale-110 active:scale-95"
+                                    style={{
+                                        padding: "8px",
+                                        fontSize: "12px",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        border: "2px solid black",
+                                        borderRadius: "10px",
+                                        fontWeight: "bold",
+                                        letterSpacing: "1px",
+                                    }}
+                                >
+                                    Save
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setOpenUpdate(true)}
+                                    className="hover:scale-110 active:scale-95"
+                                    style={{
+                                        padding: "8px",
+                                        fontSize: "12px",
+                                        paddingLeft: "10px",
+                                        paddingRight: "10px",
+                                        border: "2px solid black",
+                                        borderRadius: "10px",
+                                        fontWeight: "bold",
+                                        letterSpacing: "1px",
+                                    }}
+                                >
+                                    Update
+                                </button>
+                            )}
+                        <DeleteIcon sx={{fontSize:"28px"}} className="cursor-pointer text-red-600 relative top-[3px]" />
+                        </div>
+                    </div>
                 </TableCell>
-            </TableRow>
+            </TableRow> 
         </>
     );
 };

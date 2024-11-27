@@ -4,42 +4,146 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getTeachers, getClass } from '../api/api';
+import { getTeachers } from '../api/api';
 import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 import Teacher from './Teacher';
-import { Button, Dialog} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Button, Dialog, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import { getSection,getClass} from '../api/api';
+
+const schoolSubjects = ["Mathematics", "English", "Science", "Social Studies", "History", "Geography", "Political Science", "Economics", "Physics", "Chemistry", "Biology", "Computer Science", "Environmental Science", "Physical Education", "Art", "Music", "Drama", "Fine Arts", "Health Education"];
+
 
 const Teachers = () => {
     const [allTeachers, setAllTeachers] = useState([]);
     const [uniqueClass, setUniqueClass] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
-    
+    const [useSection, setUseSection] = useState(false);
+    const [classNames, setClassName] = useState([]);
+    const [sectionNames, setSectionName] = useState([]);
+
+    const [newManagement, setNewManagement] = useState({
+        username: '',
+        email: '',
+        password: '',
+        subject: '',
+        className: '',
+        sectionName: ''
+    });
+
+    const getSections = async ()=>{
+        const response = await getSection();
+        if(response.status===true){
+            setSectionName(response.data);
+        }
+    }
+    const getClasses = async ()=>{
+        const response = await getClass();
+        if(response.status===true){
+            setClassName(response.data);
+        }
+    }
     const getAllTeachers = async () => {
         const response = await getTeachers();
         if (response.status && response.status === true) {
             setAllTeachers(response.data);
         }
     };
+    
     useEffect(() => {
         getAllTeachers();
+        getClasses();
     }, []);
 
+    const handleInputChange = async (field, value) => {
+        setNewManagement((prev) => ({ ...prev, [field]: value }));
+
+        if (field === "className") {
+            setNewManagement((prev) => ({ ...prev, sectionName: "" }));
+            if (value) {
+                await getSectionsForClass(value);
+            }
+        }
+    };
+    const getSectionsForClass = async (className) => {
+        const response = await getSection(className);
+        if (response.status === true) {
+            setSectionName(response.data);
+            setUseSection(true);
+        } else {
+            setSectionName([]);
+            setUseSection(false);
+        }
+    };
+
+
+    const generateRandomPassword = () => {
+        const password = Math.random().toString(36).slice(-8); // Random password generator
+        handleInputChange('password', password);
+    };
+
+    const subjects = ['Math', 'Science', 'English', 'History'];
+
     const handleClose = () => setOpenDialog(false);
+    const CreateManagement = () => {
+        // Your create management logic goes here
+        console.log('Management Created', newManagement);
+    };
 
     return (
         <>
+            <ToastContainer style={{ scale: "0.95", paddingTop: "60px" }} />
             <div className="mt-[80px] w-[100%] flex justify-center">
                 <Dialog onClose={handleClose} open={openDialog}>
-                    <div className=""></div>
+                    <div className='w-[330px] p-5 relative'>
+                        <CloseIcon sx={{ fontSize: '28px' }} className='absolute top-2 right-2 cursor-pointer text-blue-500' onClick={handleClose} />
+                        <div className='pt-[20px]'>
+                            <p className='text-center text-2xl font-bold text-blue-700'>Add Management</p>
+                        </div>
+                        <div className='mt-5 space-y-4'>
+                            <TextField label="Username" fullWidth variant="outlined" value={newManagement.username} onChange={(e) => handleInputChange('username', e.target.value)} />
+                            <TextField label="Email" fullWidth variant="outlined" value={newManagement.email} onChange={(e) => handleInputChange('email', e.target.value)} />
+                            <div className="flex items-center space-x-2">
+                                <TextField label="Password" variant="outlined" value={newManagement.password} onChange={(e) => handleInputChange('password', e.target.value)} className="w-3/4" />
+                                <Button sx={{ padding: "15px 20px" }} variant="contained" color="primary" onClick={generateRandomPassword} className="w-2/4">Generate</Button>
+                            </div>
+
+                            <FormControl fullWidth>
+                                <InputLabel>Subject</InputLabel>
+                                <Select value={newManagement.subject} onChange={(e) => handleInputChange('subject', e.target.value)}>
+                                    {schoolSubjects.map((subject, i) => <MenuItem key={i} value={subject}>{subject}</MenuItem>)}
+                                </Select>
+                            </FormControl>
+                            <div className='flex gap-2'>
+                                <FormControl fullWidth >
+                                    <InputLabel>Class Name</InputLabel>
+                                    <Select className='w-[140px]' value={newManagement.className} onChange={(e) => handleInputChange('className', e.target.value)}>
+                                        {classNames.map((className, i) => <MenuItem key={i} value={className}>{className}</MenuItem>)}
+                                    </Select>
+                                </FormControl>
+
+                                <FormControl fullWidth disabled={!useSection}>
+                                    <InputLabel>Section Name</InputLabel>
+                                    <Select value={newManagement.sectionName} onChange={(e) => handleInputChange('sectionName', e.target.value)}>
+                                        {sectionNames.map((section, i) => <MenuItem key={i} value={section}>{section}</MenuItem>)}
+                                    </Select>
+                                </FormControl>
+                            </div>
+
+                        </div>
+                        <div className="flex justify-center mt-5">
+                            <Button onClick={CreateManagement} sx={{ padding: "10px 20px", letterSpacing: '1px', fontSize: '15px' }} variant="contained" color="primary">Create</Button>
+                        </div>
+                    </div>
                 </Dialog>
                 <div className="w-[100%] sm:w-[85%] md:w-[78%] p-5 overflow-auto custom-scroll">
                     <div className="h-[50px] absolute bottom-3 right-3 mb-[20px] flex justify-end items-center">
-                        <Button sx={{ padding: "10px 20px", marginRight: "20px" }} className="cursor-pointer" variant="contained">
+                        <Button sx={{ padding: "10px 20px", marginRight: "20px" }} onClick={() => setOpenDialog(true)} className="cursor-pointer" variant="contained">
                             Add Teacher
                         </Button>
                     </div>
-                    
                     <div className="w-[100%] color-black">
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -55,21 +159,21 @@ const Teachers = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {allTeachers.length === 0 ? (
+                                    {allTeachers.length === 0 ? (
                                         <TableRow>
-                                        <TableCell colSpan={8} align='center'>
-                                           <strong style={{fontSize:"25px"}}> No Teachers Available</strong>
-                                        </TableCell>
+                                            <TableCell colSpan={8} align='center'>
+                                                <strong style={{ fontSize: "25px" }}> No Teachers Available</strong>
+                                            </TableCell>
                                         </TableRow>
                                     ) : (
                                         allTeachers.map((teacher, index) => (
-                                        <Teacher
-                                            key={teacher.id}
-                                            uniqueClass={uniqueClass}
-                                            teacher={teacher}
-                                            sNo={index + 1}
-                                            getAllTeachers={getAllTeachers}
-                                        />
+                                            <Teacher
+                                                key={teacher.id}
+                                                uniqueClass={uniqueClass}
+                                                teacher={teacher}
+                                                sNo={index + 1}
+                                                getAllTeachers={getAllTeachers}
+                                            />
                                         ))
                                     )}
                                 </TableBody>

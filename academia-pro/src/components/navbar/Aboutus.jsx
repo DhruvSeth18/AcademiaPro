@@ -47,7 +47,6 @@ const AboutUs = () => {
 
   return (
     <div>
-      <Navbar />
       <section className="hero" style={{marginTop:"65.3px",color:"white",height:"350px",padding:"105px"}}>
         <h1 style={{color:"white"}}><strong>Welcome to AcademiaPro</strong></h1>
         <p style={{color:"white"}}>Empowering education through technology and innovation. Learn about our mission and values.</p>

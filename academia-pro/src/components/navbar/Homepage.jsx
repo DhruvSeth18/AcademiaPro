@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import './styles.css'; // Assuming your CSS is in a separate file
-import Navbar from './Navbar';
 import missionImage from './ourmission.jpeg'; // Import images
 import visionImage from './ourvision.jpeg';
 import result from './results.jpeg'
 import timetablemanagement from './TimeTableManagement.jpg'
-import attendancetracking from './attendance.jpeg'
-import attendance from './AttendanceTracking.jpg'
-import examnotification from './examnotification.jpeg'
+import attendancetracking from './attendance.jpeg';
+import attendance from './AttendanceTracking.jpg';
+import examnotification from './examnotification.jpeg';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Homepage = () => {
@@ -44,11 +43,8 @@ const Homepage = () => {
 
   return (
     <div>
-     
-      
-        <Navbar/>
       {/* Hero Section */}
-      <section id="home" className="hero-section" style={{marginTop:"20px",height:"100vh"}}>
+      <section id="home" className="hero-section" style={{height:"100vh"}}>
         <div className="overlay"></div>
         <div className="hero-content">
           <h1 className="welcome" style={{color:"white",fontSize:'50px'}}>
@@ -154,19 +150,6 @@ const Homepage = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="contact-section">
-        <div className="container">
-          <h2>Get In Touch</h2>
-          <form>
-            <input type="text" name="name" placeholder="Your Name" required />
-            <input type="email" name="email" placeholder="Your Email" required />
-            <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
-            <button type="submit" className="btn btn-primary">Send Message</button>
-          </form>
         </div>
       </section>
 

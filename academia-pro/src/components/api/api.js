@@ -3,6 +3,30 @@ const url = 'http://localhost:8000/api';
 
 axios.defaults.withCredentials = true;
 
+export const createSchoolHeadAccount = async (data) => {
+    try {
+        const response = await axios.post(`${url}/signup`, data, {
+            timeout: 6000, // Timeout set to 6 seconds
+        });
+        if (response.status === 201) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: "Internet is slow. Please try again.",
+        };
+    }
+};
+
 export const LoginUser = async (data)=>{
     try{
         const response = await axios.post(`${url}/login`,data,{

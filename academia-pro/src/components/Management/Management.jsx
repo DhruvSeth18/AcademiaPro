@@ -41,7 +41,8 @@ const Management = () => {
     const toastSuccess = (message)=>{
         toast.success("New Management added",{
             position:'top-center',
-            className:"toast"
+            className:"toast",
+            autoClose:500
         });
     }
 

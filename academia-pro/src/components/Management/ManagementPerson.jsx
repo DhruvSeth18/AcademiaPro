@@ -36,6 +36,7 @@ const ManagementPerson = ({ management, sNo, Management }) => {
         toast.success(message, {
             position: 'top-center',
             className: "toast",
+            autoClose:1500
         });
     };
 
@@ -152,7 +153,7 @@ const ManagementPerson = ({ management, sNo, Management }) => {
                             Update
                         </button>
                     )}
-                    <DeleteIcon onClick={deleteManagement} className="text-red-600 relative top-[5.5px] cursor-pointer"/>
+                    <DeleteIcon sx={{fontSize:"28px"}} onClick={deleteManagement} className="text-red-600 relative top-[3.5px] cursor-pointer"/>
                     </div>
                 </div>
             </TableCell>

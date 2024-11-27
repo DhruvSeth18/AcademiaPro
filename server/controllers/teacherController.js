@@ -4,9 +4,9 @@ import TeacherModel from '../models/teacherModel.js';
 export const addTeacher = async (req, res) => {
     try {
         const { username, email, password, subject, className, sectionName } = req.body;
-        const schoolCode = req.headers.code;
+        const schoolCode = req.schoolCode;
+        console.log("here is some ",req.body);
 
-        // Validate request data
         if (!username || !email || !password || !subject || !className || !sectionName || !schoolCode) {
             return res.status(400).json({
                 status: false,
@@ -14,7 +14,6 @@ export const addTeacher = async (req, res) => {
             });
         }
 
-        // Check if the teacher already exists
         const db = req.db;
         const Teacher = await TeacherModel(db);
         const existingTeacher = await Teacher.findOne({ email });
@@ -25,9 +24,8 @@ export const addTeacher = async (req, res) => {
             });
         }
 
-        // Find the class by className and sectionName
         const Class = await ClassModel(db);
-        const classData = await Class.findOne({ className, sectionName, schoolCode });
+        const classData = await Class.findOne({ className, sectionName });
 
         if (!classData) {
             return res.status(404).json({
@@ -36,11 +34,11 @@ export const addTeacher = async (req, res) => {
             });
         }
 
-        // Create a new teacher
         const newTeacher = new Teacher({
             username,
             email,
             password,
+            class:classData._id,
             subject,
             schoolCode,
         });

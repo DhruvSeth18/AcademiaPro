@@ -43,15 +43,18 @@ const Login = () => {
             toastFail(response.message);
         }
     }
+
     const togglePassVisible = () => {
         setPassVisible(!passVisible);
     }
+
     const toastSuccess = ()=>{
         toast.success("User Login Successfull",{
             position:'top-center',
             className:"toast"
         });
     }
+
     const toastFail = (message)=>{
         toast.error(message,{
             position:'top-center',
@@ -63,6 +66,7 @@ const Login = () => {
         setLogin({ ...login, [e.target.name]: e.target.value })
         console.log(login);
     }
+
     const submitInstituteCode = ()=>{
         if(localStorage.getItem('code').length===''){
             toast.error("School Code Required",{ position:'top-center', className:"toast"});
@@ -81,6 +85,7 @@ const Login = () => {
             setIdChange('Enter Email');
         }
     };
+    
     const handleChangeCode = (e)=>{
         localStorage.setItem('code',e.target.value);
     }
@@ -88,14 +93,14 @@ const Login = () => {
     return (<>
         <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
         {
-            submitSchoolCode?<div className="w-[100%] h-[100vh] flex justify-center items-center ">
-            <div className="min-w-[380px] w-[25%] h-[480px]  rounded-xl ">
-                <div className="w-[100%] h-[100px] flex justify-center items-center mt-[15px]">
+            submitSchoolCode?<div className="w-[100%] h-[100vh] flex justify-center items-center  relative bottom-2">
+            <div className="min-w-[380px] w-[25%] rounded-xl ">
+                <div className="w-[100%] h-[80px] flex justify-center items-center mt-[15px]">
                     <div className="text-[50px] text-gray-600 font-semibold">Login</div>
                 </div>
                 <div className="mr-[28px] ml-[28px]">
                     <label for="first_name" className="block font-medium text-md text-white">Email</label>
-                    <div className="relative mb-4">
+                    <div className="relative mb-6">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-2 cursor-pointer">
                             <MailIcon className="text-gray-500" />
                         </div>
@@ -103,7 +108,6 @@ const Login = () => {
                     </div>
                 </div>
                 <div className="mr-[28px] ml-[28px] mt-[15px]">
-                    <label for="first_name" className="block mb-1 text-sm font-medium text-white text-[15px]">Password</label>
                     <div className="relative mb-4">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-2 cursor-pointer" onClick={togglePassVisible}>
                             {passVisible ? <VisibilityIcon className="text-gray-500" /> : <VisibilityOffIcon className="text-gray-500" />}
@@ -122,14 +126,14 @@ const Login = () => {
                         </Select>
                     </FormControl>
                     <div className='w-[100%] h-[49px] text-blue-600 font-bold rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95'>
-                        <p className='text-[14.5px]'>forgot Password ?</p>
+                        <p className='text-[14.5px] text-blue-500'>forgot Password ?</p>
                     </div>
                 </div>
                 <div className='w-[100%] pl-[38px] pr-[38px] flex gap-3 justify-center items-center mt-[35px]'>
                     <div className='w-[100%] h-[45px] border-[2px] rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
                         <p className='text-[#0F172A] font-bold text-[17px]'>Login</p>
                     </div>
-                    <div className='w-[100%] h-[45px] border-[2px] bg-white rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
+                    <div onClick={() => navigate('/signup')} className='w-[100%] h-[45px] border-[2px] bg-white rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95'>
                         <p className='text-[#0F172A] font-bold text-[17px]'>Create Account</p>
                     </div>
                 </div>

@@ -69,8 +69,6 @@ const ContactPage = () => {
   
   return (
     <div>
- 
-      <Navbar/>
       <header style={{marginTop:"65.4px"}}>
         <h1>Contact Us</h1>
         <p>We'd love to hear from you. Reach out to us with any enquiries or feedback.</p>
