@@ -6,8 +6,12 @@ axios.defaults.withCredentials = true;
 export const createSchoolHeadAccount = async (data) => {
     try {
         const response = await axios.post(`${url}/signup`, data, {
-            timeout: 6000, // Timeout set to 6 seconds
-        });
+            timeout:6000,
+            headers: {
+                'Content-Type': 'application/json',
+                code:localStorage.getItem("code")
+            },
+        })
         if (response.status === 201) {
             return {
                 status: response.data.status,
@@ -42,7 +46,8 @@ export const LoginUser = async (data)=>{
             return{
                 status:response.data.status,
                 token:response.data.token,
-                data:response.data.data
+                data:response.data.data,
+                role:response.data.role
             }
         }
     } catch(error){
@@ -334,6 +339,33 @@ export const ClassStudent = async (classId)=>{
     }
 }
 
+
+export const addStudentAccount = async (data) => {
+    try {
+        const response = await axios.post(`${url}/students`, data, {
+            timeout: 6000,
+        });
+        if (response.status === 201) {
+            return {
+                status: response.data.status,
+                data: response.data.data,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: "Internet is slow. Please try again.",
+        };
+    }
+};
+
+
+
 export const MarkAttendance = async (studentId, classId) => {
     try {
         const response = await axios.post(`${url}/attendance`, {}, {
@@ -463,6 +495,7 @@ export const UpdateStudentExam = async (studentId,data)=>{
         }
     }
 }
+
 
 
 
@@ -612,6 +645,72 @@ export const removeTeacher = async (teacherId) => {
         }
         return {
             message: "Internet is slow. Please try again.",
+        };
+    }
+};
+
+
+export const addResource = async (classId, resource) => {
+    try {
+        const response = await axios.post(
+            `${url}/resource/${classId}`,
+            resource,
+            {
+                timeout: 6000,
+                headers: {
+                    'Content-Type': 'application/json',
+                    code: localStorage.getItem('code'),
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                message: response.data.message,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: 'Internet is slow. Try again.',
+        };
+    }
+};
+
+export const getResources = async (classId) => {
+    try {
+        const response = await axios.get(
+            `${url}/resource/${classId}`,
+            {
+                timeout: 6000,
+                headers: {
+                    'Content-Type': 'application/json',
+                    code: localStorage.getItem('code'),
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            return {
+                status: response.data.status,
+                data: response.data.data,
+            };
+        }
+    } catch (error) {
+        if (error.response?.status >= 400) {
+            return {
+                status: error.response.data.status,
+                message: error.response.data.message,
+            };
+        }
+        return {
+            message: 'Internet is slow. Try again.',
         };
     }
 };

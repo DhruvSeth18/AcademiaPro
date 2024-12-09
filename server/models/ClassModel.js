@@ -15,6 +15,14 @@ const classSchema = new mongoose.Schema({
         enum: ['A', 'B', 'C', 'D', 'E'],
         required: true
     },
+    resources:[{
+        title:{
+            type:String
+        },
+        link:{
+            type:String
+        }
+    }],
     students: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'student'

@@ -26,15 +26,10 @@ const Login = () => {
 
     const Login = async ()=>{
         const response = await LoginUser({...login,role});
-        console.log(response);
         if(response.status===true){
             toastSuccess();
             setTimeout(()=>{
-                console.log("Navigation to intro");
-                console.log(response.role);
-                localStorage.setItem('role',response.data.role);
-                console.log(localStorage.getItem('data'));
-                navigate('/');
+                localStorage.setItem('role',response.role);
                 window.location.reload();
             },2000)
             console.log("Login Successfull");
@@ -51,18 +46,18 @@ const Login = () => {
     const toastSuccess = ()=>{
         toast.success("User Login Successfull",{
             position:'top-center',
-            className:"toast"
+            autoClose:1500
         });
     }
 
     const toastFail = (message)=>{
         toast.error(message,{
             position:'top-center',
-            className:"toast"
+            autoClose:1500
         });
     }
 
-    const  onInputChange = (e) => {
+    const onInputChange = (e) => {
         setLogin({ ...login, [e.target.name]: e.target.value })
         console.log(login);
     }
@@ -90,21 +85,30 @@ const Login = () => {
         localStorage.setItem('code',e.target.value);
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && submitSchoolCode) {
+            Login(); // Trigger login when Enter is pressed
+        }
+        if(e.key === 'Enter' && !submitSchoolCode){
+            submitInstituteCode();
+        }
+    }
+
     return (<>
         <ToastContainer style={{scale:'0.95',paddingTop:'60px'}}/>
         {
-            submitSchoolCode?<div className="w-[100%] h-[100vh] flex justify-center items-center  relative bottom-2">
+            submitSchoolCode?<div className="w-[100%] h-[100vh] flex justify-center items-center relative bottom-2">
             <div className="min-w-[380px] w-[25%] rounded-xl ">
                 <div className="w-[100%] h-[80px] flex justify-center items-center mt-[15px]">
-                    <div className="text-[50px] text-gray-600 font-semibold">Login</div>
+                    <div className="text-[50px] text-gray-300 font-semibold">Login</div>
                 </div>
                 <div className="mr-[28px] ml-[28px]">
-                    <label for="first_name" className="block font-medium text-md text-white">Email</label>
+                    <label htmlFor="email" className="block font-medium text-md text-white">Email</label>
                     <div className="relative mb-6">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-2 cursor-pointer">
                             <MailIcon className="text-gray-500" />
                         </div>
-                        <input type="email" name='email' onChange={(e)=>onInputChange(e)} id="input-group-1" className=" border text-black border-gray-300 text-sm rounded-lg focus:outline-none block w-full ps-10 p-2.5 pt-3 pb-3 " placeholder={idChange} required />
+                        <input type="email" name="email" onChange={onInputChange} id="input-group-1" className="border text-black border-gray-300 text-sm rounded-lg focus:outline-none block w-full ps-10 p-2.5 pt-3 pb-3" placeholder={idChange} required onKeyDown={handleKeyDown} />
                     </div>
                 </div>
                 <div className="mr-[28px] ml-[28px] mt-[15px]">
@@ -112,13 +116,13 @@ const Login = () => {
                         <div className="absolute inset-y-0 start-0 flex items-center ps-2 cursor-pointer" onClick={togglePassVisible}>
                             {passVisible ? <VisibilityIcon className="text-gray-500" /> : <VisibilityOffIcon className="text-gray-500" />}
                         </div>
-                        <input type={passVisible ? 'text' : 'password'} onChange={(e) => { onInputChange(e) }} name='password' id="input-group-1" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full ps-10 p-2.5 pt-3 pb-3" placeholder="Enter Password" required />
+                        <input type={passVisible ? 'text' : 'password'} onChange={onInputChange} name="password" id="input-group-1" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full ps-10 p-2.5 pt-3 pb-3" placeholder="Enter Password" required onKeyDown={handleKeyDown} />
                     </div>
                 </div>
                 <div className='m-[28px] flex gap-4'>
                     <FormControl variant="filled" sx={{minWidth: 140}}>
                         <InputLabel id="demo-simple-select-standard-label">Role</InputLabel>
-                        <Select labelId="demo-simple-select-standard-label" className='h-[50px]' id="demo-simple-select-standard" value={role} onChange={handleChange} label="Role" >
+                        <Select labelId="demo-simple-select-standard-label" className='h-[50px]' id="demo-simple-select-standard" value={role} onChange={handleChange} label="Role">
                             <MenuItem value="Student">Student</MenuItem>
                             <MenuItem value="Head">Head</MenuItem>
                             <MenuItem value="Management">Management</MenuItem>
@@ -131,19 +135,19 @@ const Login = () => {
                 </div>
                 <div className='w-[100%] pl-[38px] pr-[38px] flex gap-3 justify-center items-center mt-[35px]'>
                     <div className='w-[100%] h-[45px] border-[2px] rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95 ' onClick={Login}>
-                        <p className='text-[#0F172A] font-bold text-[17px]'>Login</p>
+                        <p className='font-bold text-white'>Login</p>
                     </div>
                     <div onClick={() => navigate('/signup')} className='w-[100%] h-[45px] border-[2px] bg-white rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95'>
                         <p className='text-[#0F172A] font-bold text-[17px]'>Create Account</p>
                     </div>
                 </div>
             </div>
-        </div>:
+        </div> :
         <div className='w-[100%] h-[100vh] flex justify-center items-center'>
             <div className='flex gap-[20px] flex-col'>
-                <p className='text-[35px] font-bold'>Enter School Code</p>
+                <p className='text-[35px] text-gray-300 font-bold'>Enter School Code</p>
                 <div className='mr-[30px] ml-[30px]'>
-                    <input type='number' onChange={(e) => handleChangeCode(e)} name='code' id="input-group-1" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full px-4 p-2.5 pt-3 pb-3" placeholder="Enter School Code" required />
+                    <input type='number' onChange={handleChangeCode} name='code' id="input-group-1" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full px-4 p-2.5 pt-3 pb-3" placeholder="Enter School Code" required onKeyDown={handleKeyDown} />
                 </div>
                 <div className='flex w-[100%] justify-center '>
                     <button onClick={submitInstituteCode} className='text-black font-extrabold tracking-wide bg-white rounded-lg border-2 pr-4 pl-4 pt-[7px] pb-[7px] hover:scale-105 active:scale-95'>Submit</button>
@@ -153,4 +157,5 @@ const Login = () => {
         }
     </>);
 }
+
 export default Login;

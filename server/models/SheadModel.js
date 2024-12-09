@@ -24,11 +24,6 @@ const SchoolHeadSchema = new mongoose.Schema({
         minlength:[6,'Username must be of at least 3 character'],
         select:false,
     },
-    country:{
-        type:String,
-        required:true,
-        default:"India"
-    },
     state:{
         type:String,
         required:true,

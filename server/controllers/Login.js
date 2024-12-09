@@ -4,11 +4,11 @@ import jwt from 'jsonwebtoken';
 import ManagementModel from "../models/managementModel.js";
 import TeacherModel from "../models/teacherModel.js";
 import StudentModel from "../models/studentModel.js";
+import ConnectionToDatabase from "../Database/connection.js";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
@@ -17,6 +17,7 @@ import { promisify } from 'util';
 export const SchoolHeadCreateAccount = async (req, res) => {
     try {
         const { username, email, state, password } = req.body;
+        console.log(req.body);
         const schoolCode = req.headers.code;
 
         if (!username || !email || !state || !schoolCode || !password) {
@@ -128,6 +129,7 @@ export const loginSchoolHead = async (req,res)=>{
                 status: true,
                 message: 'Login Success',
                 token: `${token}`,
+                role:role,
                 data:userWithoutPassword
             });
         } else if(role==='Management'){
@@ -165,7 +167,6 @@ export const loginSchoolHead = async (req,res)=>{
                 message: 'Login Success',
                 token: `${token}`,
                 role:role,
-                data:userWithoutPassword
             })
         } else if(role==='Teacher'){
             const Teacher = TeacherModel(req.db);
@@ -205,7 +206,7 @@ export const loginSchoolHead = async (req,res)=>{
                 token: `${token}`,
                 data:userWithoutPassword
             })
-        } else if(role==="Student"){    
+        } else if(role==="Student"){
             const Student = StudentModel(req.db);
             const studentDetail = await Student.findOne({ rollNumber:email }).select('+password');
             if (!studentDetail) {
@@ -297,6 +298,18 @@ export const verifyUser = async (req, res) => {
             });
         }
         delete verify.password;
+        console.log(verify);
+        if(role==='Student'){
+            console.log("school code is : ",verify.schoolCode);
+            const db = await ConnectionToDatabase(process.env.DB_username, process.env.DB_password, verify.schoolCode);
+            const Student = StudentModel(db);
+            const student = await Student.findById(verify._id);
+            delete student.password;
+            return res.status(200).json({
+                status:true,
+                data:student
+            });
+        }
         return res.status(200).json({
             status: true,
             data: verify,

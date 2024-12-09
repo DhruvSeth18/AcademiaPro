@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { verifyUser } from "../api/api";
+import { verifyUser, logoutCookie} from "../api/api";
 export const UserContext = createContext();
 
 export const UserProvider = ({children})=>{
@@ -21,8 +21,9 @@ export const UserProvider = ({children})=>{
                 localStorage.setItem("isUser", "true");
             } else {
                 setIsUser(false);
-                console.error("User verification failed:", response.message);
                 localStorage.clear();
+                await logoutCookie();
+                console.error("User verification failed:", response.message);
             }
         }
         fetchUser();

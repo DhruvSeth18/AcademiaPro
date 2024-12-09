@@ -13,8 +13,7 @@ const availableClasses = ["Nursery", "UKG", "1st", "2nd", "3rd", "4th", "5th", "
 const sections = ["A", "B", "C", "D", "E"];
 
 
-
-const Teacher = ({ teacher, sNo, getAllTeachers }) => {
+const Teacher = ({ teacher, index, getAllTeachers }) => {
     const [exam, setExam] = useState(initialExamState);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [updatedFields, setUpdatedFields] = useState({});
@@ -56,6 +55,7 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
         const response = await removeTeacher(teacher._id);
         if(response.status===true){
             toastSuccess("Teacher is Deleted");
+            getAllTeachers();
         } else{
             toastFail(response.message || "Failed to Delete Teacher");
         }
@@ -89,7 +89,6 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
     return (
         <>
             <TableRow
-                key={sNo}
                 sx={{
                     "&:last-child td, &:last-child th": {
                         border: 0,
@@ -97,7 +96,7 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                     },
                 }}
             >
-                <TableCell className="text-red-800" align="center">{sNo}</TableCell>
+                <TableCell className="text-red-800" align="center">{index}</TableCell>
                 {openUpdate ? (
                     <>
                         <TableCell align="center">
@@ -178,7 +177,7 @@ const Teacher = ({ teacher, sNo, getAllTeachers }) => {
                                         letterSpacing: "1px",
                                     }}
                                 >
-                                    Save
+                                    Update
                                 </button>
                             ) : (
                                 <button onClick={() => setOpenUpdate(true)} className="hover:scale-110 active:scale-95"

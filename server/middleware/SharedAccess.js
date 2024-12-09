@@ -2,10 +2,11 @@ import { promisify } from 'util';
 import ConnectionToDatabase from '../Database/connection.js';
 import jwt from 'jsonwebtoken';
 
-const HeadManagement = async (req, res, next) => {
+const SharedAccess = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         const role = req.cookies.role;
+
         if (!token) {
             return res.status(401).json({
                 status: false,
@@ -23,9 +24,12 @@ const HeadManagement = async (req, res, next) => {
             secretKey = process.env.jwt_secret_Head;
         } else if (role === 'Management') {
             secretKey = process.env.jwt_secret_Management;
-        }
-        else {
-            return res.status(400).json({
+        } else if (role === 'Teacher') {
+            secretKey = process.env.jwt_secret_Teacher;
+        } else if (role==='Student'){
+            secretKey = process.env.jwt_secret_Student;
+        } else {
+            return res.status(400).json({   
                 status: false,
                 message: "Invalid Role, Access Denied"
             });
@@ -55,4 +59,4 @@ const HeadManagement = async (req, res, next) => {
     }
 }
 
-export default HeadManagement;
+export default SharedAccess;

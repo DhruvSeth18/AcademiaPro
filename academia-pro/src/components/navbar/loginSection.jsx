@@ -44,10 +44,6 @@ const LoginButton = () => {
         navigate(`/profile/${user._id}`);
         // handleClose();
     }
-    const BlogPage = ()=>{
-        // navigate('/blogs');
-        // handleClose();
-    }
 
 
     return (
@@ -57,17 +53,17 @@ const LoginButton = () => {
                     <>
                         <div className='absolute right-[20px] md:right-[40px] top-3 gap-2 flex cursor-pointer' >
                             <div onClick={handleClick} className='flex gap-2'>
-                                <img className='w-[35px] h-[35px] relative top-[4px] rounded-full ring-gray-300 dark:ring-gray-500' src={localStorage.getItem('userImage') || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBQLZBLliHC0oAh1vMfI7Z5IzTV8_RlzVeh6QqSzs_SCqn5a0rkuXEoVsuDPNxMntF0vc&usqp=CAU'} />
-                                <p className='relative top-[8px] text-white hidden md:block text-lg'>{user.username}</p>
+                                <img className='w-[38px] h-[38px] relative top-[2px] rounded-full ring-gray-300 dark:ring-gray-500' src={localStorage.getItem('userImage') || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBQLZBLliHC0oAh1vMfI7Z5IzTV8_RlzVeh6QqSzs_SCqn5a0rkuXEoVsuDPNxMntF0vc&usqp=CAU'} />
+                                <p className='relative top-[8px] text-white hidden lg:block text-lg'>{user.username}</p>
                             </div>
                             <StyledMenu sx={{ display: 'flex', flexDirection: 'column' }} id="basic-menu" MenuListProps={{ 'aria-labelledby': 'basic-button' }} anchorEl={anchorEl} open={open} onClose={handleClose} >
-                                <Button onClick={UserPage} style={{ width: '100%', color: 'black',fontWeight:'bold' }} variant="text">Profile</Button>
-                                <Button onClick={logout} style={{ width: '100%', color: 'black',fontWeight:'bold' }} variant="text">Log Out</Button>
+                                {/* <Button onClick={UserPage} style={{ width: '100%', color: 'white',fontWeight:'bold' }} variant="text">Profile</Button> */}
+                                <Button onClick={logout} style={{ width: '100%', color: 'white',fontWeight:'bold' }} variant="text">Log Out</Button>
                             </StyledMenu>
                         </div>
                     </>
                     :
-                    <button onClick={()=>navigate('/login')} className="absolute button right-[10px] md:right-[30px] scale-110" style={{ position: 'absolute',bottom:'10px',color:'white',scale:'0.85'}}>LOGIN</button>
+                    <button onClick={()=>navigate('/login')} className="absolute button right-[-2px] md:right-[15px] scale-110" style={{ position: 'absolute',bottom:'10px',color:'white',scale:'0.85'}}>LOGIN</button>
             }
         </>
     )

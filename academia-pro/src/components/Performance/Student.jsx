@@ -36,9 +36,16 @@ const Student = ({ row, sNo }) => {
         toast.success('Exam Updated Successfully', {
             position: 'top-center',
             className: 'toast',
-            autoClose: 2000,
+            autoClose: 1500,
         });
     };
+    const toastFail = (message)=>{
+        toast.error(message,{
+            position:'top-center',
+            className:"toast",
+            autoClose:1500
+        });
+    }
 
     const updateExam = async () => {
         const response = await UpdateStudentExam(row._id, exam);
@@ -46,6 +53,8 @@ const Student = ({ row, sNo }) => {
             console.log('Update Exam SuccessFully');
             toastSuccess();
             setUpdate(true);
+        } else{
+            toastFail("Failed to Update Exam");
         }
     };
 
@@ -124,7 +133,7 @@ const Student = ({ row, sNo }) => {
                             padding: '10px',
                             paddingLeft: '15px',
                             paddingRight: '15px',
-                            border: '2px solid black',
+                            border: '2px solid white',
                             borderRadius: '10px',
                             fontWeight: 'bold',
                             letterSpacing: '1px',

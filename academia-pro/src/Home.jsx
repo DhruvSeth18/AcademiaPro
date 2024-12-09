@@ -17,6 +17,9 @@ import Contact from './components/navbar/ContactPage';
 import StudentProfile  from "./components/Profile/studentProfile";
 import SignUp from "./components/SignUp/signUp";
 import bgImage from './bgImage.png';
+import Profile from "./components/Profile/Profile";
+import Resources from "./components/Resources/Resources";
+
 
 const Home = () => {
   const { isUser } = useContext(UserContext);
@@ -32,8 +35,17 @@ const Home = () => {
 
   // Private route for Heads
   const PrivateHeadRoute = () => {
-    return localStorage.getItem("isUser") === "true" &&
-      localStorage.getItem("role") === "Head" ? (
+    return localStorage.getItem("isUser") === "true" && localStorage.getItem("role") === "Head" || localStorage.getItem("role") === "Management"
+      ? (
+      <Outlet />
+    ) : (
+      <Navigate replace to="/login" />
+    );
+  };
+
+  // Private route for Students
+  const PrivateStudentRoute = () => {
+    return localStorage.getItem("role") === "Student" ? (
       <Outlet />
     ) : (
       <Navigate replace to="/login" />
@@ -51,38 +63,42 @@ const Home = () => {
 
   return (
     <BrowserRouter>
-    {/* <div style={{backgroundImage: `url(${bgImage})` }} className="bg-cover bg-center min-h-screen"> */}
-    <div>
+      <div className="bg-black">
+        <Navbar />
 
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/about" element={<AboutUs/>} />
-        <Route path="/contact" element={<Contact/>} />
-        <Route path="/profile/:username" element={<StudentProfile/>}/>
-      </Routes>
-      <Routes>
-        <Route element={<PrivateHeadRoute />}>
-          <Route path="/addManagement" element={<Management />} />
-          <Route path="/teachers" element={<Teachers />} />
-          <Route path="/class" element={<Student />} />
-          <Route path="/class/:className" element={<Section />} />
-          <Route path="/class/:className/:sectionName" element={<ClassData />} />
-        </Route>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
 
-        {/* Private Routes for Teacher Role */}
-        <Route element={<PrivateTeacherRoute />}>
-          <Route path="/performance" element={<Performance />} />
-          <Route path="/attendence" element={<Attendence />} />
-          <Route path="/students" element={<StudentData />} />
-        </Route>
+        <Routes>
+          <Route element={<PrivateHeadRoute />}>
+            <Route path="/addManagement" element={<Management />} />
+            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/class" element={<Student />} />
+            <Route path="/class/:className" element={<Section />} />
+            <Route path="/class/:className/:sectionName" element={<ClassData />} />
+          </Route>
 
-        {/* Public Routes for Login */}
-        <Route element={<PublicRoute />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Route>
-      </Routes>
+          <Route element={<PrivateTeacherRoute />}>
+            <Route path="/performance" element={<Performance />} />
+            <Route path="/attendence" element={<Attendence />} />
+            <Route path="/teacher/resources" element={<Resources />} />
+            <Route path="/students" element={<StudentData />} />
+          </Route>
+
+          <Route element={<PrivateStudentRoute />}>
+            <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/student/resources" element={<Resources />} />
+          </Route>
+
+          <Route element={<PublicRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Route>
+          
+        </Routes>
       </div>
     </BrowserRouter>
   );

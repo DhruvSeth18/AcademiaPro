@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './styles.css'; // Assuming your CSS is in a separate file
 import missionImage from './ourmission.jpeg'; // Import images
-import visionImage from './ourvision.jpeg';
+import SchoolImage from './school.avif';
 import result from './results.jpeg'
 import timetablemanagement from './TimeTableManagement.jpg'
 import attendancetracking from './attendance.jpeg';
@@ -17,16 +17,16 @@ const Homepage = () => {
     // Create an IntersectionObserver instance
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-    
+
         if (entry.isIntersecting) {
           entry.target.classList.add('show');
         } else {
-          entry.target.classList.remove('show'); 
+          entry.target.classList.remove('show');
         }
       });
     }, {
-      threshold: 0.5,  
-      rootMargin: "0px 0px 100px 0px"  
+      threshold: 0.5,
+      rootMargin: "0px 0px 100px 0px"
     });
 
     serviceCards.forEach(card => {
@@ -43,14 +43,13 @@ const Homepage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section id="home" className="hero-section" style={{height:"100vh"}}>
+      <section id="home" className="hero-section" style={{ height: "100vh" }}>
         <div className="overlay"></div>
         <div className="hero-content">
-          <h1 className="welcome" style={{color:"white",fontSize:'50px'}}>
+          <h1 className="welcome" style={{ color: "white", fontSize: '50px' }}>
             Welcome to <span className="academ">AcademiaPro</span>
           </h1>
-          <p style={{color:"white"}}>
+          <p style={{ color: "white" ,maxWidth:"700px"}}>
             Your ultimate destination for academic excellence, mentorship, and tools designed to empower your academic journey.
           </p>
           <a href="#services" className="cta-button">
@@ -59,7 +58,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section style={{ textAlign: 'center', marginTop: '50px', padding: '20px' }}>
         <div className="features" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px', maxWidth: '1200px', margin: '0 auto' }}>
           {/* Feature Cards */}
@@ -69,98 +67,71 @@ const Homepage = () => {
             { title: 'Event Calendar', description: 'Stay updated with important academic events and schedules.' },
             { title: 'Community Support', description: 'Engage with peers and mentors for academic assistance.' }
           ].map((feature, index) => (
-            <div key={index} className="feature-card" style={{ flex: 1, minWidth: '250px', maxWidth: '300px', background: '#f8f9fa', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}>
-              <h3 style={{ color: '#2c3e50', marginBottom: '10px' }}>{feature.title}</h3>
+            <div key={index} className="feature-card bg-gray-400" style={{ flex: 1, minWidth: '250px', maxWidth: '300px', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}>
+              <h3 className='text-blue-500 font-medium' style={{ marginBottom: '10px' }}>{feature.title}</h3>
               <p style={{ color: '#555' }}>{feature.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="about-section">
+      <section id="about" style={{padding:'0px',marginTop:"80px",marginBottom:"80px"}} className="about-section">
         <div className="container">
-          <h2>About Us</h2>
-          <p>
-            At <strong>AcademiaPro</strong>, we are committed to revolutionizing education through cutting-edge resources, personalized mentorship, and an inclusive community for learners and educators worldwide.
-          </p>
-          <p>
-            Our mission is to bridge the gap between traditional learning and modern education technology, making high-quality learning experiences accessible to everyone.
-          </p>
-          <p>
-            For educators, AcademiaPro offers innovative teaching resources, collaborative platforms, and data-driven insights to enhance their impact.
-          </p>
-          <p>
-            At the core of AcademiaPro is a belief in the transformative power of education. We strive to create an ecosystem where learning knows no boundaries and growth opportunities are endless.
-          </p>
-          <div className="about-grid">
-            <div className="about-item">
-              <img src={missionImage} alt="Our Mission" />
-              <h3>Our Mission</h3>
-              <p>Empowering individuals to achieve academic and personal growth by bridging the gap between traditional education and modern technology.</p>
+          <h2 className='text-white font-medium'>About Us</h2>
+          <div className="flex mt-[80px] flex-col md:flex-row">
+            <div className="basis-1/2 w-[100%] p-6">
+              <div className='flex justify-center items-center w-[100%] h-[250px] mb-[20px]'>
+                <img className='w-[100%] md:w-[90%] h-[100%] rounded-lg' src={missionImage} alt="Our Mission" />
+              </div>
+              <div className='flex justify-center'>
+                <h3 className='text-white mb-2 text-[25px]'>Our Mission</h3>
+              </div>
+              <p className='text-white text-center'>Empowering individuals to achieve academic and personal growth by bridging the gap between traditional education and modern technology.</p>
             </div>
-            <div className="about-item">
-              <img src={visionImage} alt="Vision" style={{ height: '235px' }} />
-              <h3>Our Vision</h3>
-              <p>Creating a global network where knowledge is accessible, mentorship is impactful, and growth is unlimited.</p>
+            <div className="basis-1/2 w-[100%] p-6">
+              <div className='flex justify-center items-center w-[100%] h-[250px] mb-[20px]'>
+                <img className='w-[100%] md:w-[90%] h-[100%] rounded-lg' src={SchoolImage} alt="Our Mission" />
+              </div>
+              <div className='flex justify-center'>
+                <h3 className='text-white mb-2 text-[25px]'>Our Vision</h3>
+              </div>
+              <p className='text-white text-center'>Creating a global network where knowledge is accessible, mentorship is impactful, and growth is unlimited.</p>
             </div>
-          </div>
+          </div> 
         </div>
       </section>
 
-      {/* Services Section */}
       <section id="services" className="services-section">
         <div className="container">
-          <h2>What We Offer</h2>
-          <div className="services-grid">
-            {/* Service Cards */}
+          <h2 className='text-white'>What We Offer</h2>
+          <div className="flex justify-center flex-wrap gap-[50px] mt-[60px]">
             {[
               { img: result, title: "Result Checking", description: "View and download your academic results easily through our portal." },
               { img: attendance, title: "Attendance Tracking", description: "Track your attendance percentage and stay updated on your progress." },
               { img: timetablemanagement, title: "Timetable Management", description: "Access your class schedules and stay organized for the semester." },
               { img: examnotification, title: "Exam Notifications", description: "Receive instant updates about upcoming exams and deadlines." },
-              { img: attendancetracking, title: "Monthly/Yearly Attendance Overview", description: "Analyze your monthly or yearly attendance in a detailed and visual format." },
+              { img: attendancetracking, title: "Monthly/Yearly Attendance", description: "Analyze your monthly or yearly attendance in a detailed and visual format." },
               { img: "https://www.shutterstock.com/image-vector/growth-education-development-book-reading-600nw-2173097197.jpg", title: "Academic Resources", description: "Access a repository of study materials, e-books, and lecture notes." }
             ].map((service, index) => (
-              <div key={index} className="service-card" id="serv">
-                <img src={service.img} alt={service.title} />
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
+              <div style={{backgroundColor:"#E1E8EB"}} key={index} className="w-[350px] rounded-md h-[350px] p-4" id="serv">
+                <div className='h-[180px] w-[100%] mb-[25px]'>
+                  <img className='w-[100%] h-[100%] rounded-md' src={service.img} alt={service.title} />
+                </div>
+                <h3 className='text-[25px] font-medium text-center'>{service.title}</h3>
+                <p className='text-center'>{service.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="testimonials-section">
-        <div className="container" >
-          <h2 style={{ marginBottom: '50px',color:"white" }}>What People Say</h2>
-          <div className="testimonial-slider" >
-            {/* Testimonials */}
-            {[
-              { quote: "Checking my results and tracking attendance has never been easier. AcademiaPro is a game-changer for students like me!", name: "Dhruv Seth, College Student" },
-              { quote: "With AcademiaPro's event calendar, I never miss important campus events or exam dates. It's an invaluable resource.", name: "Deepankar Garg, Graduate Student" },
-              { quote: "As a faculty member, the ability to share resources with students efficiently has made my job much easier.", name: "Preenu Mittan, Professor" },
-              { quote: "AcademiaPro's attendance tracking feature has helped me stay on top of my progress and plan better for the semester.", name: "Dhruv Kapoor, Undergraduate Student" }
-            ].map((testimonial, index) => (
-              <div key={index} className="testimonial" style={{color:"white"}}>
-                <p style={{color:"white"}}>"{testimonial.quote}"</p>
-                <strong style={{color:"white"}}>- {testimonial.name}</strong>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
       <footer>
         <div className="container" >
-          <p style={{color:"white"}}>&copy; 2024 AcademiaPro. All rights reserved.</p>
+          <p style={{ color: "white" }}>&copy; 2024 AcademiaPro. All rights reserved.</p>
           <div className="social-links" >
-          <a href="#" ><i className="fab fa-facebook" style={{color:"white"}}></i></a>
-          <a href="#"><i className="fab fa-twitter" style={{color:"white"}}></i></a>
-          <a href="#"><i className="fab fa-linkedin" style={{color:"white"}}></i></a>
+            <a href="#" ><i className="fab fa-facebook" style={{ color: "white" }}></i></a>
+            <a href="#"><i className="fab fa-twitter" style={{ color: "white" }}></i></a>
+            <a href="#"><i className="fab fa-linkedin" style={{ color: "white" }}></i></a>
           </div>
         </div>
       </footer>

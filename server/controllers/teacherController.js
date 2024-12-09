@@ -199,3 +199,69 @@ export const deleteTeacher = async (req, res) => {
         });
     }
 };
+
+export const addResources = async (req, res) => {
+    try {
+        const { title, link } = req.body;
+        if(!title || !link){
+            return res.status(400).json({
+                status:false,
+                message:"Link or Title is missing"
+            })
+        }
+        const db = req.db;
+        const classId = req.params.id;
+        const Class = await ClassModel(db);
+        const foundClass = await Class.findById(classId);
+
+        if (!foundClass) {
+            return res.status(404).json({
+                status: false,
+                message: 'Class not found',
+            });
+        }
+
+        const resourceExists = foundClass.resources.some(resource => resource.link === link);
+
+        if (resourceExists) {
+            return res.status(400).json({
+                status: false,
+                message: 'Resource link already exists',
+            });
+        }
+
+        foundClass.resources.push({ title, link });
+
+        await foundClass.save();
+
+        return res.status(200).json({
+            status: true,
+            message: 'Resource added successfully',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: false,
+            message: 'Error while adding resources',
+        });
+    }
+};
+
+export const getResources = async (req,res)=>{
+    try{
+        const db = req.db;
+        const classId = req.params.id;
+        const Class = await ClassModel(db);
+        const foundClass = await Class.findById(classId);
+        return res.status(200).json({
+            status: true,
+            data:foundClass.resources
+        });
+    } catch(error){
+        console.log(error);
+        return res.status(500).json({
+            status: false,
+            message: 'Error while adding resources',
+        });
+    }
+}

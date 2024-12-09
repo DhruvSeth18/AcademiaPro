@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState} from 'react';
 import { AppBar, Toolbar, styled, Box, Drawer } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import LoginButton from './loginSection';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const drawerWidth = 240;
@@ -15,7 +16,7 @@ const EditToolbar = styled(Toolbar)`
     justify-content: center;
 `;
 const ScrollTrack = styled(Box)`
-    height:4.5px;
+    height:1.5px;
     position:fixed;
     left:0px;
     width:100%;
@@ -34,23 +35,23 @@ const ScrollTrack = styled(Box)`
 `
 
 const NaviButton = styled(NavLink)`
-padding-top:20px;
-padding-bottom:20px;
-color:white;
-text-decoration:none;
-text-align:center;
+    padding-top:20px;
+    padding-bottom:20px;
+    color:white;
+    text-decoration:none;
+    text-align:center;
 `;
-
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const { isUser } = useContext(UserContext);
-
+    const { user,isUser } = useContext(UserContext);
+    const navigate = useNavigate();
     const handleDrawerClose = () => {
         setIsClosing(true);
         setMobileOpen(false);
     };
+
     useEffect(() => {
         const getCookie = (name) => {
             const value = `; ${document.cookie}`;
@@ -69,19 +70,22 @@ const Navbar = () => {
             setMobileOpen(!mobileOpen);
         }
     };
+    const homepage = () => {
+        navigate('/login', { replace: true }); // Corrected navigation
+    }
 
     return (
         <>
-            <Box sx={{ display: 'flex' }}>
-                <AppBar position="fixed" sx={{ width: '100%', margin: "0", padding: "0" }} >
-                    <EditToolbar position='fixed' sx={{ height: { xs: '65px' }, backgroundColor: "#000B58" }}>
+            <Box sx={{ display: 'flex' }}> 
+                <AppBar position="fixed" className='backdrop-blur-[5px]' sx={{ width: '100%', margin: "0", padding: "0", backgroundColor:"#00000030"}}  >
+                    <EditToolbar position='fixed'  sx={{ height: { xs: '65px' }, backgroundColor: "transparent" }}>
                         <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ display: { sm: 'none' }, position: 'absolute', left: '5vh', scale: '1.4' }} >
                             <MenuIcon />
                         </IconButton>
-                        <div className='flex gap-2 sm:block hidden'>
-                            <img className='w-[49px] h-[45px] absolute rounded-full ring-gray-300 dark:ring-white left-[30px] top-[10px]' src={Logo} />
+                        <div onClick={homepage} className='flex gap-2 sm:block hidden'>
+                            <img className='w-[49px] h-[45px] cursor-pointer absolute rounded-full ring-gray-300 dark:ring-white left-[30px] top-[10px]' src={Logo} />
                         </div>
-                        <div className='w-[55%] hidden sm:flex justify-around'>
+                        <div className='w-[60%] hidden sm:flex justify-around'>
                             <NavLink to="/" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}> Home</NavLink>
                             {
                                 !isUser ? <>
@@ -94,6 +98,7 @@ const Navbar = () => {
                                 localStorage.getItem("role") === "Teacher" ? <>
                                     <NavLink to="/performance" className={({ isActive }) => isActive ? "text-orange-400" : "text-white "}>Performance</NavLink>
                                     <NavLink to="/attendence" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Attendence</NavLink>
+                                    <NavLink to="/teacher/resources" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Resources</NavLink>
                                     <NavLink to="/students" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Students</NavLink>
                                 </> : <></>
                             }
@@ -105,9 +110,16 @@ const Navbar = () => {
                                 </> : <></>
                             }
                             {
+                                localStorage.getItem("role") === "Management" ? <>
+                                    <NavLink to="/addManagement" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Management</NavLink>
+                                    <NavLink to="/class" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Class</NavLink>
+                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Teachers</NavLink>
+                                </> : <></>
+                            }
+                            {
                                 localStorage.getItem("role") === "Student" ? <>
-                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Resources</NavLink>
-                                    <NavLink to="/teachers" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Profile</NavLink>
+                                    <NavLink to="/student/resources" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Resources</NavLink>
+                                    <NavLink to={`/profile/${user.username}`} className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}>Profile</NavLink>
                                 </> : <></>
                             }
                         </div>
@@ -117,7 +129,7 @@ const Navbar = () => {
                 <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
                     <Drawer variant="temporary" open={mobileOpen} onTransitionEnd={handleDrawerTransitionEnd} onClose={handleDrawerClose}
                         ModalProps={{ keepMounted: true }}
-                        sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#0F172A', }, }}>
+                        sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'black', }, }}>
                         <Box style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingTop: '30px' }}>
                             <Box style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                                 <NaviButton to="/" className={({ isActive }) => isActive ? "text-orange-400" : "text-white hover:text-[#00FF9C]"}> Home</NaviButton>
@@ -132,6 +144,7 @@ const Navbar = () => {
                                     localStorage.getItem("role") === "Teacher" ? <>
                                         <NaviButton to="/performance" className={({ isActive }) => isActive ? "text-orange-400" : "text-white "}>Performance</NaviButton>
                                         <NaviButton to="/attendence" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Attendence</NaviButton>
+                                        <NaviButton to="/resources" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Resources</NaviButton>
                                         <NaviButton to="/students" className={({ isActive }) => isActive ? "text-orange-400" : "text-white"}>Students</NaviButton>
                                     </> : <></>
                                 }
@@ -153,7 +166,7 @@ const Navbar = () => {
                     </Drawer>
                 </Box>
             </Box>
-            <ScrollTrack sx={{ top: { sm: '64px', xs: '56px' }, zIndex: '3' }}></ScrollTrack>
+            <ScrollTrack sx={{ top: { sm: '63px', xs: '56px' }, zIndex: '3' }}></ScrollTrack>
         </>
     );
 }

@@ -3,8 +3,11 @@
 }
 
 .button {
-    --color: #0077ff;
+    --color: #FDB827;
+    background-color: #00000097;
     font-family: inherit;
+    font-weight: bold;
+    letter-spacing: 1px;
     display: inline-block;
     width: 6em;
     position: relative;

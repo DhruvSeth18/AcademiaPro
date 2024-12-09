@@ -10,6 +10,7 @@ import Select from '@mui/material/Select';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { createSchoolHeadAccount } from '../api/api';
 import 'react-toastify/dist/ReactToastify.css';
 
 const signupForm = {
@@ -61,23 +62,35 @@ const SignUp = () => {
         setSignup({ ...signup, [e.target.name]: e.target.value });
     };
 
+    const toastSuccess = (message)=>{
+        toast.success(message,{
+            position:'top-center',
+            className:"toast"
+        });
+    }
+
+    const toastFail = (message)=>{
+        toast.error(message,{
+            position:'top-center',
+            className:"toast"
+        });
+    }
+
     const handleSubmit = async () => {
         if (signup.password !== signup.confirmPassword) {
-            toast.error('Passwords do not match', {
-                position: 'top-center',
-                className: 'toast',
-            });
+            toastFail('Passwords do not match');
             return;
         }
-        console.log('Signup form submitted', signup);
-        toast.success('Signup Successful', {
-            position: 'top-center',
-            className: 'toast',
-        });
-
-        setTimeout(() => {
-            navigate('/login');
-        }, 2000);
+        const response = await createSchoolHeadAccount(signup);
+        if(response.status===true){
+            console.log('Signup form submitted', signup);
+            toastSuccess('Signup Successful');
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+        } else{
+            toastFail(response.message || "Sign Up Failed")
+        }
     };
 
     const togglePassVisible = () => {
@@ -90,7 +103,7 @@ const SignUp = () => {
             <div className="w-[100%] h-[100vh] flex justify-center items-center">
                 <div className="min-w-[380px] w-[25%] h-auto rounded-xl">
                     <div className="w-[100%] h-[100px] flex justify-center items-center mt-[15px]">
-                        <div className="text-[50px] text-gray-600 font-semibold">Signup</div>
+                        <div className="text-[50px] text-gray-300 font-semibold">Signup</div>
                     </div>
                     <div className="mr-[28px] ml-[28px]">
                         <div className="relative mb-4">
@@ -182,7 +195,7 @@ const SignUp = () => {
                             onClick={handleSubmit}
                             className="w-[100%] h-[45px] border-[2px] rounded-lg flex justify-center items-center cursor-pointer hover:scale-105 active:scale-95"
                         >
-                            <p className="text-[#0F172A] font-bold text-[17px]">Signup</p>
+                            <p className="text-white font-bold text-[17px]">Signup</p>
                         </div>
                         <div
                             onClick={() => navigate('/login')}
